@@ -1,6 +1,6 @@
-﻿namespace GroundStation
+﻿namespace Panels.GroundStation
 {
-    partial class AltitudePlot
+    partial class GraphGPS
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,16 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // AltitudePlot
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "AltitudePlot";
-            this.Size = new System.Drawing.Size(228, 233);
-            this.ResumeLayout(false);
-
         }
 
         #endregion

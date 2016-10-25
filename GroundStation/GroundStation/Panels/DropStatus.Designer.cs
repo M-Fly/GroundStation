@@ -1,6 +1,6 @@
-﻿namespace GroundStation
+﻿namespace Panels.GroundStation
 {
-    partial class GraphGPS
+    partial class DropStatus
     {
         /// <summary> 
         /// Required designer variable.

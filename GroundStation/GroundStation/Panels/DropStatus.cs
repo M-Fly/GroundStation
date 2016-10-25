@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GroundStation
+namespace Panels.GroundStation
 {
-    public partial class Camera : UserControl
+    public partial class DropStatus : UserControl
     {
-        public Camera()
+        public DropStatus()
         {
             InitializeComponent();
         }

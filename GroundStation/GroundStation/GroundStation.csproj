@@ -55,51 +55,51 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AltitudePlot.cs">
+    <Compile Include="Panels\AltitudePlot.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AltitudePlot.Designer.cs">
+    <Compile Include="Panels\AltitudePlot.Designer.cs">
       <DependentUpon>AltitudePlot.cs</DependentUpon>
     </Compile>
-    <Compile Include="Camera.cs">
+    <Compile Include="Panels\Camera.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Camera.Designer.cs">
+    <Compile Include="Panels\Camera.Designer.cs">
       <DependentUpon>Camera.cs</DependentUpon>
     </Compile>
-    <Compile Include="DropStatus.cs">
+    <Compile Include="Panels\DropStatus.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="DropStatus.Designer.cs">
+    <Compile Include="Panels\DropStatus.Designer.cs">
       <DependentUpon>DropStatus.cs</DependentUpon>
     </Compile>
-    <Compile Include="Form1.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="GraphGPS.cs">
+    <Compile Include="Panels\GraphGPS.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GraphGPS.Designer.cs">
+    <Compile Include="Panels\GraphGPS.Designer.cs">
       <DependentUpon>GraphGPS.cs</DependentUpon>
     </Compile>
-    <Compile Include="Instruments.cs">
+    <Compile Include="Panels\Instruments.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Instruments.Designer.cs">
+    <Compile Include="Panels\Instruments.Designer.cs">
       <DependentUpon>Instruments.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AltitudePlot.resx">
+    <EmbeddedResource Include="Panels\AltitudePlot.resx">
       <DependentUpon>AltitudePlot.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Instruments.resx">
+    <EmbeddedResource Include="Panels\Instruments.resx">
       <DependentUpon>Instruments.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

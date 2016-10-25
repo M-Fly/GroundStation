@@ -1,6 +1,6 @@
-﻿namespace GroundStation
+﻿namespace Panels.GroundStation
 {
-    partial class Instruments
+    partial class Camera
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,15 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // Instruments
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "Instruments";
-            this.ResumeLayout(false);
-
         }
 
         #endregion
