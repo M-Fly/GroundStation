@@ -11,6 +11,7 @@ using OxyPlot;
 using OxyPlot.Series;
 using OxyPlot.WindowsForms;
 
+
 namespace Panels.GroundStation
 {
     public partial class AltitudePlot : UserControl
@@ -39,7 +40,7 @@ namespace Panels.GroundStation
             {
                 LineStyle = LineStyle.Solid,
                 Title = "Altitude (ft.)",
-
+                
 
             };
 
@@ -49,6 +50,9 @@ namespace Panels.GroundStation
             Altitude_Plot.Dock = DockStyle.Fill;
             Altitude_Plot.Location = new Point(0, 0);
             this.Controls.Add(Altitude_Plot);
+            Altitude_Plot_Model.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
+            
+
 
 
         }
