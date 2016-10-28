@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Panels.GroundStation
+namespace GroundStation.Panels
 {
     public partial class DropStatus : UserControl
     {

@@ -1,4 +1,4 @@
-﻿namespace Panels.GroundStation
+﻿namespace GroundStation.Panels
 {
     partial class DropStatus
     {

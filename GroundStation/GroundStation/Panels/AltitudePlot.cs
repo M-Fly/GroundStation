@@ -12,7 +12,7 @@ using OxyPlot.Series;
 using OxyPlot.WindowsForms;
 
 
-namespace Panels.GroundStation
+namespace GroundStation.Panels
 {
     public partial class AltitudePlot : UserControl
     {
