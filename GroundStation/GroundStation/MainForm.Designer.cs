@@ -93,6 +93,9 @@
             // 
             // altitudePlot1
             // 
+            this.altitudePlot1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.altitudePlot1.Location = new System.Drawing.Point(15, 17);
             this.altitudePlot1.Margin = new System.Windows.Forms.Padding(2);
             this.altitudePlot1.Name = "altitudePlot1";

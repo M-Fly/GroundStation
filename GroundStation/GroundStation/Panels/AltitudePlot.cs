@@ -34,15 +34,19 @@ namespace Panels.GroundStation
             {
                 Title = "Test",
                 PlotType = PlotType.XY
-            };
+             
+        };
 
             Altitude_Series = new LineSeries
             {
                 LineStyle = LineStyle.Solid,
                 Title = "Altitude (ft.)",
+                Background = OxyColors.PowderBlue,
+                Color = OxyColors.Black,
                 
 
-            };
+
+        };
 
             Altitude_Plot_Model.Series.Add(Altitude_Series);
             Altitude_Plot = new PlotView();
@@ -51,7 +55,15 @@ namespace Panels.GroundStation
             Altitude_Plot.Location = new Point(0, 0);
             this.Controls.Add(Altitude_Plot);
             Altitude_Plot_Model.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
-            
+            // generates two sets of random numbers
+            Random rnd = new Random();
+            double test_probx = rnd.Next(0, 4);
+            double test_proby = rnd.Next(0, 1);
+            double test_probx1 = rnd.Next(4, 8);
+            double test_proby1 = rnd.Next(0, 1);
+            Altitude_Series.Points.Add(new DataPoint(test_probx, test_proby));
+            Altitude_Series.Points.Add(new DataPoint(test_probx1, test_proby1));
+
 
 
 
