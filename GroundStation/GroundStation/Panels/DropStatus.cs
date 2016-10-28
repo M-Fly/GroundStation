@@ -18,6 +18,8 @@ namespace Panels.GroundStation
 
         }
         
+        //Requires altitude and time
+        //Effects drop status display
         public void UpdateDrop(int alt, int time)
         {
             Payload_Time_Status.Text = "Time: " + time+ " s"; //States time that payload was dropped.
