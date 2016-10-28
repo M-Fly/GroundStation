@@ -107,6 +107,9 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Panels\DropStatus.resx">
+      <DependentUpon>DropStatus.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Panels\Instruments.resx">
       <DependentUpon>Instruments.cs</DependentUpon>
     </EmbeddedResource>

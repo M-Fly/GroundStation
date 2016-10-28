@@ -34,9 +34,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "AltitudePlot";
-            this.Size = new System.Drawing.Size(171, 189);
+            this.Size = new System.Drawing.Size(119, 99);
             this.Load += new System.EventHandler(this.AltitudePlot_Load);
             this.ResumeLayout(false);
 

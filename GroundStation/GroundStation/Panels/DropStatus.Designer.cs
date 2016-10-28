@@ -28,10 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.Payload_Time_Status = new System.Windows.Forms.Label();
+            this.Payload_Alt_Status = new System.Windows.Forms.Label();
+            this.SuspendLayout();
+            // 
+            // Payload_Time_Status
+            // 
+            this.Payload_Time_Status.AutoSize = true;
+            this.Payload_Time_Status.Location = new System.Drawing.Point(16, 20);
+            this.Payload_Time_Status.Name = "Payload_Time_Status";
+            this.Payload_Time_Status.Size = new System.Drawing.Size(137, 13);
+            this.Payload_Time_Status.TabIndex = 0;
+            this.Payload_Time_Status.Text = "Payload Not Dropped (time)";
+            // 
+            // Payload_Alt_Status
+            // 
+            this.Payload_Alt_Status.AutoSize = true;
+            this.Payload_Alt_Status.Location = new System.Drawing.Point(18, 47);
+            this.Payload_Alt_Status.Name = "Payload_Alt_Status";
+            this.Payload_Alt_Status.Size = new System.Drawing.Size(129, 13);
+            this.Payload_Alt_Status.TabIndex = 1;
+            this.Payload_Alt_Status.Text = "Payload Not Dropped (alt)";
+            // 
+            // DropStatus
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Payload_Alt_Status);
+            this.Controls.Add(this.Payload_Time_Status);
+            this.Name = "DropStatus";
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Label Payload_Time_Status;
+        private System.Windows.Forms.Label Payload_Alt_Status;
     }
 }

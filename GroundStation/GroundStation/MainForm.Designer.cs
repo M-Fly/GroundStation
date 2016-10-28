@@ -93,7 +93,7 @@
             // altitudePlot1
             // 
             this.altitudePlot1.Location = new System.Drawing.Point(15, 17);
-            this.altitudePlot1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.altitudePlot1.Margin = new System.Windows.Forms.Padding(2);
             this.altitudePlot1.Name = "altitudePlot1";
             this.altitudePlot1.Size = new System.Drawing.Size(796, 123);
             this.altitudePlot1.TabIndex = 0;
