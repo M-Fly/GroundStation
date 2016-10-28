@@ -33,6 +33,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.altitudePlot1 = new Panels.GroundStation.AltitudePlot();
+            this.dropStatus1 = new Panels.GroundStation.DropStatus();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.SuspendLayout();
@@ -98,11 +99,19 @@
             this.altitudePlot1.Size = new System.Drawing.Size(796, 123);
             this.altitudePlot1.TabIndex = 0;
             // 
+            // dropStatus1
+            // 
+            this.dropStatus1.Location = new System.Drawing.Point(668, 10);
+            this.dropStatus1.Name = "dropStatus1";
+            this.dropStatus1.Size = new System.Drawing.Size(190, 250);
+            this.dropStatus1.TabIndex = 3;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(861, 418);
+            this.Controls.Add(this.dropStatus1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -124,6 +133,7 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label1;
         private Panels.GroundStation.AltitudePlot altitudePlot1;
+        private Panels.GroundStation.DropStatus dropStatus1;
     }
 }
 

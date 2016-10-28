@@ -35,7 +35,7 @@
             // Payload_Time_Status
             // 
             this.Payload_Time_Status.AutoSize = true;
-            this.Payload_Time_Status.Location = new System.Drawing.Point(16, 20);
+            this.Payload_Time_Status.Location = new System.Drawing.Point(3, 20);
             this.Payload_Time_Status.Name = "Payload_Time_Status";
             this.Payload_Time_Status.Size = new System.Drawing.Size(137, 13);
             this.Payload_Time_Status.TabIndex = 0;
@@ -44,7 +44,7 @@
             // Payload_Alt_Status
             // 
             this.Payload_Alt_Status.AutoSize = true;
-            this.Payload_Alt_Status.Location = new System.Drawing.Point(18, 47);
+            this.Payload_Alt_Status.Location = new System.Drawing.Point(3, 47);
             this.Payload_Alt_Status.Name = "Payload_Alt_Status";
             this.Payload_Alt_Status.Size = new System.Drawing.Size(129, 13);
             this.Payload_Alt_Status.TabIndex = 1;
