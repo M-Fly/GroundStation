@@ -3,7 +3,7 @@
     class PredictionAlgorithm
     {
         // Time Constant of Integration
-        private double dt = 0.01;       // [ s ]
+        private double dt = 0.001;       // [ s ]
 
         // Gravitational Constant
         private double g = 9.807;       // [ m/s^2 ]
@@ -50,7 +50,7 @@
                 // Find the new velocity based on the acceleration on particle and the given integration timestep
                 velOut.x = velOut.x - 0.5 * rho * velMag * payload_area * payload_cdrg * velOut.x * dt / payload_mass;
                 velOut.y = velOut.y - 0.5 * rho * velMag * payload_area * payload_cdrg * velOut.y * dt / payload_mass;
-                velOut.z = velOut.z - 0.5 * rho * velMag * payload_area * payload_cdrg * velOut.z * dt / payload_mass - g;
+                velOut.z = velOut.z - 0.5 * rho * velMag * payload_area * payload_cdrg * velOut.z * dt / payload_mass - g * dt;
             }
 
             // Return the final position vector of the payload
