@@ -3,7 +3,7 @@
     class PredictionAlgorithm
     {
         // Time Constant of Integration
-        private double dt = 0.001;       // [ s ]
+        private double dt = 0.0001;       // [ s ]
 
         // Gravitational Constant
         private double g = 9.807;       // [ m/s^2 ]
