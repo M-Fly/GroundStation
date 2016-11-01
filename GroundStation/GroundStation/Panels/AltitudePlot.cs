@@ -22,20 +22,15 @@ namespace GroundStation.Panels
 
         LineSeries Altitude_Series;
 
-
-
-
         public AltitudePlot()
         {
             InitializeComponent();
 
-
             Altitude_Plot_Model = new PlotModel
             {
                 Title = "Test",
-                PlotType = PlotType.XY
-             
-        };
+                PlotType = PlotType.XY         
+            };
 
             Altitude_Series = new LineSeries
             {
@@ -43,10 +38,7 @@ namespace GroundStation.Panels
                 Title = "Altitude (ft.)",
                 Background = OxyColors.PowderBlue,
                 Color = OxyColors.Black,
-                
-
-
-        };
+            };
 
             Altitude_Plot_Model.Series.Add(Altitude_Series);
             Altitude_Plot = new PlotView();
@@ -63,10 +55,7 @@ namespace GroundStation.Panels
             double test_proby1 = rnd.Next(0, 1);
             Altitude_Series.Points.Add(new DataPoint(test_probx, test_proby));
             Altitude_Series.Points.Add(new DataPoint(test_probx1, test_proby1));
-
-
-
-
+            
         }
 
         private void AltitudePlot_Load(object sender, EventArgs e)
