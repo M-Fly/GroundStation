@@ -29,15 +29,13 @@
         private void InitializeComponent()
         {
             this.grpAltitudePlot = new System.Windows.Forms.GroupBox();
+            this.altitudePlotPanel = new GroundStation.Panels.AltitudePlot();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.grpDropPredictionStatus = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
             this.grpPayloadDropStatus = new System.Windows.Forms.GroupBox();
+            this.dropStatusPanel = new GroundStation.Panels.DropStatus();
             this.grpInstrumentPanel = new System.Windows.Forms.GroupBox();
-            this.dropStatusPanel = new Panels.DropStatus();
-            this.altitudePlotPanel = new Panels.AltitudePlot();
             this.grpAltitudePlot.SuspendLayout();
-            this.grpDropPredictionStatus.SuspendLayout();
             this.grpPayloadDropStatus.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,6 +52,17 @@
             this.grpAltitudePlot.TabIndex = 0;
             this.grpAltitudePlot.TabStop = false;
             this.grpAltitudePlot.Text = "Altitude Graph";
+            // 
+            // altitudePlotPanel
+            // 
+            this.altitudePlotPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.altitudePlotPanel.Location = new System.Drawing.Point(4, 17);
+            this.altitudePlotPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.altitudePlotPanel.Name = "altitudePlotPanel";
+            this.altitudePlotPanel.Size = new System.Drawing.Size(1078, 253);
+            this.altitudePlotPanel.TabIndex = 0;
             // 
             // groupBox2
             // 
@@ -75,7 +84,6 @@
             // 
             this.grpDropPredictionStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.grpDropPredictionStatus.AutoSize = true;
-            this.grpDropPredictionStatus.Controls.Add(this.label1);
             this.grpDropPredictionStatus.Location = new System.Drawing.Point(9, 208);
             this.grpDropPredictionStatus.Margin = new System.Windows.Forms.Padding(2);
             this.grpDropPredictionStatus.Name = "grpDropPredictionStatus";
@@ -84,16 +92,6 @@
             this.grpDropPredictionStatus.TabIndex = 2;
             this.grpDropPredictionStatus.TabStop = false;
             this.grpDropPredictionStatus.Text = "Drop Prediction Status";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(56, 46);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(51, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "test_prob";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // grpPayloadDropStatus
             // 
@@ -107,17 +105,6 @@
             this.grpPayloadDropStatus.TabStop = false;
             this.grpPayloadDropStatus.Text = "Payload Drop Status";
             // 
-            // grpInstrumentPanel
-            // 
-            this.grpInstrumentPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.grpInstrumentPanel.Location = new System.Drawing.Point(9, 10);
-            this.grpInstrumentPanel.Name = "grpInstrumentPanel";
-            this.grpInstrumentPanel.Size = new System.Drawing.Size(207, 193);
-            this.grpInstrumentPanel.TabIndex = 4;
-            this.grpInstrumentPanel.TabStop = false;
-            this.grpInstrumentPanel.Text = "Instrument Panel";
-            // 
             // dropStatusPanel
             // 
             this.dropStatusPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -128,16 +115,16 @@
             this.dropStatusPanel.Size = new System.Drawing.Size(159, 322);
             this.dropStatusPanel.TabIndex = 3;
             // 
-            // altitudePlotPanel
+            // grpInstrumentPanel
             // 
-            this.altitudePlotPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.altitudePlotPanel.Location = new System.Drawing.Point(4, 17);
-            this.altitudePlotPanel.Margin = new System.Windows.Forms.Padding(2);
-            this.altitudePlotPanel.Name = "altitudePlotPanel";
-            this.altitudePlotPanel.Size = new System.Drawing.Size(1078, 253);
-            this.altitudePlotPanel.TabIndex = 0;
+            this.grpInstrumentPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.grpInstrumentPanel.Location = new System.Drawing.Point(9, 10);
+            this.grpInstrumentPanel.Name = "grpInstrumentPanel";
+            this.grpInstrumentPanel.Size = new System.Drawing.Size(207, 193);
+            this.grpInstrumentPanel.TabIndex = 4;
+            this.grpInstrumentPanel.TabStop = false;
+            this.grpInstrumentPanel.Text = "Instrument Panel";
             // 
             // MainForm
             // 
@@ -153,8 +140,6 @@
             this.Name = "MainForm";
             this.Text = "M-Fly Ground Station";
             this.grpAltitudePlot.ResumeLayout(false);
-            this.grpDropPredictionStatus.ResumeLayout(false);
-            this.grpDropPredictionStatus.PerformLayout();
             this.grpPayloadDropStatus.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -166,7 +151,6 @@
         private System.Windows.Forms.GroupBox grpAltitudePlot;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox grpDropPredictionStatus;
-        private System.Windows.Forms.Label label1;
         private Panels.AltitudePlot altitudePlotPanel;
         private Panels.DropStatus dropStatusPanel;
         private System.Windows.Forms.GroupBox grpPayloadDropStatus;

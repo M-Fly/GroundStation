@@ -65,6 +65,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataRecording\DataAccelGyro.cs" />
+    <Compile Include="DataRecording\DataDefault.cs" />
+    <Compile Include="DataRecording\DataGPS.cs" />
     <Compile Include="DropPrediction\PredictionAlgorithm.cs" />
     <Compile Include="DropPrediction\Vector3.cs" />
     <Compile Include="Panels\AltitudePlot.cs">

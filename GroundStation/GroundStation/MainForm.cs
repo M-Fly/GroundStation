@@ -22,14 +22,6 @@ namespace GroundStation
         {
             InitializeComponent();
         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-            // Probobility of being succesfull - test code
-            Random rnd = new Random();
-            int test_prob = rnd.Next(1, 100);
-            label1.Text = (test_prob.ToString());
-        }
     }
 
 
