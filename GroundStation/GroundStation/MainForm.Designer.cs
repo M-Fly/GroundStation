@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.grpAltitudePlot = new System.Windows.Forms.GroupBox();
             this.panelAltitudePlot = new GroundStation.Panels.AltitudePlot();
             this.grpCamera = new System.Windows.Forms.GroupBox();
@@ -36,6 +37,8 @@
             this.panelDropStatus = new GroundStation.Panels.DropStatus();
             this.grpInstrumentPanel = new System.Windows.Forms.GroupBox();
             this.panelInstruments = new GroundStation.Panels.Instruments();
+            this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.grpAltitudePlot.SuspendLayout();
             this.grpPayloadDropStatus.SuspendLayout();
             this.grpInstrumentPanel.SuspendLayout();
@@ -46,11 +49,11 @@
             this.grpAltitudePlot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpAltitudePlot.Controls.Add(this.panelAltitudePlot);
-            this.grpAltitudePlot.Location = new System.Drawing.Point(9, 364);
+            this.grpAltitudePlot.Location = new System.Drawing.Point(9, 188);
             this.grpAltitudePlot.Margin = new System.Windows.Forms.Padding(2);
             this.grpAltitudePlot.Name = "grpAltitudePlot";
             this.grpAltitudePlot.Padding = new System.Windows.Forms.Padding(2);
-            this.grpAltitudePlot.Size = new System.Drawing.Size(1086, 275);
+            this.grpAltitudePlot.Size = new System.Drawing.Size(882, 275);
             this.grpAltitudePlot.TabIndex = 0;
             this.grpAltitudePlot.TabStop = false;
             this.grpAltitudePlot.Text = "Altitude Graph";
@@ -63,7 +66,7 @@
             this.panelAltitudePlot.Location = new System.Drawing.Point(4, 17);
             this.panelAltitudePlot.Margin = new System.Windows.Forms.Padding(2);
             this.panelAltitudePlot.Name = "panelAltitudePlot";
-            this.panelAltitudePlot.Size = new System.Drawing.Size(1078, 253);
+            this.panelAltitudePlot.Size = new System.Drawing.Size(874, 253);
             this.panelAltitudePlot.TabIndex = 0;
             // 
             // grpCamera
@@ -77,7 +80,7 @@
             this.grpCamera.Margin = new System.Windows.Forms.Padding(2);
             this.grpCamera.Name = "grpCamera";
             this.grpCamera.Padding = new System.Windows.Forms.Padding(2);
-            this.grpCamera.Size = new System.Drawing.Size(697, 350);
+            this.grpCamera.Size = new System.Drawing.Size(493, 174);
             this.grpCamera.TabIndex = 1;
             this.grpCamera.TabStop = false;
             this.grpCamera.Text = "Camera";
@@ -86,7 +89,7 @@
             // 
             this.grpDropPredictionStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.grpDropPredictionStatus.AutoSize = true;
-            this.grpDropPredictionStatus.Location = new System.Drawing.Point(9, 208);
+            this.grpDropPredictionStatus.Location = new System.Drawing.Point(9, 32);
             this.grpDropPredictionStatus.Margin = new System.Windows.Forms.Padding(2);
             this.grpDropPredictionStatus.Name = "grpDropPredictionStatus";
             this.grpDropPredictionStatus.Padding = new System.Windows.Forms.Padding(2);
@@ -100,9 +103,9 @@
             this.grpPayloadDropStatus.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpPayloadDropStatus.Controls.Add(this.panelDropStatus);
-            this.grpPayloadDropStatus.Location = new System.Drawing.Point(923, 13);
+            this.grpPayloadDropStatus.Location = new System.Drawing.Point(719, 13);
             this.grpPayloadDropStatus.Name = "grpPayloadDropStatus";
-            this.grpPayloadDropStatus.Size = new System.Drawing.Size(171, 347);
+            this.grpPayloadDropStatus.Size = new System.Drawing.Size(171, 171);
             this.grpPayloadDropStatus.TabIndex = 3;
             this.grpPayloadDropStatus.TabStop = false;
             this.grpPayloadDropStatus.Text = "Payload Drop Status";
@@ -114,7 +117,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelDropStatus.Location = new System.Drawing.Point(6, 19);
             this.panelDropStatus.Name = "panelDropStatus";
-            this.panelDropStatus.Size = new System.Drawing.Size(159, 322);
+            this.panelDropStatus.Size = new System.Drawing.Size(159, 146);
             this.panelDropStatus.TabIndex = 3;
             // 
             // grpInstrumentPanel
@@ -124,7 +127,7 @@
             this.grpInstrumentPanel.Controls.Add(this.panelInstruments);
             this.grpInstrumentPanel.Location = new System.Drawing.Point(9, 10);
             this.grpInstrumentPanel.Name = "grpInstrumentPanel";
-            this.grpInstrumentPanel.Size = new System.Drawing.Size(207, 193);
+            this.grpInstrumentPanel.Size = new System.Drawing.Size(207, 17);
             this.grpInstrumentPanel.TabIndex = 4;
             this.grpInstrumentPanel.TabStop = false;
             this.grpInstrumentPanel.Text = "Instrument Panel";
@@ -137,14 +140,14 @@
             this.panelInstruments.Location = new System.Drawing.Point(5, 18);
             this.panelInstruments.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.panelInstruments.Name = "panelInstruments";
-            this.panelInstruments.Size = new System.Drawing.Size(197, 170);
+            this.panelInstruments.Size = new System.Drawing.Size(197, 0);
             this.panelInstruments.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1106, 648);
+            this.ClientSize = new System.Drawing.Size(902, 472);
             this.Controls.Add(this.grpInstrumentPanel);
             this.Controls.Add(this.grpPayloadDropStatus);
             this.Controls.Add(this.grpDropPredictionStatus);
@@ -171,6 +174,8 @@
         private System.Windows.Forms.GroupBox grpPayloadDropStatus;
         private System.Windows.Forms.GroupBox grpInstrumentPanel;
         private Panels.Instruments panelInstruments;
+        private System.IO.Ports.SerialPort serialPort1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 
