@@ -28,16 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.Timer timer1;
-            timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            // 
-            // timer1
-            // 
-            timer1.Enabled = true;
-            timer1.Interval = 500;
-            timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // GraphGPS
             // 
