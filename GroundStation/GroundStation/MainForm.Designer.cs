@@ -36,12 +36,9 @@
             this.panelDropStatus = new GroundStation.Panels.DropStatus();
             this.grpInstrumentPanel = new System.Windows.Forms.GroupBox();
             this.panelInstruments = new GroundStation.Panels.Instruments();
-            this.GPS_Panel = new System.Windows.Forms.GroupBox();
-            this.graphGPS1 = new GroundStation.Panels.GraphGPS();
             this.grpAltitudePlot.SuspendLayout();
             this.grpPayloadDropStatus.SuspendLayout();
             this.grpInstrumentPanel.SuspendLayout();
-            this.GPS_Panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpAltitudePlot
@@ -80,7 +77,7 @@
             this.grpCamera.Margin = new System.Windows.Forms.Padding(2);
             this.grpCamera.Name = "grpCamera";
             this.grpCamera.Padding = new System.Windows.Forms.Padding(2);
-            this.grpCamera.Size = new System.Drawing.Size(227, 350);
+            this.grpCamera.Size = new System.Drawing.Size(697, 350);
             this.grpCamera.TabIndex = 1;
             this.grpCamera.TabStop = false;
             this.grpCamera.Text = "Camera";
@@ -143,29 +140,11 @@
             this.panelInstruments.Size = new System.Drawing.Size(197, 170);
             this.panelInstruments.TabIndex = 0;
             // 
-            // GPS_Panel
-            // 
-            this.GPS_Panel.Controls.Add(this.graphGPS1);
-            this.GPS_Panel.Location = new System.Drawing.Point(452, 10);
-            this.GPS_Panel.Name = "GPS_Panel";
-            this.GPS_Panel.Size = new System.Drawing.Size(465, 350);
-            this.GPS_Panel.TabIndex = 5;
-            this.GPS_Panel.TabStop = false;
-            this.GPS_Panel.Text = "GPS Panel";
-            // 
-            // graphGPS1
-            // 
-            this.graphGPS1.Location = new System.Drawing.Point(6, 22);
-            this.graphGPS1.Name = "graphGPS1";
-            this.graphGPS1.Size = new System.Drawing.Size(442, 322);
-            this.graphGPS1.TabIndex = 0;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1106, 648);
-            this.Controls.Add(this.GPS_Panel);
             this.Controls.Add(this.grpInstrumentPanel);
             this.Controls.Add(this.grpPayloadDropStatus);
             this.Controls.Add(this.grpDropPredictionStatus);
@@ -177,7 +156,6 @@
             this.grpAltitudePlot.ResumeLayout(false);
             this.grpPayloadDropStatus.ResumeLayout(false);
             this.grpInstrumentPanel.ResumeLayout(false);
-            this.GPS_Panel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -193,8 +171,6 @@
         private System.Windows.Forms.GroupBox grpPayloadDropStatus;
         private System.Windows.Forms.GroupBox grpInstrumentPanel;
         private Panels.Instruments panelInstruments;
-        private System.Windows.Forms.GroupBox GPS_Panel;
-        private Panels.GraphGPS graphGPS1;
     }
 }
 
