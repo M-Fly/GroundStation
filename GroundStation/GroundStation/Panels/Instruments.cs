@@ -15,6 +15,16 @@ namespace GroundStation.Panels
         public Instruments()
         {
             InitializeComponent();
+
         }
+         
+         //Requires: Airspeed in feet per second, Altitude in feet
+         //Modifies:
+         //Effects: Instruments display
+         public void UpdateInstruments(double airspeed_fts, double alt_ft)
+         {
+            Instruments_Airspeed.Text = "Speed: " + airspeed_fts + " ft/s."; //States Airspeed
+            Instruments_Alt.Text = "Altitude: " + alt_ft + " ft."; //States Altitude
+         }
     }
 }
