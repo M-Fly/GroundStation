@@ -27,21 +27,25 @@ namespace GroundStation
 
         bool dropped = false;
 
-        int time = 0;
+        int time_debug = 0;
 
         private void tmrTestData_Tick(object sender, EventArgs e)
         {
-            double altitude = rand.NextDouble() * 75 + 50;
+            double airspeed_ft_s = rand.NextDouble() * 30 + 10;
+            double altitude_ft = rand.NextDouble() * 75 + 50;
+            double lat_deg = rand.NextDouble() * 5 + 40;
+            double long_deg = rand.NextDouble() * -80 - 5;
 
-            instruments1.UpdateInstruments(rand.NextDouble() * 30 + 10, altitude);
+            instruments1.UpdateInstruments(airspeed_ft_s, altitude_ft);
 
-            graphGPS1.UpdateLatLon(rand.NextDouble() * 5 + 40, rand.NextDouble() * -80 - 5);
+            graphGPS1.UpdateLatLon(lat_deg, long_deg);
 
-            altitudePlotPanel.UpdateAltitude(time++, altitude);
+            altitudePlotPanel.UpdateAltitude(time_debug++, altitude_ft);
 
-            if (true || !dropped && rand.Next(0, 100) == 57)
+            if (!dropped && rand.Next(0, 100) == 57)
             {
-                dropStatusPanel.UpdateDrop(120, 87);
+                dropStatusPanel.UpdateDrop(altitude_ft, time_debug);
+                
             }
         }
     }
