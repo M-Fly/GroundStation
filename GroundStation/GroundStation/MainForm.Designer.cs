@@ -40,15 +40,20 @@
             this.GraphGPSDisplay = new System.Windows.Forms.GroupBox();
             this.graphGPS1 = new GroundStation.Panels.GraphGPS();
             this.tmrTestData = new System.Windows.Forms.Timer(this.components);
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.connectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.grpSerialConnection = new System.Windows.Forms.GroupBox();
+            this.lblSerial = new System.Windows.Forms.Label();
+            this.cmbSerialPort = new System.Windows.Forms.ComboBox();
+            this.lblConnStatusLabel = new System.Windows.Forms.Label();
+            this.lblConnectionStatus = new System.Windows.Forms.Label();
             this.grpAltitudePlot.SuspendLayout();
             this.grpPayloadDropStatus.SuspendLayout();
             this.grpInstrumentPanel.SuspendLayout();
             this.GraphGPSDisplay.SuspendLayout();
             this.menuStrip1.SuspendLayout();
+            this.grpSerialConnection.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpAltitudePlot
@@ -94,8 +99,9 @@
             // 
             // grpDropPredictionStatus
             // 
+            this.grpDropPredictionStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.grpDropPredictionStatus.AutoSize = true;
-            this.grpDropPredictionStatus.Location = new System.Drawing.Point(220, 27);
+            this.grpDropPredictionStatus.Location = new System.Drawing.Point(627, 27);
             this.grpDropPredictionStatus.Margin = new System.Windows.Forms.Padding(2);
             this.grpDropPredictionStatus.Name = "grpDropPredictionStatus";
             this.grpDropPredictionStatus.Padding = new System.Windows.Forms.Padding(2);
@@ -128,7 +134,7 @@
             // grpInstrumentPanel
             // 
             this.grpInstrumentPanel.Controls.Add(this.instruments1);
-            this.grpInstrumentPanel.Location = new System.Drawing.Point(9, 27);
+            this.grpInstrumentPanel.Location = new System.Drawing.Point(228, 27);
             this.grpInstrumentPanel.Name = "grpInstrumentPanel";
             this.grpInstrumentPanel.Size = new System.Drawing.Size(206, 85);
             this.grpInstrumentPanel.TabIndex = 4;
@@ -140,10 +146,10 @@
             this.instruments1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.instruments1.Location = new System.Drawing.Point(0, 22);
+            this.instruments1.Location = new System.Drawing.Point(5, 22);
             this.instruments1.Margin = new System.Windows.Forms.Padding(2);
             this.instruments1.Name = "instruments1";
-            this.instruments1.Size = new System.Drawing.Size(196, 58);
+            this.instruments1.Size = new System.Drawing.Size(191, 58);
             this.instruments1.TabIndex = 0;
             // 
             // GraphGPSDisplay
@@ -171,19 +177,8 @@
             // tmrTestData
             // 
             this.tmrTestData.Enabled = true;
-            this.tmrTestData.Interval = 500;
+            this.tmrTestData.Interval = 10;
             this.tmrTestData.Tick += new System.EventHandler(this.tmrTestData_Tick);
-            // 
-            // menuStrip1
-            // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
-            this.connectionToolStripMenuItem});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1106, 24);
-            this.menuStrip1.TabIndex = 6;
-            this.menuStrip1.Text = "menuStrip1";
             // 
             // fileToolStripMenuItem
             // 
@@ -193,12 +188,6 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // connectionToolStripMenuItem
-            // 
-            this.connectionToolStripMenuItem.Name = "connectionToolStripMenuItem";
-            this.connectionToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
-            this.connectionToolStripMenuItem.Text = "Connection";
-            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
@@ -206,11 +195,71 @@
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1106, 24);
+            this.menuStrip1.TabIndex = 6;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // grpSerialConnection
+            // 
+            this.grpSerialConnection.Controls.Add(this.lblConnectionStatus);
+            this.grpSerialConnection.Controls.Add(this.lblConnStatusLabel);
+            this.grpSerialConnection.Controls.Add(this.cmbSerialPort);
+            this.grpSerialConnection.Controls.Add(this.lblSerial);
+            this.grpSerialConnection.Location = new System.Drawing.Point(12, 27);
+            this.grpSerialConnection.Name = "grpSerialConnection";
+            this.grpSerialConnection.Size = new System.Drawing.Size(210, 85);
+            this.grpSerialConnection.TabIndex = 7;
+            this.grpSerialConnection.TabStop = false;
+            this.grpSerialConnection.Text = "Serial Connection";
+            // 
+            // lblSerial
+            // 
+            this.lblSerial.AutoSize = true;
+            this.lblSerial.Location = new System.Drawing.Point(7, 19);
+            this.lblSerial.Name = "lblSerial";
+            this.lblSerial.Size = new System.Drawing.Size(36, 13);
+            this.lblSerial.TabIndex = 0;
+            this.lblSerial.Text = "Serial:";
+            // 
+            // cmbSerialPort
+            // 
+            this.cmbSerialPort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbSerialPort.FormattingEnabled = true;
+            this.cmbSerialPort.Location = new System.Drawing.Point(49, 16);
+            this.cmbSerialPort.Name = "cmbSerialPort";
+            this.cmbSerialPort.Size = new System.Drawing.Size(155, 21);
+            this.cmbSerialPort.TabIndex = 1;
+            // 
+            // lblConnStatusLabel
+            // 
+            this.lblConnStatusLabel.AutoSize = true;
+            this.lblConnStatusLabel.Location = new System.Drawing.Point(7, 40);
+            this.lblConnStatusLabel.Name = "lblConnStatusLabel";
+            this.lblConnStatusLabel.Size = new System.Drawing.Size(97, 13);
+            this.lblConnStatusLabel.TabIndex = 2;
+            this.lblConnStatusLabel.Text = "Connection Status:";
+            // 
+            // lblConnectionStatus
+            // 
+            this.lblConnectionStatus.AutoSize = true;
+            this.lblConnectionStatus.Location = new System.Drawing.Point(110, 40);
+            this.lblConnectionStatus.Name = "lblConnectionStatus";
+            this.lblConnectionStatus.Size = new System.Drawing.Size(79, 13);
+            this.lblConnectionStatus.TabIndex = 3;
+            this.lblConnectionStatus.Text = "Not Connected";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1106, 710);
+            this.Controls.Add(this.grpSerialConnection);
             this.Controls.Add(this.grpDropPredictionStatus);
             this.Controls.Add(this.GraphGPSDisplay);
             this.Controls.Add(this.grpInstrumentPanel);
@@ -228,6 +277,8 @@
             this.GraphGPSDisplay.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.grpSerialConnection.ResumeLayout(false);
+            this.grpSerialConnection.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -246,10 +297,14 @@
         private Panels.GraphGPS graphGPS1;
         private Panels.Instruments instruments1;
         private System.Windows.Forms.Timer tmrTestData;
-        private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem connectionToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.GroupBox grpSerialConnection;
+        private System.Windows.Forms.Label lblConnectionStatus;
+        private System.Windows.Forms.Label lblConnStatusLabel;
+        private System.Windows.Forms.ComboBox cmbSerialPort;
+        private System.Windows.Forms.Label lblSerial;
     }
 }
 
