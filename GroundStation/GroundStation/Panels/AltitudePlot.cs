@@ -37,7 +37,7 @@ namespace GroundStation.Panels
                 LineStyle = LineStyle.Solid,
                 Title = "Altitude (ft.)",
                 Background = OxyColors.PowderBlue,
-                Color = OxyColors.Black,
+                Color = OxyColors.Blue,
             };
 
             Altitude_Plot_Model.Series.Add(Altitude_Series);

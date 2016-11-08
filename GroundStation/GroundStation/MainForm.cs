@@ -42,10 +42,12 @@ namespace GroundStation
 
             altitudePlotPanel.UpdateAltitude(time_debug++, altitude_ft);
 
-            if (!dropped && rand.Next(0, 100) == 57)
+            if (!dropped && rand.Next(0, 50) == 0)
             {
-                dropStatusPanel.UpdateDrop(altitude_ft, time_debug);
-                
+                dropStatusPanel.UpdateDrop((int) altitude_ft, time_debug);
+                graphGPS1.UpdateLatLonDrop(lat_deg, long_deg);
+
+                dropped = true;
             }
         }
     }
