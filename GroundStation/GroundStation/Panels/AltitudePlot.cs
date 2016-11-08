@@ -28,7 +28,7 @@ namespace GroundStation.Panels
 
             Altitude_Plot_Model = new PlotModel
             {
-                Title = "Test",
+                Title = "Altitude Plot",
                 PlotType = PlotType.XY         
             };
 
@@ -46,8 +46,9 @@ namespace GroundStation.Panels
             Altitude_Plot.Dock = DockStyle.Fill;
             Altitude_Plot.Location = new Point(0, 0);
             this.Controls.Add(Altitude_Plot);
-            Altitude_Plot_Model.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
+            
             // generates two sets of random numbers
+            /*
             Random rnd = new Random();
             double test_probx = rnd.Next(0, 4);
             double test_proby = rnd.Next(0, 1);
@@ -55,12 +56,13 @@ namespace GroundStation.Panels
             double test_proby1 = rnd.Next(0, 1);
             Altitude_Series.Points.Add(new DataPoint(test_probx, test_proby));
             Altitude_Series.Points.Add(new DataPoint(test_probx1, test_proby1));
-            
+            */
         }
 
-        private void AltitudePlot_Load(object sender, EventArgs e)
+        public void UpdateAltitude(double time_seconds, double altitude_feet)
         {
-
+            Altitude_Series.Points.Add(new DataPoint(time_seconds, altitude_feet));
+            Altitude_Plot_Model.InvalidatePlot(true);
         }
     }
 }

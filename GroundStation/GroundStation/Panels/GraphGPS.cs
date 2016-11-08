@@ -46,17 +46,16 @@ namespace GroundStation.Panels
             LatLongPlot.Dock = DockStyle.Fill;
             LatLongPlot.Location = new Point(0, 0);
             this.Controls.Add(LatLongPlot);
-
-            //Test - REMOVE BEFORE FLIGHT
-            LatLong_PlotModel.Series.Add(new FunctionSeries(Math.Cos, -10, 10, 3.14159 / 2, "cos(x)"));
         }
 
         //Receives: doubles Latitude and Longitude
         //Modifies:
         //Effects:
-        private void Update_LatLong(double lat_deg, double lon_deg)
+        public void UpdateLatLon(double lat_deg, double lon_deg)
         {
-            LatLong_LineSeries.Points.Add(new DataPoint(lat_deg, lon_deg));
+            // Longitude goes first because it is the x position
+            // Latitude goes second because it is the y position
+            LatLong_LineSeries.Points.Add(new DataPoint(lon_deg, lat_deg));
             LatLong_PlotModel.InvalidatePlot(true);
         }
     }

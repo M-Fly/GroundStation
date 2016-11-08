@@ -44,7 +44,6 @@
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "AltitudePlot";
             this.Size = new System.Drawing.Size(119, 99);
-            this.Load += new System.EventHandler(this.AltitudePlot_Load);
             this.ResumeLayout(false);
 
         }
