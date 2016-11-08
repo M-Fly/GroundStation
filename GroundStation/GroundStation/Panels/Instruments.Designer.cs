@@ -35,18 +35,20 @@
             // Instruments_Airspeed
             // 
             this.Instruments_Airspeed.AutoSize = true;
-            this.Instruments_Airspeed.Location = new System.Drawing.Point(4, 4);
+            this.Instruments_Airspeed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Instruments_Airspeed.Location = new System.Drawing.Point(3, 20);
             this.Instruments_Airspeed.Name = "Instruments_Airspeed";
-            this.Instruments_Airspeed.Size = new System.Drawing.Size(64, 13);
+            this.Instruments_Airspeed.Size = new System.Drawing.Size(94, 20);
             this.Instruments_Airspeed.TabIndex = 0;
             this.Instruments_Airspeed.Text = "No airspeed";
             // 
             // Instruments_Alt
             // 
             this.Instruments_Alt.AutoSize = true;
-            this.Instruments_Alt.Location = new System.Drawing.Point(3, 35);
+            this.Instruments_Alt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Instruments_Alt.Location = new System.Drawing.Point(3, 0);
             this.Instruments_Alt.Name = "Instruments_Alt";
-            this.Instruments_Alt.Size = new System.Drawing.Size(59, 13);
+            this.Instruments_Alt.Size = new System.Drawing.Size(87, 20);
             this.Instruments_Alt.TabIndex = 1;
             this.Instruments_Alt.Text = "No Altitude";
             // 
@@ -56,7 +58,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.Instruments_Alt);
             this.Controls.Add(this.Instruments_Airspeed);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Instruments";
             this.Size = new System.Drawing.Size(112, 122);
             this.ResumeLayout(false);
