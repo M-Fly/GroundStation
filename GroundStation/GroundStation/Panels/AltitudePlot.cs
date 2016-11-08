@@ -21,6 +21,8 @@ namespace GroundStation.Panels
         PlotModel Altitude_Plot_Model;
 
         LineSeries Altitude_Series;
+        
+        LineSeries Altitude_Series_Drop;
 
         public AltitudePlot()
         {
@@ -40,13 +42,26 @@ namespace GroundStation.Panels
                 Color = OxyColors.Blue,
             };
 
+            // Initializing LineSeries for Altitude Drop Point
+            Altitude_Series_Drop = new LineSeries
+            {
+                LineStyle = LineStyle.Solid,
+                Background = OxyColors.PowderBlue,
+                Color = OxyColors.Transparent,
+                MarkerType = MarkerType.Circle,
+                MarkerFill = OxyColors.Yellow,
+                MarkerSize = 5,
+
+            };
             Altitude_Plot_Model.Series.Add(Altitude_Series);
+            Altitude_Plot_Model.Series.Add(Altitude_Series_Drop);
             Altitude_Plot = new PlotView();
             Altitude_Plot.Model = Altitude_Plot_Model;
             Altitude_Plot.Dock = DockStyle.Fill;
             Altitude_Plot.Location = new Point(0, 0);
             this.Controls.Add(Altitude_Plot);
-            
+
+
             // generates two sets of random numbers
             /*
             Random rnd = new Random();
@@ -62,6 +77,12 @@ namespace GroundStation.Panels
         public void UpdateAltitude(double time_seconds, double altitude_feet)
         {
             Altitude_Series.Points.Add(new DataPoint(time_seconds, altitude_feet));
+            Altitude_Plot_Model.InvalidatePlot(true);
+        }
+
+        public void UpdateAltitudeDrop(double time_drop_seconds, double altitude_drop_feet)
+        {
+            Altitude_Series_Drop.Points.Add(new DataPoint(time_drop_seconds, altitude_drop_feet));
             Altitude_Plot_Model.InvalidatePlot(true);
         }
     }
