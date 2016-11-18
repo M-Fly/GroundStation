@@ -156,11 +156,9 @@ namespace GroundStation
             receivedData.Append(xbeeSerial.ReadExisting());
 
             
-            string[] message;
 
-            message = receivedData.ToString().Split();
             
-           
+
             
 
         }
@@ -169,6 +167,34 @@ namespace GroundStation
         {
             SerialOutput.Text = receivedData.ToString();
             
+        }
+
+        private void parseTimer_Tick(object sender, EventArgs e)
+        {
+            string total = receivedData.ToString();
+
+            string[] message = total.Split(';');
+
+            int lastIndex = total.LastIndexOf(';');
+
+
+            for (int i = 0; i < (message.Length - 1); i++)
+            {
+
+                ParseData(message[i]);
+
+            }
+
+            if (lastIndex >= 0)
+            {
+                
+                receivedData.Remove(0, lastIndex + 1);
+            }
+
+            
+
+
+
         }
     }
 

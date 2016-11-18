@@ -52,6 +52,7 @@
             this.serialTimer = new System.Windows.Forms.Timer(this.components);
             this.xbeeSerial = new System.IO.Ports.SerialPort(this.components);
             this.SerialOutput = new System.Windows.Forms.TextBox();
+            this.parseTimer = new System.Windows.Forms.Timer(this.components);
             this.grpAltitudePlot.SuspendLayout();
             this.grpPayloadDropStatus.SuspendLayout();
             this.grpInstrumentPanel.SuspendLayout();
@@ -293,6 +294,11 @@
             this.SerialOutput.Size = new System.Drawing.Size(182, 50);
             this.SerialOutput.TabIndex = 8;
             // 
+            // parseTimer
+            // 
+            this.parseTimer.Enabled = true;
+            this.parseTimer.Tick += new System.EventHandler(this.parseTimer_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -350,6 +356,7 @@
         private System.Windows.Forms.Button openPort;
         private System.IO.Ports.SerialPort xbeeSerial;
         private System.Windows.Forms.TextBox SerialOutput;
+        private System.Windows.Forms.Timer parseTimer;
     }
 }
 
