@@ -11,13 +11,15 @@ using XBee.Converters;
 using XBee.Devices;
 using XBee.Frames;
 using XBee.Observable;
-
+using System.IO.Ports;
 
 
 namespace GroundStation
 {
     public partial class MainForm : Form
     {
+        private StringBuilder receivedData = new StringBuilder();
+
         public MainForm()
         {
             InitializeComponent();
@@ -56,6 +58,52 @@ namespace GroundStation
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            foreach (string portname in SerialPort.GetPortNames())
+            {
+                cmbSerialPort.Items.Add(portname);
+            }
+            serialTimer.Start();
+        }
+
+        private void openPort_Click(object sender, EventArgs e)
+        {
+
+            if (!xbeeSerial.IsOpen)
+            {
+                xbeeSerial.PortName = cmbSerialPort.Text;
+                if (!xbeeSerial.IsOpen) xbeeSerial.Open();
+            }
+        }
+
+        private void closePort_Click(object sender, EventArgs e)
+        {
+            if (xbeeSerial.IsOpen) xbeeSerial.Close();
+        }
+
+        private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+
+    
+            receivedData.Append(xbeeSerial.ReadExisting());
+
+            
+            string[] message;
+
+            message = receivedData.ToString().Split();
+            
+           
+            
+
+        }
+
+        private void serialTimer_Tick(object sender, EventArgs e)
+        {
+            SerialOutput.Text = receivedData.ToString();
+            
         }
     }
 
