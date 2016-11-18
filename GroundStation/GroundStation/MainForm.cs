@@ -26,7 +26,7 @@ namespace GroundStation
         {
             InitializeComponent();
 
-            debugFunction = new Debugging.ArduinoDebugging(ParseData);
+          //  debugFunction = new Debugging.ArduinoDebugging(ParseData);
         }
 
         // TODO: CONVERT VARIABLES INTO PROPER UNITS: ALTITUDE in FT. VELOCITY IN FT/S. 

@@ -78,12 +78,6 @@
     <Compile Include="Panels\AltitudePlot.Designer.cs">
       <DependentUpon>AltitudePlot.cs</DependentUpon>
     </Compile>
-    <Compile Include="Panels\Camera.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Panels\Camera.Designer.cs">
-      <DependentUpon>Camera.cs</DependentUpon>
-    </Compile>
     <Compile Include="Panels\DropStatus.cs">
       <SubType>UserControl</SubType>
     </Compile>
