@@ -21,7 +21,7 @@ namespace GroundStation.Panels
         //Requires: altitude in feet and time in seconds
         //Modifies: Nothing
         //Effects: drop status display
-        public void UpdateDrop(double alt_ft, double time_s)
+        public void UpdateDrop(double time_s, double alt_ft)
         {
             Payload_Time_Status.Text = "Time: " + time_s + " s"; //States time that payload was dropped.
             Payload_Alt_Status.Text = "Altitude: " + alt_ft + " ft"; //States altitude that payload was dropped.
