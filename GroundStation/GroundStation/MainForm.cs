@@ -20,10 +20,13 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         private StringBuilder receivedData = new StringBuilder();
+        private Debugging.ArduinoDebugging debugFunction;
 
         public MainForm()
         {
             InitializeComponent();
+
+            debugFunction = new Debugging.ArduinoDebugging(ParseData);
         }
 
         // TODO: CONVERT VARIABLES INTO PROPER UNITS: ALTITUDE in FT. VELOCITY IN FT/S. 
