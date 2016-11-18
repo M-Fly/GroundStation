@@ -19,6 +19,8 @@ namespace GroundStation
 {
     public partial class MainForm : Form
     {
+        bool DEBUG_ENABLED = true;
+
         private StringBuilder receivedData = new StringBuilder();
         private Debugging.ArduinoDebugging debugFunction;
 
@@ -26,7 +28,10 @@ namespace GroundStation
         {
             InitializeComponent();
 
-          //  debugFunction = new Debugging.ArduinoDebugging(ParseData);
+            if (DEBUG_ENABLED)
+            {
+                debugFunction = new Debugging.ArduinoDebugging(ParseData);
+            }
         }
 
         // TODO: CONVERT VARIABLES INTO PROPER UNITS: ALTITUDE in FT. VELOCITY IN FT/S. 
@@ -151,22 +156,12 @@ namespace GroundStation
 
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
-
-    
             receivedData.Append(xbeeSerial.ReadExisting());
-
-            
-
-            
-
-            
-
         }
 
         private void serialTimer_Tick(object sender, EventArgs e)
         {
             SerialOutput.Text = receivedData.ToString();
-            
         }
 
         private void parseTimer_Tick(object sender, EventArgs e)
@@ -177,24 +172,15 @@ namespace GroundStation
 
             int lastIndex = total.LastIndexOf(';');
 
-
             for (int i = 0; i < (message.Length - 1); i++)
             {
-
                 ParseData(message[i]);
-
             }
 
             if (lastIndex >= 0)
             {
-                
                 receivedData.Remove(0, lastIndex + 1);
             }
-
-            
-
-
-
         }
     }
 
