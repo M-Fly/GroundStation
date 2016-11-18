@@ -1,6 +1,6 @@
 ﻿namespace GroundStation.DropPrediction
 {
-    class PredictionAlgorithm
+    class PredictionAlgorithmEuler
     {
         // Time Constant of Integration
         private double dt = 0.0001;       // [ s ]
