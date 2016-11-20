@@ -34,8 +34,7 @@ namespace GroundStation
             }
         }
 
-        // TODO: CONVERT VARIABLES INTO PROPER UNITS: ALTITUDE in FT. VELOCITY IN FT/S. 
-        //          TIME IN SECONDS
+        // TODO: CONVERT VARIABLES INTO PROPER UNITS: ALTITUDE in FT. VELOCITY IN FT/S.
         // TODO: Verify that length of data (number of terms) is correct -> validate message
         //Parses data into a List
         public void ParseData(string InputString)
@@ -183,14 +182,4 @@ namespace GroundStation
             }
         }
     }
-
-
-   
-
-
-
-
-
-
-
 }
