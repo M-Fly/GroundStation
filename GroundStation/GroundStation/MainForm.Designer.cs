@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.grpAltitudePlot = new System.Windows.Forms.GroupBox();
             this.panelAltitudePlot = new GroundStation.Panels.AltitudePlot();
             this.grpCamera = new System.Windows.Forms.GroupBox();
@@ -287,11 +288,13 @@
             // 
             // SerialOutput
             // 
-            this.SerialOutput.Location = new System.Drawing.Point(440, 43);
+            this.SerialOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.SerialOutput.Location = new System.Drawing.Point(440, 27);
             this.SerialOutput.Multiline = true;
             this.SerialOutput.Name = "SerialOutput";
             this.SerialOutput.ReadOnly = true;
-            this.SerialOutput.Size = new System.Drawing.Size(182, 50);
+            this.SerialOutput.Size = new System.Drawing.Size(182, 85);
             this.SerialOutput.TabIndex = 8;
             // 
             // parseTimer
@@ -313,6 +316,7 @@
             this.Controls.Add(this.grpCamera);
             this.Controls.Add(this.grpAltitudePlot);
             this.Controls.Add(this.menuStrip1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
