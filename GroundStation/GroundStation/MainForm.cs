@@ -141,7 +141,7 @@ namespace GroundStation
         private void openPort_Click(object sender, EventArgs e)
         {
 
-            if (!xbeeSerial.IsOpen)
+            if (!xbeeSerial.IsOpen && !String.IsNullOrWhiteSpace(cmbSerialPort.Text))
             {
                 xbeeSerial.PortName = cmbSerialPort.Text;
                 if (!xbeeSerial.IsOpen) xbeeSerial.Open();
