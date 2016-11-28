@@ -23,6 +23,8 @@ namespace GroundStation
 
         private StringBuilder receivedData = new StringBuilder();
         private Debugging.ArduinoDebugging debugFunction;
+        private DataMaster MainDataMaster = new DataMaster();
+
 
         public MainForm()
         {
@@ -36,7 +38,7 @@ namespace GroundStation
 
         // TODO: CONVERT VARIABLES INTO PROPER UNITS: ALTITUDE in FT. VELOCITY IN FT/S.
         // TODO: Verify that length of data (number of terms) is correct -> validate message
-        //Parses data into a List
+        // Parses data into a List
         public void ParseData(string InputString)
         {
             const double KNOTS_TO_FPS = 1.68781;
@@ -64,6 +66,8 @@ namespace GroundStation
                 InDefault.airspeed_ft_s = Convert.ToDouble(DataString[4]); // NEEDS CONVERSION
                 InDefault.dropTime_seconds = Convert.ToDouble(DataString[5]) * MILLIS_TO_SECONDS;
                 InDefault.dropAlt_ft = Convert.ToDouble(DataString[6]) * METERS_TO_FEET;
+
+                MainDataMaster.default_data.Add(InDefault);
 
                 panelAltitudePlot.UpdateAltitude(InDefault.time_seconds, InDefault.alt_bar_ft);
                 panelInstruments.UpdateInstruments(InDefault.airspeed_ft_s, InDefault.alt_bar_ft);
@@ -98,6 +102,8 @@ namespace GroundStation
                 GpsData.gps_hdop = (Convert.ToDouble(DataString[9])) / 10;
                 GpsData.gps_fixtime_millis = Convert.ToDouble(DataString[10]); //Currently in millis
 
+                MainDataMaster.gps_data.Add(GpsData);
+
                 // Update GPS Panel with new location
                 panelGPSPlot.UpdateLatLon(GpsData.gps_lat, GpsData.gps_lon);
             }
@@ -116,6 +122,8 @@ namespace GroundStation
                 GyroData.accel_x = Convert.ToDouble(DataString[6]);
                 GyroData.accel_y = Convert.ToDouble(DataString[7]);
                 GyroData.accel_z = Convert.ToDouble(DataString[8]);
+
+                MainDataMaster.gyro_data.Add(GyroData);
             }
             else
             {
