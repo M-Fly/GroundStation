@@ -27,7 +27,7 @@ namespace GroundStation
         private DataMaster MainDataMaster = new DataMaster();
 
         System.IO.StreamWriter DataFile = new System.IO.StreamWriter(
-            "M - Fly Telemtry " + DateTime.Now.ToString("yyyy - MM - dd T HH - mm : ss "));
+            "M - Fly Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm"));
 
         public MainForm()
         {
