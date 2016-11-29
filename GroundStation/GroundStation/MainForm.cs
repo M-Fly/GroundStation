@@ -12,6 +12,7 @@ using XBee.Devices;
 using XBee.Frames;
 using XBee.Observable;
 using System.IO.Ports;
+using System.IO;
 
 using GroundStation.DataRecording;
 
@@ -25,6 +26,8 @@ namespace GroundStation
         private Debugging.ArduinoDebugging debugFunction;
         private DataMaster MainDataMaster = new DataMaster();
 
+        System.IO.StreamWriter DataFile = new System.IO.StreamWriter(
+            "M - Fly Telemtry " + DateTime.Now.ToString("yyyy - MM - dd T HH - mm : ss "));
 
         public MainForm()
         {
@@ -44,6 +47,8 @@ namespace GroundStation
             const double KNOTS_TO_FPS = 1.68781;
             const double METERS_TO_FEET = 3.28084;
             const double MILLIS_TO_SECONDS = 0.001; //May not be used
+
+            
 
             //Divide data by each comma
             string[] DataString = InputString.Split(',');
@@ -132,7 +137,7 @@ namespace GroundStation
 
             // Saving Data to File
 
-            string name = "M-Fly Telemtry" + DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss");
+            //string name = "M-Fly Telemtry " + DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss");
 
         }
 
