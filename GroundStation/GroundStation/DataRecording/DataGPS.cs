@@ -28,5 +28,22 @@ namespace GroundStation.DataRecording
         {
             return "TIME (MILLIS), GPS SYSTEM, LATITUDE, LONGITUDE, GROUND SPEED (FT/S), COURSE (DEG), ALTITUDE (FT), HDOP, FIX TIME (MILLIS)";
         }
+
+        //Writes all Default data into a string and returns the string
+        public String ToString()
+        {
+            String s = "B," 
+                + time_seconds + ","
+                + gps_system + ","
+                + gps_lat + ","
+                + gps_lon + ","
+                + gps_speed_ft_s + ","
+                + gps_course + ","
+                + gps_alt_ft + ","
+                + gps_hdop + ","
+                + gps_fixtime_millis;
+
+            return s;
+        }
     }
 }

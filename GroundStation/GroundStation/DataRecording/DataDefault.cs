@@ -15,5 +15,18 @@ namespace GroundStation.DataRecording
 
         public double dropTime_seconds;
         public double dropAlt_ft;
+
+        //Writes all Default data into a string and returns the string
+        public String ToString()
+        {
+            String s = "A," 
+                + time_seconds + ","
+                + alt_bar_ft + ","
+                + airspeed_ft_s + ","
+                + dropTime_seconds + ","
+                + dropAlt_ft;
+
+            return s;
+        }
     }
 }

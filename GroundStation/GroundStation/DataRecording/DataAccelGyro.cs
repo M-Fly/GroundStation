@@ -19,5 +19,20 @@ namespace GroundStation.DataRecording
         public double accel_x;
         public double accel_y;
         public double accel_z;
+
+        //Writes all Default data into a string and returns the string
+        public String ToString()
+        {
+            String s = "C," 
+                + time_seconds + ","
+                + gyro_x + ","
+                + gyro_y + ","
+                + gyro_z + ","
+                + accel_x + ","
+                + accel_y + ","
+                + accel_z;
+
+            return s;
+        }
     }
 }

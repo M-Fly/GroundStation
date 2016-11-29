@@ -27,7 +27,7 @@ namespace GroundStation
         private DataMaster MainDataMaster = new DataMaster();
 
         System.IO.StreamWriter DataFile = new System.IO.StreamWriter(
-            "M - Fly Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm"), true);
+            "M - Fly Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
 
         public MainForm()
         {
@@ -72,6 +72,8 @@ namespace GroundStation
                 InDefault.dropTime_seconds = Convert.ToDouble(DataString[5]) * MILLIS_TO_SECONDS;
                 InDefault.dropAlt_ft = Convert.ToDouble(DataString[6]) * METERS_TO_FEET;
 
+                DataFile.WriteLine(InDefault.ToString());
+
                 MainDataMaster.default_data.Add(InDefault);
 
                 panelAltitudePlot.UpdateAltitude(InDefault.time_seconds, InDefault.alt_bar_ft);
@@ -107,6 +109,8 @@ namespace GroundStation
                 GpsData.gps_hdop = (Convert.ToDouble(DataString[9])) / 10;
                 GpsData.gps_fixtime_millis = Convert.ToDouble(DataString[10]); //Currently in millis
 
+                DataFile.WriteLine(GpsData.ToString());
+
                 MainDataMaster.gps_data.Add(GpsData);
 
                 // Update GPS Panel with new location
@@ -127,6 +131,8 @@ namespace GroundStation
                 GyroData.accel_x = Convert.ToDouble(DataString[6]);
                 GyroData.accel_y = Convert.ToDouble(DataString[7]);
                 GyroData.accel_z = Convert.ToDouble(DataString[8]);
+
+                DataFile.WriteLine(GyroData.ToString());
 
                 MainDataMaster.gyro_data.Add(GyroData);
             }
