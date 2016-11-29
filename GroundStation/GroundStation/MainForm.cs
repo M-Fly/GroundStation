@@ -130,6 +130,10 @@ namespace GroundStation
                 Console.WriteLine("Error in reading InputString: YOU MESSED UP!");
             }
 
+            // Saving Data to File
+
+            string name = "M-Fly Telemtry" + DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss");
+
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
