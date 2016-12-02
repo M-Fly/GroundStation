@@ -16,7 +16,7 @@ namespace GroundStation
 {
     public partial class MainForm : Form
     {
-        bool DEBUG_ENABLED = true;
+        bool DEBUG_ENABLED = false;
 
         private StringBuilder receivedData = new StringBuilder();
         private Debugging.ArduinoDebugging debugFunction;
@@ -103,7 +103,6 @@ namespace GroundStation
                 GpsData.gps_course = (Convert.ToDouble(DataString[7])) / 1000; //degrees
                 GpsData.gps_alt_ft = ((Convert.ToDouble(DataString[8])) / 1000) * METERS_TO_FEET;
                 GpsData.gps_hdop = (Convert.ToDouble(DataString[9])) / 10;
-                GpsData.gps_fixtime_millis = Convert.ToDouble(DataString[10]); //Currently in millis
 
                 DataFile.WriteLine(GpsData.ToString());
 

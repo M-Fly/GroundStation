@@ -19,7 +19,6 @@ namespace GroundStation.DataRecording
         public double gps_alt_ft;
 
         public double gps_hdop;
-        public double gps_fixtime_millis;
 
         // REQUIRES: Nothing
         // MODIFIES: Nothing
@@ -41,7 +40,6 @@ namespace GroundStation.DataRecording
                 + gps_course + ","
                 + gps_alt_ft + ","
                 + gps_hdop + ","
-                + gps_fixtime_millis;
 
             return s;
         }
