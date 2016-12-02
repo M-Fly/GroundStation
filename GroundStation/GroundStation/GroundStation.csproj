@@ -97,6 +97,7 @@
     <Compile Include="Panels\Instruments.Designer.cs">
       <DependentUpon>Instruments.cs</DependentUpon>
     </Compile>
+    <Compile Include="Playback\Playback.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Panels\AltitudePlot.resx">
