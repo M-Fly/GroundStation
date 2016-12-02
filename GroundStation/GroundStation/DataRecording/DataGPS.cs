@@ -31,7 +31,7 @@ namespace GroundStation.DataRecording
         //Writes all Default data into a string and returns the string
         public String ToString()
         {
-            String s = "B," 
+            String s = "B,"
                 + time_seconds + ","
                 + gps_system + ","
                 + gps_lat + ","
@@ -39,7 +39,7 @@ namespace GroundStation.DataRecording
                 + gps_speed_ft_s + ","
                 + gps_course + ","
                 + gps_alt_ft + ","
-                + gps_hdop + ","
+                + gps_hdop + ",";
 
             return s;
         }

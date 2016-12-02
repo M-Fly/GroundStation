@@ -16,7 +16,7 @@ namespace GroundStation
 {
     public partial class MainForm : Form
     {
-        bool DEBUG_ENABLED = false;
+        bool DEBUG_ENABLED = true;
 
         private StringBuilder receivedData = new StringBuilder();
         private Debugging.ArduinoDebugging debugFunction;
