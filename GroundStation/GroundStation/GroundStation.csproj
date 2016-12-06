@@ -64,6 +64,7 @@
     <Compile Include="DataRecording\DataDefault.cs" />
     <Compile Include="DataRecording\DataGPS.cs" />
     <Compile Include="DataRecording\DataMaster.cs" />
+    <Compile Include="DataRecording\PitotLibrary.cs" />
     <Compile Include="Debugging\ArduinoDebugging.cs" />
     <Compile Include="DropPrediction\PredictionAlgorithmEuler.cs" />
     <Compile Include="DropPrediction\Vector3.cs" />
