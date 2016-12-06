@@ -20,6 +20,8 @@ namespace GroundStation.Panels
         PlotModel LatLong_PlotModel;
         LineSeries LatLong_LineSeries;
         LineSeries LatLong_LineSeries_Drop;
+        LineSeries LatLong_LineSeries_Target;
+        LineSeries LatLong_LineSeries_Predict;
 
         public GraphGPS()
         {
@@ -40,6 +42,7 @@ namespace GroundStation.Panels
                 Background = OxyColors.PowderBlue,
                 Color = OxyColors.Blue,
             };
+
             //Line Series for drop coordinates
             LatLong_LineSeries_Drop = new LineSeries
             {
@@ -52,8 +55,32 @@ namespace GroundStation.Panels
                 MarkerSize = 5,
             };
 
+            //Line Series for Target Location
+            LatLong_LineSeries_Target = new LineSeries
+            {
+                LineStyle = LineStyle.Solid,
+                Background = OxyColors.PowderBlue,
+                Color = OxyColors.Transparent,
+                MarkerType = MarkerType.Circle,
+                MarkerFill = OxyColors.Black,
+                MarkerSize = 3,
+            };
+
+            //Line Series for Predicted Location
+            LatLong_LineSeries_Predict = new LineSeries
+            {
+                LineStyle = LineStyle.Solid,
+                Background = OxyColors.PowderBlue,
+                Color = OxyColors.Transparent,
+                MarkerType = MarkerType.Circle,
+                MarkerFill = OxyColors.Red,
+                MarkerSize = 3,
+            };
+
             LatLong_PlotModel.Series.Add(LatLong_LineSeries);
             LatLong_PlotModel.Series.Add(LatLong_LineSeries_Drop);
+            LatLong_PlotModel.Series.Add(LatLong_LineSeries_Target);
+            LatLong_PlotModel.Series.Add(LatLong_LineSeries_Predict);
             LatLongPlot = new PlotView();
             LatLongPlot.Model = LatLong_PlotModel;
             LatLongPlot.Dock = DockStyle.Fill;
@@ -61,9 +88,12 @@ namespace GroundStation.Panels
             this.Controls.Add(LatLongPlot);
         }
 
+        //Update functions for coordinates, drop location, target location, and prediction location
+        //below
+
         //Receives: doubles Latitude and Longitude
-        //Modifies:
-        //Effects:
+        //Modifies: 
+        //Effects: 
         public void UpdateLatLon(double lat_deg, double lon_deg)
         {
             // Longitude goes first because it is the x position
@@ -83,5 +113,24 @@ namespace GroundStation.Panels
             LatLong_PlotModel.InvalidatePlot(true);
         }
 
+        //Receives: doubles Latitude and Longitude of Target
+        //Modifies: Deletes previous target data before adding new target
+        //Effects:
+        public void UpdatLatLonTarget(double lat_target_deg, double lon_target_deg)
+        {
+            LatLong_LineSeries_Target.Points.Clear();
+            LatLong_LineSeries_Target.Points.Add(new DataPoint(lon_target_deg, lat_target_deg));
+            LatLong_PlotModel.InvalidatePlot(true);
+        }
+
+        //Receives: doubles Latitude and Longitude of Target
+        //Modifies: Deletes previous prediction data before adding new prediction
+        //Effects:
+        public void UpdatLatLonPredict(double lat_target_deg, double lon_target_deg)
+        {
+            LatLong_LineSeries_Predict.Points.Clear();
+            LatLong_LineSeries_Predict.Points.Add(new DataPoint(lon_target_deg, lat_target_deg));
+            LatLong_PlotModel.InvalidatePlot(true);
+        }
     }
 }
