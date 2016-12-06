@@ -20,14 +20,6 @@ namespace GroundStation.DataRecording
 
         public double gps_hdop;
 
-        // REQUIRES: Nothing
-        // MODIFIES: Nothing
-        // EFFECTS:  Returns a header for a CSV File to outline what each column is
-        public String GetHeader()
-        {
-            return "TIME (MILLIS), GPS SYSTEM, LATITUDE, LONGITUDE, GROUND SPEED (FT/S), COURSE (DEG), ALTITUDE (FT), HDOP, FIX TIME (MILLIS)";
-        }
-
         //Writes all Default data into a string and returns the string
         public String ToString()
         {
