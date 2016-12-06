@@ -16,7 +16,7 @@ namespace GroundStation
 {
     public partial class MainForm : Form
     {
-        bool DEBUG_ENABLED = true;
+        bool DEBUG_ENABLED = false;
 
         private StringBuilder receivedData = new StringBuilder();
         private Debugging.ArduinoDebugging debugFunction;
@@ -103,7 +103,7 @@ namespace GroundStation
                 GpsData.gps_course = (Convert.ToDouble(DataString[7])) / 1000; //degrees
                 GpsData.gps_alt_ft = ((Convert.ToDouble(DataString[8])) / 1000) * METERS_TO_FEET;
                 GpsData.gps_hdop = (Convert.ToDouble(DataString[9])) / 10;
-                GpsData.gps_fixtime_millis = Convert.ToDouble(DataString[10]); //Currently in millis
+                //GpsData.gps_fixtime_millis = Convert.ToDouble(DataString[10]); //Currently in millis
 
                 DataFile.WriteLine(GpsData.ToString());
 
@@ -152,9 +152,11 @@ namespace GroundStation
         {
             foreach (string portname in SerialPort.GetPortNames())
             {
-                cmbSerialPort.Items.Add(portname);
+                if (!cmbSerialPort.Items.Contains(portname))
+                {
+                    cmbSerialPort.Items.Add(portname);
+                }
             }
-            serialTimer.Start();
         }
 
         private void openPort_Click(object sender, EventArgs e)
@@ -175,11 +177,6 @@ namespace GroundStation
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             receivedData.Append(xbeeSerial.ReadExisting());
-        }
-
-        private void serialTimer_Tick(object sender, EventArgs e)
-        {
-            SerialOutput.Text = receivedData.ToString();
         }
 
         private void parseTimer_Tick(object sender, EventArgs e)

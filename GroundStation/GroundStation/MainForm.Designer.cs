@@ -50,9 +50,7 @@
             this.lblConnStatusLabel = new System.Windows.Forms.Label();
             this.cmbSerialPort = new System.Windows.Forms.ComboBox();
             this.lblSerial = new System.Windows.Forms.Label();
-            this.serialTimer = new System.Windows.Forms.Timer(this.components);
             this.xbeeSerial = new System.IO.Ports.SerialPort(this.components);
-            this.SerialOutput = new System.Windows.Forms.TextBox();
             this.parseTimer = new System.Windows.Forms.Timer(this.components);
             this.grpAltitudePlot.SuspendLayout();
             this.grpPayloadDropStatus.SuspendLayout();
@@ -276,26 +274,10 @@
             this.lblSerial.TabIndex = 0;
             this.lblSerial.Text = "Serial:";
             // 
-            // serialTimer
-            // 
-            this.serialTimer.Enabled = true;
-            this.serialTimer.Tick += new System.EventHandler(this.serialTimer_Tick);
-            // 
             // xbeeSerial
             // 
             this.xbeeSerial.BaudRate = 38400;
             this.xbeeSerial.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
-            // 
-            // SerialOutput
-            // 
-            this.SerialOutput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.SerialOutput.Location = new System.Drawing.Point(440, 27);
-            this.SerialOutput.Multiline = true;
-            this.SerialOutput.Name = "SerialOutput";
-            this.SerialOutput.ReadOnly = true;
-            this.SerialOutput.Size = new System.Drawing.Size(182, 85);
-            this.SerialOutput.TabIndex = 8;
             // 
             // parseTimer
             // 
@@ -307,7 +289,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1106, 710);
-            this.Controls.Add(this.SerialOutput);
             this.Controls.Add(this.grpSerialConnection);
             this.Controls.Add(this.grpDropPredictionStatus);
             this.Controls.Add(this.grpGPS);
@@ -355,11 +336,9 @@
         private System.Windows.Forms.Label lblConnStatusLabel;
         private System.Windows.Forms.ComboBox cmbSerialPort;
         private System.Windows.Forms.Label lblSerial;
-        private System.Windows.Forms.Timer serialTimer;
         private System.Windows.Forms.Button closePort;
         private System.Windows.Forms.Button openPort;
         private System.IO.Ports.SerialPort xbeeSerial;
-        private System.Windows.Forms.TextBox SerialOutput;
         private System.Windows.Forms.Timer parseTimer;
     }
 }
