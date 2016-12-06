@@ -20,7 +20,7 @@ namespace GroundStation.DataRecording
         public double temperature_c;
 
         //Writes all Default data into a string and returns the string
-        public String ToString()
+        public override String ToString()
         {
             String s = "A," 
                 + time_seconds + ","

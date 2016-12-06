@@ -21,7 +21,7 @@ namespace GroundStation.DataRecording
         public double accel_z;
 
         //Writes all Default data into a string and returns the string
-        public String ToString()
+        public override String ToString()
         {
             String s = "C," 
                 + time_seconds + ","

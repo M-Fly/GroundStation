@@ -66,12 +66,15 @@ namespace GroundStation
                 DataDefault InDefault = new DataDefault();
                 InDefault.time_seconds = Convert.ToDouble(DataString[2]) * MILLIS_TO_SECONDS;
                 InDefault.alt_bar_ft = Convert.ToDouble(DataString[3]) * METERS_TO_FEET;
-                int AnalogPitotValue = Convert.ToInt32(DataString[4]); // TODO: CONVERT TO AIRSPEED
+
+                int AnalogPitotValue = (int) Convert.ToDouble(DataString[4]);
                 InDefault.pressure_pa = Convert.ToDouble(DataString[5]);
                 InDefault.temperature_c = Convert.ToDouble(DataString[6]);
-                //InDefault.airspeed_ft_s = Convert.ToDouble(DataString[4]); // NEEDS CONVERSION
+
                 InDefault.dropTime_seconds = Convert.ToDouble(DataString[7]) * MILLIS_TO_SECONDS;
                 InDefault.dropAlt_ft = Convert.ToDouble(DataString[8]) * METERS_TO_FEET;
+
+                InDefault.airspeed_ft_s = PitotLibrary.GetAirspeedFeetSeconds(AnalogPitotValue, InDefault.temperature_c, InDefault.pressure_pa);
 
                 DataFile.WriteLine(InDefault.ToString());
 

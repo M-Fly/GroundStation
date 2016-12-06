@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GroundStation.DataRecording
 {
@@ -11,30 +7,32 @@ namespace GroundStation.DataRecording
         const double GAMMA = 1.4;
         const double R_AIR = 287; // J / kg K
 
-        static double VelocityMetersSeconds(double temperature_k, double static_pressure, double dynamic_pressure) {
-            double speedOfSound = Math.Sqrt(GAMMA * R_AIR * temperature_k);
-            double pressureTerm = Math.Sqrt((Math.Pow(1 + dynamic_pressure / static_pressure, (GAMMA - 1) / GAMMA) - 1) * (2 / (GAMMA - 1)));
-            return pressureTerm * speedOfSound;
+        const double CELSIUS_TO_KELVINS = 273.15;
+        const double METERS_SECONDS_TO_FEET_SECONDS = 3.28084;
+
+        public static double GetAirspeedFeetSeconds(int analogValue, double temperature_c, double static_pressure_pa)
+        {
+            double dynamic_pa = DynamicPressureFromArduino(analogValue);
+            double msVel = VelocityMetersSeconds(temperature_c + CELSIUS_TO_KELVINS, static_pressure_pa, dynamic_pa);
+            double ftS = msVel * METERS_SECONDS_TO_FEET_SECONDS;
+            return ftS;
         }
 
-        static bool TESTING()
+        static double DynamicPressureFromArduino(int analogValue)
         {
-            double[] dynamic_pressure_kpa = { 0, 0.0846056, 0.3782368, 0.4479120 };
-            double static_pressure_kpa = 96.94218653;
-            double temperature_k = 294.2611111;
+            // Returns dynamic pressure in Pa from the Analog Arduino Value
+            double dynamic_pa = 4.8513 * analogValue - 2561.4;
 
-            double[] expected_ms = { 0, 12.13941813, 25.65344792, 27.91288005 };
+            // Ensure that there are no negative values
+            if (dynamic_pa < 0.0) dynamic_pa = 0.0;
 
-            if (dynamic_pressure_kpa.Length != expected_ms.Length) return false;
+            return dynamic_pa;
+        }
 
-            for (int i = 0; i < expected_ms.Length; ++i)
-            {
-                double vel = VelocityMetersSeconds(temperature_k, static_pressure_kpa, dynamic_pressure_kpa[i]);
-
-                if (Math.Abs(vel - expected_ms[i]) > 0.0001) return false;
-            }
-
-            return true;
+        static double VelocityMetersSeconds(double temperature_k, double static_pressure, double dynamic_pressure) {
+            double speedOfSound_ms = Math.Sqrt(GAMMA * R_AIR * temperature_k);
+            double pressureTerm_coeff = Math.Sqrt((Math.Pow(1 + dynamic_pressure / static_pressure, (GAMMA - 1) / GAMMA) - 1) * (2 / (GAMMA - 1)));
+            return pressureTerm_coeff * speedOfSound_ms;
         }
     }
 }

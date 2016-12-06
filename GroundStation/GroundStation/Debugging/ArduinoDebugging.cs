@@ -82,8 +82,13 @@ namespace GroundStation.Debugging
             int millis = (int)DateTime.Now.Subtract(timeDebugStart).TotalMilliseconds;
 
             // Create sample data for airpseed, altitude, ground speed, altitude, latitude/longitude, course, and time
-            double airspeed_knots = randDebug.NextDouble() * 30 + 10;
+            int arduino_setting = randDebug.Next(528, 546);
+
             double altitude_meters = getAltMeters(millis);
+
+            double temp = 21.80;
+            double press = 98700;
+            double airspeed_knots = DataRecording.PitotLibrary.GetAirspeedFeetSeconds(arduino_setting, temp, press) * 0.592484;
 
             int gps_speed = (int)(airspeed_knots * 1000);
             int gps_alt = (int)(getAltMeters(millis) * 1000);
@@ -105,7 +110,7 @@ namespace GroundStation.Debugging
             }
 
             // Re-create the Arduino messages present in the DataAcquisitionSystem.ino files in GitHub
-            string aMessageTest = String.Format("A,MX2,{0},{1},{2},{3},{4}", millis, altitude_meters, airspeed_knots, dropTime, dropAlt);
+            string aMessageTest = String.Format("A,MX2,{0},{1},{2},{3},{4},{5},{6}", millis, altitude_meters, arduino_setting, press, temp, dropTime, dropAlt);
             string bMessageTest = String.Format("B,MX2,{0},N,{1},{2},{3},{4},{5},10,100", millis, lat_deg, long_deg, gps_speed, course, gps_alt);
             string cMessageTest = String.Format("C,MX2,{0},1,2,3,4,5,6", millis);
 

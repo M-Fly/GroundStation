@@ -21,7 +21,7 @@ namespace GroundStation.DataRecording
         public double gps_hdop;
 
         //Writes all Default data into a string and returns the string
-        public String ToString()
+        public override String ToString()
         {
             String s = "B,"
                 + time_seconds + ","
