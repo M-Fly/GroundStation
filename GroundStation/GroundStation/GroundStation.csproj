@@ -60,6 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants\ConversionFactors.cs" />
+    <Compile Include="Constants\PhysicsConstants.cs" />
     <Compile Include="DataRecording\DataAccelGyro.cs" />
     <Compile Include="DataRecording\DataDefault.cs" />
     <Compile Include="DataRecording\DataGPS.cs" />

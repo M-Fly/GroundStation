@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO.Ports;
 using System.IO;
 
+using GroundStation.Constants;
 using GroundStation.DataRecording;
 
 namespace GroundStation
@@ -40,12 +41,6 @@ namespace GroundStation
         // Parses data into a List
         public void ParseData(string InputString)
         {
-            const double KNOTS_TO_FPS = 1.68781;
-            const double METERS_TO_FEET = 3.28084;
-            const double MILLIS_TO_SECONDS = 0.001; //May not be used
-
-            
-
             //Divide data by each comma
             string[] DataString = InputString.Split(',');
 
@@ -64,15 +59,15 @@ namespace GroundStation
                 // A,MX2,MILLIS,ALT_BARO,ANALOG_PITOT,PRESS,TEMP,DROP_TIME,DROP_ALT
 
                 DataDefault InDefault = new DataDefault();
-                InDefault.time_seconds = Convert.ToDouble(DataString[2]) * MILLIS_TO_SECONDS;
-                InDefault.alt_bar_ft = Convert.ToDouble(DataString[3]) * METERS_TO_FEET;
+                InDefault.time_seconds = Convert.ToDouble(DataString[2]) * ConversionFactors.MILLIS_TO_SECONDS;
+                InDefault.alt_bar_ft = Convert.ToDouble(DataString[3]) * ConversionFactors.METERS_TO_FEET;
 
                 int AnalogPitotValue = (int) Convert.ToDouble(DataString[4]);
                 InDefault.pressure_pa = Convert.ToDouble(DataString[5]);
                 InDefault.temperature_c = Convert.ToDouble(DataString[6]);
 
-                InDefault.dropTime_seconds = Convert.ToDouble(DataString[7]) * MILLIS_TO_SECONDS;
-                InDefault.dropAlt_ft = Convert.ToDouble(DataString[8]) * METERS_TO_FEET;
+                InDefault.dropTime_seconds = Convert.ToDouble(DataString[7]) * ConversionFactors.MILLIS_TO_SECONDS;
+                InDefault.dropAlt_ft = Convert.ToDouble(DataString[8]) * ConversionFactors.METERS_TO_FEET;
 
                 InDefault.airspeed_ft_s = PitotLibrary.GetAirspeedFeetSeconds(AnalogPitotValue, InDefault.temperature_c, InDefault.pressure_pa);
 
@@ -103,13 +98,13 @@ namespace GroundStation
             {
                 // Parse GPS Data
                 DataGPS GpsData = new DataGPS();
-                GpsData.time_seconds = Convert.ToDouble(DataString[2]) * MILLIS_TO_SECONDS;
+                GpsData.time_seconds = Convert.ToDouble(DataString[2]) * ConversionFactors.MILLIS_TO_SECONDS;
                 GpsData.gps_system = DataString[3];
                 GpsData.gps_lat = (Convert.ToDouble(DataString[4])) / 1000000; //degrees
                 GpsData.gps_lon = (Convert.ToDouble(DataString[5])) / 1000000; //degrees
-                GpsData.gps_speed_ft_s = ((Convert.ToDouble(DataString[6])) / 1000) * KNOTS_TO_FPS; //Converts Speed from Knots to ft/s
+                GpsData.gps_speed_ft_s = ((Convert.ToDouble(DataString[6])) / 1000) * ConversionFactors.KNOTS_TO_FPS; //Converts Speed from Knots to ft/s
                 GpsData.gps_course = (Convert.ToDouble(DataString[7])) / 1000; //degrees
-                GpsData.gps_alt_ft = ((Convert.ToDouble(DataString[8])) / 1000) * METERS_TO_FEET;
+                GpsData.gps_alt_ft = ((Convert.ToDouble(DataString[8])) / 1000) * ConversionFactors.METERS_TO_FEET;
                 GpsData.gps_hdop = (Convert.ToDouble(DataString[9])) / 10;
                 //GpsData.gps_fixtime_millis = Convert.ToDouble(DataString[10]); //Currently in millis
 
@@ -128,7 +123,7 @@ namespace GroundStation
             else if (DataString[0].Equals("C"))
             {
                 DataAccelGyro GyroData = new DataAccelGyro();
-                GyroData.time_seconds = Convert.ToDouble(DataString[2]) * MILLIS_TO_SECONDS;
+                GyroData.time_seconds = Convert.ToDouble(DataString[2]) * ConversionFactors.MILLIS_TO_SECONDS;
                 GyroData.gyro_x = Convert.ToDouble(DataString[3]);
                 GyroData.gyro_y = Convert.ToDouble(DataString[4]);
                 GyroData.gyro_z = Convert.ToDouble(DataString[5]);

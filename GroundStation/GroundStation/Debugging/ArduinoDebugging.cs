@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
 
+using GroundStation.Constants;
+
 namespace GroundStation.Debugging
 {
     class ArduinoDebugging
@@ -23,10 +25,7 @@ namespace GroundStation.Debugging
         public delegate void ParseFunctionDelegate(string message);
         ParseFunctionDelegate parseHandler;
 
-        // Earth Radius
-        double EARTH_RADIUS_FT = 20928805.8;
-        double RAD_TO_DEG = 180.0 / Math.PI;
-        double DEG_TO_RAD = Math.PI / 180.0;
+        // Course Properties
         double COURSE_PERIOD_S = 60;
 
         public ArduinoDebugging(ParseFunctionDelegate parseFunction)
@@ -57,11 +56,11 @@ namespace GroundStation.Debugging
             double dy = semiCourseHeightFt * Math.Cos(2 * Math.PI / COURSE_PERIOD_S * seconds) + variance * (randDebug.NextDouble() * 2.0 - 1.0);
             double dx = semiCourseLengthFt * Math.Sin(2 * Math.PI / COURSE_PERIOD_S * seconds) + variance * (randDebug.NextDouble() * 2.0 - 1.0);
 
-            double lat = startingLat + dy / EARTH_RADIUS_FT * RAD_TO_DEG;
+            double lat = startingLat + dy / PhysicsConstants.EARTH_RADIUS_FT * ConversionFactors.RAD_TO_DEG;
 
-            double lonRadius = EARTH_RADIUS_FT * Math.Cos(lat * DEG_TO_RAD);
+            double lonRadius = PhysicsConstants.EARTH_RADIUS_FT * Math.Cos(lat * ConversionFactors.DEG_TO_RAD);
 
-            double lon = startingLon + dx / lonRadius * RAD_TO_DEG;
+            double lon = startingLon + dx / lonRadius * ConversionFactors.RAD_TO_DEG;
 
             return new double[] { lat, lon };
         }
