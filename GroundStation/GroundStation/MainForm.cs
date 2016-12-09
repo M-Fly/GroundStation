@@ -88,10 +88,7 @@ namespace GroundStation
                     panelDropStatus.UpdateDrop(InDefault.dropTime_seconds, InDefault.alt_bar_ft);
                     panelAltitudePlot.UpdateAltitudeDrop(InDefault.dropTime_seconds, InDefault.dropAlt_ft);
 
-                    DataGPS lastGpsData = null;
                     int gpsCount = MainDataMaster.gps_data.Count;
-
-
                     if (gpsCount > 0)
                     {
                         DataGPS lastGpsData = MainDataMaster.gps_data[gpsCount - 1];

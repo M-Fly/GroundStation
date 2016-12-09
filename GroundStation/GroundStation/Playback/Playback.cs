@@ -18,25 +18,21 @@ namespace GroundStation.Playback
 
         double num_ticks = 0;
 
-        int before_i = 0;
-        int before_j = 0;
+        int lastDefaultIndex = 0;
+        int lastGpsIndex = 0;
 
         //Timer for facilitating playback
         Timer playbackTimer = new Timer();
 
-        List <DataDefault> default_mg;
-        List <DataGPS> gps_mg;
+        List <DataDefault> defaultDataList;
+        List <DataGPS> gpsDataList;
 
         public delegate void DataGPSDelegate(DataGPS indata);
         public delegate void DataDefaultDelegate(DataDefault indata);
         DataGPSDelegate GPSDelegate;
         DataDefaultDelegate DefaultDelegate;
 
-
-
-
-
-        public void GraphPlayback(List <DataDefault> in_default, List <DataGPS> in_gps, DataDefaultDelegate inGPSDelegate, DataGPSDelegate inDefaultDelegate)  
+        public void GraphPlayback(List <DataDefault> in_default, List <DataGPS> in_gps, DataDefaultDelegate inDefaultDelegate, DataGPSDelegate inGPSDelegate)  
         {
             //Initialize timer
             playbackTimer.Interval = 1000 / PLAYBACK_HZ;
@@ -46,44 +42,38 @@ namespace GroundStation.Playback
             playbackTimer.Enabled = true;
 
            
-            default_mg = in_default;
-            gps_mg = in_gps;
-            GPSDelegate = inDefaultDelegate;
-            DefaultDelegate = inGPSDelegate;
-           
+            defaultDataList = in_default;
+            gpsDataList = in_gps;
 
+            // Set delegate objects
+            GPSDelegate = inGPSDelegate;
+            DefaultDelegate = inDefaultDelegate;
         }
 
         // Use Delegate Method to Call functions
-
         private void tmrPlaybackTick(object sender, EventArgs e)
         {
-
-
             double elapse_time = num_ticks * playbackTimer.Interval * 1000;
-            int i = before_i;
-            int j = before_j;
+            int currentDefaultIndex = lastDefaultIndex;
+            int currentGpsIndex = lastGpsIndex;
 
-            for (; default_mg[i].time_seconds <= elapse_time; i++)
+            for (; defaultDataList[currentDefaultIndex].time_seconds <= elapse_time; currentDefaultIndex++)
             {
                 //AltitudePlot.UpdateAltitude(default_mg[i].time_seconds, default_mg[i].alt_bar_ft);
-                DefaultDelegate(default_mg[i]);   
-
+                DefaultDelegate(defaultDataList[currentDefaultIndex]);   
             }
           
                 
-            for (; gps_mg[j].time_seconds <= elapse_time; j++)
+            for (; gpsDataList[currentGpsIndex].time_seconds <= elapse_time; currentGpsIndex++)
             {
                 //GraphGPS.UpdateLatLon(gps_mg[j].gps_lat, gps_mg[j].gps_lon);
-                GPSDelegate(gps_mg[j]);
-
+                GPSDelegate(gpsDataList[currentGpsIndex]);
             }
 
-            before_i = i;
-            before_j = j;
+            lastDefaultIndex = currentDefaultIndex;
+            lastGpsIndex = currentGpsIndex;
             
             num_ticks++;
-
         }
     }
 }
