@@ -23,8 +23,8 @@ namespace GroundStation.Panels
         //Effects: drop status display
         public void UpdateDrop(double time_s, double alt_ft)
         {
-            Payload_Time_Status.Text = "Time: " + time_s + " s"; //States time that payload was dropped.
-            Payload_Alt_Status.Text = "Altitude: " + alt_ft + " ft"; //States altitude that payload was dropped.
+            Payload_Time_Status.Text = String.Format("Drop Time: {0:0.0} s", time_s);       //States time that payload was dropped.
+            Payload_Alt_Status.Text = String.Format("Drop Altitude: {0:0.0} ft", alt_ft);   //States altitude that payload was dropped.
         }
     }
 }

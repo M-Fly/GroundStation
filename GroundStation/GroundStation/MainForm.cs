@@ -75,7 +75,7 @@ namespace GroundStation
 
                 DataFile.WriteLine(InDefault.ToString());
 
-                MainDataMaster.default_data.Add(InDefault);
+                MainDataMaster.DefaultDataList.Add(InDefault);
 
                 panelAltitudePlot.UpdateAltitude(InDefault.time_seconds, InDefault.alt_bar_ft);
                 panelInstruments.UpdateInstruments(InDefault.airspeed_ft_s, InDefault.alt_bar_ft);
@@ -88,11 +88,11 @@ namespace GroundStation
                     panelDropStatus.UpdateDrop(InDefault.dropTime_seconds, InDefault.alt_bar_ft);
                     panelAltitudePlot.UpdateAltitudeDrop(InDefault.dropTime_seconds, InDefault.dropAlt_ft);
 
-                    int gpsCount = MainDataMaster.gps_data.Count;
+                    int gpsCount = MainDataMaster.GpsDataList.Count;
                     if (gpsCount > 0)
                     {
-                        DataGPS lastGpsData = MainDataMaster.gps_data[gpsCount - 1];
-                        panelGPSPlot.UpdateLatLon(lastGpsData.gps_lat, lastGpsData.gps_lon);
+                        DataGPS lastGpsData = MainDataMaster.GpsDataList[gpsCount - 1];
+                        panelGPSPlot.UpdateLatLonDrop(lastGpsData.gps_lat, lastGpsData.gps_lon);
                     }
 
                     PayloadDropped = true;
@@ -121,7 +121,7 @@ namespace GroundStation
 
                 DataFile.WriteLine(GpsData.ToString());
 
-                MainDataMaster.gps_data.Add(GpsData);
+                MainDataMaster.GpsDataList.Add(GpsData);
 
                 // Update GPS Panel with new location
                 panelGPSPlot.UpdateLatLon(GpsData.gps_lat, GpsData.gps_lon);
@@ -144,7 +144,7 @@ namespace GroundStation
 
                 DataFile.WriteLine(GyroData.ToString());
 
-                MainDataMaster.gyro_data.Add(GyroData);
+                MainDataMaster.GryoAccelDataList.Add(GyroData);
             }
             else
             {

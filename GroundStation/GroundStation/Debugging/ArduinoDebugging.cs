@@ -98,11 +98,9 @@ namespace GroundStation.Debugging
             int long_deg = (int)(latlng[1] * 1000000.0);
 
             int course = randDebug.Next(0, 360);
-
-            int q = randDebug.Next(0, 25);
-
+            
             // Determine a random drop time to test the drop mechanisms
-            if (!droppedDebug && q == 0 && (millis / 1000.0) > 0.25 * COURSE_PERIOD_S)
+            if (!droppedDebug && randDebug.Next(0, 10) == 0 && (millis / 1000.0) > 0.25 * COURSE_PERIOD_S)
             {
                 dropTime = millis;
                 dropAlt = altitude_meters;
