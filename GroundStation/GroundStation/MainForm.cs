@@ -31,6 +31,15 @@ namespace GroundStation
         public MainForm()
         {
             InitializeComponent();
+               
+            DropPrediction.Vector3 pos = new DropPrediction.Vector3(0, 0, 100);
+            DropPrediction.Vector3 vel = new DropPrediction.Vector3(20, 20, 0);
+
+            DropPrediction.PredictionAlgorithmEuler tf2 = new DropPrediction.PredictionAlgorithmEuler();
+            DropPrediction.Vector3 result = tf2.PredictionIntegrationFunction(pos, vel);
+            
+            DropPrediction.PredictionAlgorithmLagrange tf = new DropPrediction.PredictionAlgorithmLagrange();
+            tf.EulerLagrange(0, 0, 100, 20, 20);
 
             if (DEBUG_ENABLED)
             {

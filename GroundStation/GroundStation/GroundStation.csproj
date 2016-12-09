@@ -69,6 +69,7 @@
     <Compile Include="DataRecording\PitotLibrary.cs" />
     <Compile Include="Debugging\ArduinoDebugging.cs" />
     <Compile Include="DropPrediction\PredictionAlgorithmEuler.cs" />
+    <Compile Include="DropPrediction\PredictionAlgorithmLagrange.cs" />
     <Compile Include="DropPrediction\Vector3.cs" />
     <Compile Include="Panels\AltitudePlot.cs">
       <SubType>UserControl</SubType>
