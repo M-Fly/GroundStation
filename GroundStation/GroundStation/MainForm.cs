@@ -17,7 +17,7 @@ namespace GroundStation
 {
     public partial class MainForm : Form
     {
-        bool DEBUG_ENABLED = false;
+        bool DEBUG_ENABLED = true;
 
         private StringBuilder receivedData = new StringBuilder();
         private Debugging.ArduinoDebugging debugFunction;
@@ -25,6 +25,8 @@ namespace GroundStation
 
         System.IO.StreamWriter DataFile = new System.IO.StreamWriter(
             "M - Fly Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
+
+        bool PayloadDropped = false;
 
         public MainForm()
         {
@@ -78,13 +80,25 @@ namespace GroundStation
                 panelAltitudePlot.UpdateAltitude(InDefault.time_seconds, InDefault.alt_bar_ft);
                 panelInstruments.UpdateInstruments(InDefault.airspeed_ft_s, InDefault.alt_bar_ft);
 
-                bool newDrop = false; // TODO: Update NewDrop values to include new drop data
+                
 
-                if (newDrop)
+                if (!PayloadDropped && InDefault.dropTime_seconds > 0)
                 {
                     // graphGPS1.UpdateLatLonDrop() -> Get last latitude/longitude and display on graph
                     panelDropStatus.UpdateDrop(InDefault.dropTime_seconds, InDefault.alt_bar_ft);
                     panelAltitudePlot.UpdateAltitudeDrop(InDefault.dropTime_seconds, InDefault.dropAlt_ft);
+
+                    DataGPS lastGpsData = null;
+                    int gpsCount = MainDataMaster.gps_data.Count;
+
+
+                    if (gpsCount > 0)
+                    {
+                        DataGPS lastGpsData = MainDataMaster.gps_data[gpsCount - 1];
+                        panelGPSPlot.UpdateLatLon(lastGpsData.gps_lat, lastGpsData.gps_lon);
+                    }
+
+                    PayloadDropped = true;
                 }
             }
 
