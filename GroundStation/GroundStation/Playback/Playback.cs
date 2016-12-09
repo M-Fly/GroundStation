@@ -48,11 +48,8 @@ namespace GroundStation.Playback
            
             default_mg = in_default;
             gps_mg = in_gps;
-            GPSDelegate = inGPSDelegate;
-            DefaultDelegate = inDefaultDelegate;
-
-
-
+            GPSDelegate = inDefaultDelegate;
+            DefaultDelegate = inGPSDelegate;
            
 
         }
@@ -70,10 +67,7 @@ namespace GroundStation.Playback
             for (; default_mg[i].time_seconds <= elapse_time; i++)
             {
                 //AltitudePlot.UpdateAltitude(default_mg[i].time_seconds, default_mg[i].alt_bar_ft);
-               
-
-
-
+                DefaultDelegate(default_mg[i]);   
 
             }
           
@@ -81,12 +75,9 @@ namespace GroundStation.Playback
             for (; gps_mg[j].time_seconds <= elapse_time; j++)
             {
                 //GraphGPS.UpdateLatLon(gps_mg[j].gps_lat, gps_mg[j].gps_lon);
-                
-
+                GPSDelegate(gps_mg[j]);
 
             }
-
-
 
             before_i = i;
             before_j = j;
