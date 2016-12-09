@@ -29,9 +29,14 @@ namespace GroundStation.Playback
 
         public delegate void DataGPSDelegate(DataGPS indata);
         public delegate void DataDefaultDelegate(DataDefault indata);
+        DataGPSDelegate GPSDelegate;
+        DataDefaultDelegate DefaultDelegate;
 
 
-        public void GraphPlayback(List <DataDefault> in_default, List <DataGPS> in_gps)  
+
+
+
+        public void GraphPlayback(List <DataDefault> in_default, List <DataGPS> in_gps, DataDefaultDelegate inGPSDelegate, DataGPSDelegate inDefaultDelegate)  
         {
             //Initialize timer
             playbackTimer.Interval = 1000 / PLAYBACK_HZ;
@@ -43,6 +48,11 @@ namespace GroundStation.Playback
            
             default_mg = in_default;
             gps_mg = in_gps;
+            GPSDelegate = inGPSDelegate;
+            DefaultDelegate = inDefaultDelegate;
+
+
+
            
 
         }
@@ -60,6 +70,10 @@ namespace GroundStation.Playback
             for (; default_mg[i].time_seconds <= elapse_time; i++)
             {
                 //AltitudePlot.UpdateAltitude(default_mg[i].time_seconds, default_mg[i].alt_bar_ft);
+               
+
+
+
 
             }
           
@@ -67,6 +81,7 @@ namespace GroundStation.Playback
             for (; gps_mg[j].time_seconds <= elapse_time; j++)
             {
                 //GraphGPS.UpdateLatLon(gps_mg[j].gps_lat, gps_mg[j].gps_lon);
+                
 
 
             }
