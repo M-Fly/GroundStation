@@ -27,9 +27,8 @@ namespace GroundStation.Playback
         List <DataDefault> default_mg;
         List <DataGPS> gps_mg;
 
-
-         
-
+        public delegate void DataGPSDelegate(DataGPS indata);
+        public delegate void DataDefaultDelegate(DataDefault indata);
 
 
         public void GraphPlayback(List <DataDefault> in_default, List <DataGPS> in_gps)  

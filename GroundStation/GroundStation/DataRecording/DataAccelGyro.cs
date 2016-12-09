@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GroundStation.DataRecording
 {
-    class DataAccelGyro
+    public class DataAccelGyro
     {
         public double time_seconds;
 

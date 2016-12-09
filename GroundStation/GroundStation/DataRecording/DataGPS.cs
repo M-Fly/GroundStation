@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GroundStation.DataRecording
 {
-    class DataGPS
+    public class DataGPS
     {
         public double time_seconds;
         public String gps_system;

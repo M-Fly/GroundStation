@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GroundStation.DataRecording
 {
-    class DataDefault
+    public class DataDefault
     {
         public double time_seconds;
 

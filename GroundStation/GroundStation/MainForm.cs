@@ -140,10 +140,17 @@ namespace GroundStation
                 Console.WriteLine("Error in reading InputString: YOU MESSED UP!");
             }
 
-            // Saving Data to File
+        }
 
-            //string name = "M-Fly Telemtry " + DateTime.Now.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss");
+        public void UpdateGPSPlayback(DataGPS indata)
+        {
+            panelGPSPlot.UpdateLatLon(indata.gps_lat, indata.gps_lon);
+        }
 
+        public void UpdateDefaultPlayback(DataDefault indata)
+        {
+            panelAltitudePlot.UpdateAltitude(indata.time_seconds, indata.alt_bar_ft);
+            panelInstruments.UpdateInstruments(indata.airspeed_ft_s, indata.alt_bar_ft);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
