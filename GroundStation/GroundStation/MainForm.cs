@@ -18,17 +18,21 @@ namespace GroundStation
 {
     public partial class MainForm : Form
     {
-        bool DEBUG_ENABLED = true;
+        private const bool DEBUG_ENABLED = true;
 
-        private StringBuilder receivedData = new StringBuilder();
+        private StringBuilder ReceivedData = new StringBuilder();
+
         private Debugging.ArduinoDebugging debugFunction;
+
         private DataMaster MainDataMaster = new DataMaster();
 
-        StreamWriter DataFile = new StreamWriter("M - Fly Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
+        private StreamWriter DataFile = new StreamWriter("M - Fly Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
 
-        bool PayloadDropped = false;
+        private bool PayloadDropped = false;
 
-        Playback.Playback playback = new Playback.Playback();
+        private Playback.Playback PlaybackController;
+
+        #region Form Controls
 
         public MainForm()
         {
@@ -44,11 +48,30 @@ namespace GroundStation
             tf.EulerLagrange(0, 0, 100, 20, 20);
             */
 
+            PlaybackController = new Playback.Playback(MainDataMaster, UpdateDefaultPlayback, UpdateGPSPlayback);
+
             if (DEBUG_ENABLED)
             {
                 debugFunction = new Debugging.ArduinoDebugging(ParseData);
             }
         }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            foreach (string portname in SerialPort.GetPortNames())
+            {
+                cmbSerialPort.Items.Add(portname);
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        #endregion
+
+        #region Data Parsing
 
         // TODO: CONVERT VARIABLES INTO PROPER UNITS: ALTITUDE in FT. VELOCITY IN FT/S.
         // TODO: Verify that length of data (number of terms) is correct -> validate message
@@ -72,6 +95,7 @@ namespace GroundStation
             {
                 // A,MX2,MILLIS,ALT_BARO,ANALOG_PITOT,PRESS,TEMP,DROP_TIME,DROP_ALT
 
+                // Parse Data from String
                 DataDefault InDefault = new DataDefault();
                 InDefault.time_seconds = Convert.ToDouble(DataString[2]) * ConversionFactors.MILLIS_TO_SECONDS;
                 InDefault.alt_bar_ft = Convert.ToDouble(DataString[3]) * ConversionFactors.METERS_TO_FEET;
@@ -83,23 +107,27 @@ namespace GroundStation
                 InDefault.dropTime_seconds = Convert.ToDouble(DataString[7]) * ConversionFactors.MILLIS_TO_SECONDS;
                 InDefault.dropAlt_ft = Convert.ToDouble(DataString[8]) * ConversionFactors.METERS_TO_FEET;
 
+                // Calculate Airspeed from Analog Value
                 InDefault.airspeed_ft_s = PitotLibrary.GetAirspeedFeetSeconds(AnalogPitotValue, InDefault.temperature_c, InDefault.pressure_pa);
 
+                // Write Data to File
                 DataFile.WriteLine(InDefault.ToString());
 
+                // Add data object to data master list
                 MainDataMaster.DefaultDataList.Add(InDefault);
 
+                // Update teh standart altitude plot and instruments
                 panelAltitudePlot.UpdateAltitude(InDefault.time_seconds, InDefault.alt_bar_ft);
                 panelInstruments.UpdateInstruments(InDefault.airspeed_ft_s, InDefault.alt_bar_ft);
 
-                
-
+                // Check if a payload has been dropped
                 if (!PayloadDropped && InDefault.dropTime_seconds > 0)
                 {
-                    // graphGPS1.UpdateLatLonDrop() -> Get last latitude/longitude and display on graph
                     panelDropStatus.UpdateDrop(InDefault.dropTime_seconds, InDefault.alt_bar_ft);
                     panelAltitudePlot.UpdateAltitudeDrop(InDefault.dropTime_seconds, InDefault.dropAlt_ft);
 
+                    // Get the last GPS coordinate to plot drop on the GPS panel
+                    //      -> Will not show if GPS list is empty, no GPS position information
                     int gpsCount = MainDataMaster.GpsDataList.Count;
                     if (gpsCount > 0)
                     {
@@ -107,6 +135,7 @@ namespace GroundStation
                         panelGPSPlot.UpdateLatLonDrop(lastGpsData.gps_lat, lastGpsData.gps_lon);
                     }
 
+                    // Set PayloadDropped to true
                     PayloadDropped = true;
                 }
             }
@@ -130,14 +159,21 @@ namespace GroundStation
                 GpsData.gps_alt_ft = ((Convert.ToDouble(DataString[8])) / 1000) * ConversionFactors.METERS_TO_FEET;
                 GpsData.gps_hdop = (Convert.ToDouble(DataString[9])) / 10;
 
+                // Write data to file
                 DataFile.WriteLine(GpsData.ToString());
 
+                // Add data object to DataMaster
                 MainDataMaster.GpsDataList.Add(GpsData);
 
                 // Update GPS Panel with new location
                 panelGPSPlot.UpdateLatLon(GpsData.gps_lat, GpsData.gps_lon);
 
-                // Input data into prediction function
+                // ####
+                //
+                // STILL NEEDS WORK
+                //
+                //
+                // Input data into prediction function #####
                 DropPrediction.Vector3 pos = new DropPrediction.Vector3(0, 0, GpsData.gps_alt_ft / ConversionFactors.METERS_TO_FEET);
 
                 GpsData.gps_speed_ft_s = 45;
@@ -160,6 +196,12 @@ namespace GroundStation
                 double lon = GpsData.gps_lon + dx / lonRadius * ConversionFactors.RAD_TO_DEG;
 
                 panelGPSPlot.UpdateLatLonPredict(lat, lon);
+                //
+                //
+                //
+                //
+                //
+                //
             }
 
             //'C' message delivers gyro data. Gives time in milliseconds; x, y, and z gyro values;
@@ -168,6 +210,7 @@ namespace GroundStation
             //      Acceleration in m/s^2
             else if (DataString[0].Equals("C"))
             {
+                // Parse incoming data
                 DataAccelGyro GyroData = new DataAccelGyro();
                 GyroData.time_seconds = Convert.ToDouble(DataString[2]) * ConversionFactors.MILLIS_TO_SECONDS;
                 GyroData.gyro_x = Convert.ToDouble(DataString[3]);
@@ -177,16 +220,88 @@ namespace GroundStation
                 GyroData.accel_y = Convert.ToDouble(DataString[7]);
                 GyroData.accel_z = Convert.ToDouble(DataString[8]);
 
+                // Write data to file
                 DataFile.WriteLine(GyroData.ToString());
 
+                // Add data object to DataMaster
                 MainDataMaster.GryoAccelDataList.Add(GyroData);
             }
             else
             {
+                // If unknown message, write information to console
                 DataFile.WriteLine("Unknown Message: " + InputString);
             }
         }
 
+        private void parseTimer_Tick(object sender, EventArgs e)
+        {
+            // String to hold all incoming data
+            string incomingData = ReceivedData.ToString();
+
+            // Last index of the incoming data
+            int lastIndex = incomingData.LastIndexOf(';');
+
+            // Splitting the string into invidual messages
+            string[] message = incomingData.Split(';');
+
+            // Pass in complete messages into the parsing function
+            for (int i = 0; i < (message.Length - 1); i++)
+            {
+                ParseData(message[i]);
+            }
+
+            // Remove all parsed data from receivedData
+            if (lastIndex >= 0)
+            {
+                ReceivedData.Remove(0, lastIndex + 1);
+            }
+        }
+
+        #endregion
+
+        #region Serial Port Region
+
+        private void openPort_Click(object sender, EventArgs e)
+        {
+
+            if (!xbeeSerial.IsOpen && !String.IsNullOrWhiteSpace(cmbSerialPort.Text))
+            {
+                xbeeSerial.PortName = cmbSerialPort.Text;
+                if (!xbeeSerial.IsOpen) xbeeSerial.Open();
+            }
+        }
+
+        private void closePort_Click(object sender, EventArgs e)
+        {
+            if (xbeeSerial.IsOpen) xbeeSerial.Close();
+        }
+
+        private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            ReceivedData.Append(xbeeSerial.ReadExisting());
+        }
+
+        #endregion
+
+        #region Playback Functionality
+
+        //Playback button. Wipe data, and put data into playback
+        private void playToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Clear the altitude and GPS plots to prepare for playback
+            panelAltitudePlot.ClearAlt();
+            panelGPSPlot.ClearGPS();
+
+            // Stop the debug function if it is running
+            if (debugFunction != null) debugFunction.Stop();
+
+            // Close the serial port (if open)
+            closePort_Click(null, null);
+
+            // Reset and start the playback of data
+            PlaybackController.ResetPlayback();
+            PlaybackController.Play();
+        }
 
         // Delegate Function to Facilitate Playback of GPS Data
         // REQUIRES: Not-Null DataGPS object
@@ -207,95 +322,26 @@ namespace GroundStation
             panelInstruments.UpdateInstruments(indata.airspeed_ft_s, indata.alt_bar_ft);
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            foreach (string portname in SerialPort.GetPortNames())
-            {
-                cmbSerialPort.Items.Add(portname);
-            }
-        }
-
-        private void openPort_Click(object sender, EventArgs e)
-        {
-
-            if (!xbeeSerial.IsOpen && !String.IsNullOrWhiteSpace(cmbSerialPort.Text))
-            {
-                xbeeSerial.PortName = cmbSerialPort.Text;
-                if (!xbeeSerial.IsOpen) xbeeSerial.Open();
-            }
-        }
-
-        private void closePort_Click(object sender, EventArgs e)
-        {
-            if (xbeeSerial.IsOpen) xbeeSerial.Close();
-        }
-
-        private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
-        {
-            receivedData.Append(xbeeSerial.ReadExisting());
-        }
-
-        private void parseTimer_Tick(object sender, EventArgs e)
-        {
-            // String to hold all incoming data
-            string incomingData = receivedData.ToString();
-
-            // Last index of the incoming data
-            int lastIndex = incomingData.LastIndexOf(';');
-
-            // Splitting the string into invidual messages
-            string[] message = incomingData.Split(';');
-
-            // Pass in complete messages into the parsing function
-            for (int i = 0; i < (message.Length - 1); i++)
-            {
-                ParseData(message[i]);
-            }
-
-            // Remove all parsed data from receivedData
-            if (lastIndex >= 0)
-            {
-                receivedData.Remove(0, lastIndex + 1);
-            }
-        }
-
-        //Playback button. Wipe data, and put data into playback
-        private void playToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            panelAltitudePlot.ClearAlt();
-            panelGPSPlot.ClearGPS();
-
-            debugFunction.Stop();
-
-            playback = new Playback.Playback();
-
-            playback.GraphPlayback(MainDataMaster.DefaultDataList,
-                MainDataMaster.GpsDataList, UpdateDefaultPlayback, UpdateGPSPlayback);
-        }
-
         private void xToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            playback.SetPlaybackSpeed(1);
+            if (PlaybackController != null) PlaybackController.SetPlaybackSpeed(1);
         }
 
         private void xToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            playback.SetPlaybackSpeed(2);
+            if (PlaybackController != null) PlaybackController.SetPlaybackSpeed(2);
         }
 
         private void xToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            playback.SetPlaybackSpeed(4);
+            if (PlaybackController != null) PlaybackController.SetPlaybackSpeed(4);
         }
 
         private void xToolStripMenuItem3_Click(object sender, EventArgs e)
         {
-            playback.SetPlaybackSpeed(8);
+            if (PlaybackController != null) PlaybackController.SetPlaybackSpeed(8);
         }
+
+        #endregion
     }
 }

@@ -16,26 +16,26 @@ namespace GroundStation.Panels
     public partial class GraphGPS : UserControl
     {
         //For Latitude vs Longitude plot
-        PlotView LatLongPlot;
-        PlotModel LatLong_PlotModel;
-        LineSeries LatLong_LineSeries;
-        LineSeries LatLong_LineSeries_Drop;
-        LineSeries LatLong_LineSeries_Target;
-        LineSeries LatLong_LineSeries_Predict;
+        PlotView LatLonPlot;
+        PlotModel LatLon_PlotModel;
+        LineSeries LatLon_LineSeries;
+        LineSeries LatLon_LineSeries_Drop;
+        LineSeries LatLon_LineSeries_Target;
+        LineSeries LatLon_LineSeries_Predict;
 
         public GraphGPS()
         {
             InitializeComponent();
 
             //Initialize Latitude-Longitude plot elements
-            LatLong_PlotModel = new PlotModel
+            LatLon_PlotModel = new PlotModel
             {
                 Title = "Latitude vs Longitude Plot",
                 PlotType = PlotType.XY
             };
 
             //Initialize LatLong_LineSeries
-            LatLong_LineSeries = new LineSeries
+            LatLon_LineSeries = new LineSeries
             {
                 //Title = "Latitude and Longitude (Degrees)",
                 LineStyle = LineStyle.Solid,
@@ -44,7 +44,7 @@ namespace GroundStation.Panels
             };
 
             //Line Series for drop coordinates
-            LatLong_LineSeries_Drop = new LineSeries
+            LatLon_LineSeries_Drop = new LineSeries
             {
                 //Title = "Latitude and Longitude of Drop (Degrees)",
                 LineStyle = LineStyle.Solid,
@@ -56,7 +56,7 @@ namespace GroundStation.Panels
             };
 
             //Line Series for Target Location
-            LatLong_LineSeries_Target = new LineSeries
+            LatLon_LineSeries_Target = new LineSeries
             {
                 LineStyle = LineStyle.Solid,
                 Background = OxyColors.PowderBlue,
@@ -67,7 +67,7 @@ namespace GroundStation.Panels
             };
 
             //Line Series for Predicted Location
-            LatLong_LineSeries_Predict = new LineSeries
+            LatLon_LineSeries_Predict = new LineSeries
             {
                 LineStyle = LineStyle.Solid,
                 Background = OxyColors.PowderBlue,
@@ -77,15 +77,15 @@ namespace GroundStation.Panels
                 MarkerSize = 3,
             };
 
-            LatLong_PlotModel.Series.Add(LatLong_LineSeries);
-            LatLong_PlotModel.Series.Add(LatLong_LineSeries_Drop);
-            LatLong_PlotModel.Series.Add(LatLong_LineSeries_Target);
-            LatLong_PlotModel.Series.Add(LatLong_LineSeries_Predict);
-            LatLongPlot = new PlotView();
-            LatLongPlot.Model = LatLong_PlotModel;
-            LatLongPlot.Dock = DockStyle.Fill;
-            LatLongPlot.Location = new Point(0, 0);
-            this.Controls.Add(LatLongPlot);
+            LatLon_PlotModel.Series.Add(LatLon_LineSeries);
+            LatLon_PlotModel.Series.Add(LatLon_LineSeries_Drop);
+            LatLon_PlotModel.Series.Add(LatLon_LineSeries_Target);
+            LatLon_PlotModel.Series.Add(LatLon_LineSeries_Predict);
+            LatLonPlot = new PlotView();
+            LatLonPlot.Model = LatLon_PlotModel;
+            LatLonPlot.Dock = DockStyle.Fill;
+            LatLonPlot.Location = new Point(0, 0);
+            this.Controls.Add(LatLonPlot);
         }
 
         //Update functions for coordinates, drop location, target location, and prediction location
@@ -98,8 +98,8 @@ namespace GroundStation.Panels
         {
             // Longitude goes first because it is the x position
             // Latitude goes second because it is the y position
-            LatLong_LineSeries.Points.Add(new DataPoint(lon_deg, lat_deg));
-            LatLong_PlotModel.InvalidatePlot(true);
+            LatLon_LineSeries.Points.Add(new DataPoint(lon_deg, lat_deg));
+            LatLon_PlotModel.InvalidatePlot(true);
         }
 
         //Receives: doubles Latitude and Longitude of Drop
@@ -109,8 +109,8 @@ namespace GroundStation.Panels
         {
             // Longitude goes first because it is the x position
             // Latitude goes second because it is the y position
-            LatLong_LineSeries_Drop.Points.Add(new DataPoint(lon_drop_deg, lat_drop_deg));
-            LatLong_PlotModel.InvalidatePlot(true);
+            LatLon_LineSeries_Drop.Points.Add(new DataPoint(lon_drop_deg, lat_drop_deg));
+            LatLon_PlotModel.InvalidatePlot(true);
         }
 
         //Receives: doubles Latitude and Longitude of Target
@@ -118,9 +118,9 @@ namespace GroundStation.Panels
         //Effects:
         public void UpdateLatLonTarget(double lat_target_deg, double lon_target_deg)
         {
-            LatLong_LineSeries_Target.Points.Clear();
-            LatLong_LineSeries_Target.Points.Add(new DataPoint(lon_target_deg, lat_target_deg));
-            LatLong_PlotModel.InvalidatePlot(true);
+            LatLon_LineSeries_Target.Points.Clear();
+            LatLon_LineSeries_Target.Points.Add(new DataPoint(lon_target_deg, lat_target_deg));
+            LatLon_PlotModel.InvalidatePlot(true);
         }
 
         //Receives: doubles Latitude and Longitude of Target
@@ -128,9 +128,9 @@ namespace GroundStation.Panels
         //Effects:
         public void UpdateLatLonPredict(double lat_target_deg, double lon_target_deg)
         {
-            LatLong_LineSeries_Predict.Points.Clear();
-            LatLong_LineSeries_Predict.Points.Add(new DataPoint(lon_target_deg, lat_target_deg));
-            LatLong_PlotModel.InvalidatePlot(true);
+            LatLon_LineSeries_Predict.Points.Clear();
+            LatLon_LineSeries_Predict.Points.Add(new DataPoint(lon_target_deg, lat_target_deg));
+            LatLon_PlotModel.InvalidatePlot(true);
         }
 
         //Receives:
@@ -138,10 +138,12 @@ namespace GroundStation.Panels
         //Effects: WIPES ALL LINESERIES
         public void ClearGPS()
         {
-            LatLong_LineSeries.Points.Clear();
-            LatLong_LineSeries_Drop.Points.Clear();
-            LatLong_LineSeries_Predict.Points.Clear();
-            LatLong_LineSeries_Target.Points.Clear();
+            LatLon_LineSeries.Points.Clear();
+            LatLon_LineSeries_Drop.Points.Clear();
+            LatLon_LineSeries_Predict.Points.Clear();
+            LatLon_LineSeries_Target.Points.Clear();
+
+            LatLon_PlotModel.InvalidatePlot(true);
         }
     }
 }

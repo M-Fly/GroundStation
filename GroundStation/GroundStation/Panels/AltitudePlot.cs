@@ -80,6 +80,8 @@ namespace GroundStation.Panels
         {
             Altitude_Series.Points.Clear();
             Altitude_Series_Drop.Points.Clear();
+
+            Altitude_Plot_Model.InvalidatePlot(true);
         }
     }
 }

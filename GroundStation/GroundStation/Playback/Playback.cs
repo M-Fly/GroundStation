@@ -14,47 +14,62 @@ namespace GroundStation.Playback
     class Playback
     {
         //Const for timer frequency
-        int PLAYBACK_HZ = 5;
+        const int PLAYBACK_HZ = 10;
 
-        double elapse_time = 0;
+        double elapsed_time = 0.0;
 
         int lastDefaultIndex = 0;
         int lastGpsIndex = 0;
 
-        int playbackspeed = 1;
+        int playbackSpeed = 1;
 
         //Timer for facilitating playback
         Timer playbackTimer = new Timer();
 
-        List <DataDefault> defaultDataList;
-        List <DataGPS> gpsDataList;
+        DataMaster dataMaster;
 
         public delegate void DataGPSDelegate(DataGPS indata);
         public delegate void DataDefaultDelegate(DataDefault indata);
+
         DataGPSDelegate GPSDelegate;
         DataDefaultDelegate DefaultDelegate;
 
-        public void GraphPlayback(List <DataDefault> in_default, List <DataGPS> in_gps, DataDefaultDelegate inDefaultDelegate, DataGPSDelegate inGPSDelegate)  
+        public Playback(DataMaster dm_in, DataDefaultDelegate inDefaultDelegate, DataGPSDelegate inGPSDelegate)
         {
-            //Initialize timer
-            playbackTimer.Interval = 1000 / PLAYBACK_HZ;
-            playbackTimer.Tick += tmrPlaybackTick;
-
-            //Enable timer
-            playbackTimer.Enabled = true;
-
-           
-            defaultDataList = in_default;
-            gpsDataList = in_gps;
+            dataMaster = dm_in;
 
             // Set delegate objects
             GPSDelegate = inGPSDelegate;
             DefaultDelegate = inDefaultDelegate;
+
+            //Initialize timer
+            playbackTimer.Interval = 1000 / PLAYBACK_HZ;
+            playbackTimer.Tick += tmrPlaybackTick;
+
+            playbackTimer.Enabled = false;
+        }
+
+        public void Play()  
+        {
+            //Enable timer
+            playbackTimer.Start();
+            playbackTimer.Enabled = true;
+        }
+
+        public void ResetPlayback()
+        {
+            playbackTimer.Enabled = false;
+            elapsed_time = 0.0;
+
+            lastDefaultIndex = 0;
+            lastGpsIndex = 0;
+
+            playbackSpeed = 1;
         }
 
         public void SetPlaybackSpeed(int inspeed)
         {
-            playbackspeed = inspeed;
+            playbackSpeed = inspeed;
         }
 
         //Receives:
@@ -64,40 +79,37 @@ namespace GroundStation.Playback
         // Use Delegate Method to Call functions
         private void tmrPlaybackTick(object sender, EventArgs e)
         {
-            elapse_time += playbackspeed * playbackTimer.Interval / 1000.0;
+            elapsed_time += playbackSpeed * playbackTimer.Interval / 1000.0;
             int currentDefaultIndex = lastDefaultIndex;
             int currentGpsIndex = lastGpsIndex;
 
-            bool bothCompleted = true;
-            for (; (currentDefaultIndex < defaultDataList.Count) && 
-                    (defaultDataList[currentDefaultIndex].time_seconds <= elapse_time);
+            for (; (currentDefaultIndex < dataMaster.DefaultDataList.Count) && 
+                    (dataMaster.DefaultDataList[currentDefaultIndex].time_seconds <= elapsed_time);
                     currentDefaultIndex++)
             {
-                //AltitudePlot.UpdateAltitude(default_mg[i].time_seconds, default_mg[i].alt_bar_ft);
-                DefaultDelegate(defaultDataList[currentDefaultIndex]);
-
-                bothCompleted &= false;
+                DefaultDelegate(dataMaster.DefaultDataList[currentDefaultIndex]);
             }
           
                 
-            for (; (currentGpsIndex < gpsDataList.Count) && 
-                    (gpsDataList[currentGpsIndex].time_seconds <= elapse_time);
+            for (; (currentGpsIndex < dataMaster.GpsDataList.Count) && 
+                    (dataMaster.GpsDataList[currentGpsIndex].time_seconds <= elapsed_time);
                     currentGpsIndex++)
             {
-                //GraphGPS.UpdateLatLon(gps_mg[j].gps_lat, gps_mg[j].gps_lon);
-                GPSDelegate(gpsDataList[currentGpsIndex]);
+                GPSDelegate(dataMaster.GpsDataList[currentGpsIndex]);
+            }
 
-                bothCompleted &= false;
+            int defaultItems = dataMaster.DefaultDataList.Count;
+            int gpsItems = dataMaster.GpsDataList.Count;
+
+            if (currentDefaultIndex >= defaultItems - 1 && gpsItems >= gpsItems - 1)
+            {
+                playbackTimer.Stop();
             }
 
             lastDefaultIndex = currentDefaultIndex;
             lastGpsIndex = currentGpsIndex;
 
-            if (bothCompleted)
-            {
-                playbackTimer.Stop();
-                playbackTimer.Dispose();
-            }
+            
         }
     }
 }
