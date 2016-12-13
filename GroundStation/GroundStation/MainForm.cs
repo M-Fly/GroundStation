@@ -23,15 +23,15 @@ namespace GroundStation
         private Debugging.ArduinoDebugging debugFunction;
         private DataMaster MainDataMaster = new DataMaster();
 
-        System.IO.StreamWriter DataFile = new System.IO.StreamWriter(
-            "M - Fly Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
+        StreamWriter DataFile = new StreamWriter("M - Fly Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
 
         bool PayloadDropped = false;
 
         public MainForm()
         {
             InitializeComponent();
-               
+            
+            /*
             DropPrediction.Vector3 pos = new DropPrediction.Vector3(0, 0, 100);
             DropPrediction.Vector3 vel = new DropPrediction.Vector3(20, 20, 0);
 
@@ -40,6 +40,7 @@ namespace GroundStation
             
             DropPrediction.PredictionAlgorithmLagrange tf = new DropPrediction.PredictionAlgorithmLagrange();
             tf.EulerLagrange(0, 0, 100, 20, 20);
+            */
 
             if (DEBUG_ENABLED)
             {
@@ -126,7 +127,6 @@ namespace GroundStation
                 GpsData.gps_course = (Convert.ToDouble(DataString[7])) / 1000; //degrees
                 GpsData.gps_alt_ft = ((Convert.ToDouble(DataString[8])) / 1000) * ConversionFactors.METERS_TO_FEET;
                 GpsData.gps_hdop = (Convert.ToDouble(DataString[9])) / 10;
-                //GpsData.gps_fixtime_millis = Convert.ToDouble(DataString[10]); //Currently in millis
 
                 DataFile.WriteLine(GpsData.ToString());
 
@@ -134,6 +134,30 @@ namespace GroundStation
 
                 // Update GPS Panel with new location
                 panelGPSPlot.UpdateLatLon(GpsData.gps_lat, GpsData.gps_lon);
+
+                // Input data into prediction function
+                DropPrediction.Vector3 pos = new DropPrediction.Vector3(0, 0, GpsData.gps_alt_ft / ConversionFactors.METERS_TO_FEET);
+
+                GpsData.gps_speed_ft_s = 45;
+
+                double velX = GpsData.gps_speed_ft_s * Math.Sin(GpsData.gps_course * ConversionFactors.DEG_TO_RAD) / ConversionFactors.METERS_SECONDS_TO_FEET_SECONDS;
+                double velY = GpsData.gps_speed_ft_s * Math.Cos(GpsData.gps_course * ConversionFactors.DEG_TO_RAD) / ConversionFactors.METERS_SECONDS_TO_FEET_SECONDS;
+                DropPrediction.Vector3 vel = new DropPrediction.Vector3(velX, velY, 0);
+
+                DropPrediction.Vector3 result = DropPrediction.PredictionAlgorithmEuler.PredictionIntegrationFunction(pos, vel);
+
+                double dx = result.x * ConversionFactors.METERS_TO_FEET;
+                double dy = result.y * ConversionFactors.METERS_TO_FEET;
+
+                Console.WriteLine(Math.Sqrt(dx * dx + dy * dy));
+
+                double lat = GpsData.gps_lat + dy / PhysicsConstants.EARTH_RADIUS_FT * ConversionFactors.RAD_TO_DEG;
+
+                double lonRadius = PhysicsConstants.EARTH_RADIUS_FT * Math.Cos(lat * ConversionFactors.DEG_TO_RAD);
+
+                double lon = GpsData.gps_lon + dx / lonRadius * ConversionFactors.RAD_TO_DEG;
+
+                panelGPSPlot.UpdateLatLonPredict(lat, lon);
             }
 
             //'C' message delivers gyro data. Gives time in milliseconds; x, y, and z gyro values;
@@ -157,16 +181,24 @@ namespace GroundStation
             }
             else
             {
-                Console.WriteLine("Error in reading InputString: YOU MESSED UP!");
+                DataFile.WriteLine("Unknown Message: " + InputString);
             }
-
         }
 
+
+        // Delegate Function to Facilitate Playback of GPS Data
+        // REQUIRES: Not-Null DataGPS object
+        // EFFECTS:  Adds point to panelGPSPlot
+        // MODIFIES: Nothing
         public void UpdateGPSPlayback(DataGPS indata)
         {
             panelGPSPlot.UpdateLatLon(indata.gps_lat, indata.gps_lon);
         }
 
+        // Delegate Function to Facilitate Playback of Default Data
+        // REQUIRES: Not-Null DataDefault object
+        // EFFECTS:  Adds point to panelAltitudePlot and panelInstruments
+        // MODIFIES: Nothing
         public void UpdateDefaultPlayback(DataDefault indata)
         {
             panelAltitudePlot.UpdateAltitude(indata.time_seconds, indata.alt_bar_ft);
@@ -208,17 +240,22 @@ namespace GroundStation
 
         private void parseTimer_Tick(object sender, EventArgs e)
         {
-            string total = receivedData.ToString();
+            // String to hold all incoming data
+            string incomingData = receivedData.ToString();
 
-            string[] message = total.Split(';');
+            // Last index of the incoming data
+            int lastIndex = incomingData.LastIndexOf(';');
 
-            int lastIndex = total.LastIndexOf(';');
+            // Splitting the string into invidual messages
+            string[] message = incomingData.Split(';');
 
+            // Pass in complete messages into the parsing function
             for (int i = 0; i < (message.Length - 1); i++)
             {
                 ParseData(message[i]);
             }
 
+            // Remove all parsed data from receivedData
             if (lastIndex >= 0)
             {
                 receivedData.Remove(0, lastIndex + 1);

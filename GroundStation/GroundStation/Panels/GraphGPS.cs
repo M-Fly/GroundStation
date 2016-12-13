@@ -116,7 +116,7 @@ namespace GroundStation.Panels
         //Receives: doubles Latitude and Longitude of Target
         //Modifies: Deletes previous target data before adding new target
         //Effects:
-        public void UpdatLatLonTarget(double lat_target_deg, double lon_target_deg)
+        public void UpdateLatLonTarget(double lat_target_deg, double lon_target_deg)
         {
             LatLong_LineSeries_Target.Points.Clear();
             LatLong_LineSeries_Target.Points.Add(new DataPoint(lon_target_deg, lat_target_deg));
@@ -126,7 +126,7 @@ namespace GroundStation.Panels
         //Receives: doubles Latitude and Longitude of Target
         //Modifies: Deletes previous prediction data before adding new prediction
         //Effects:
-        public void UpdatLatLonPredict(double lat_target_deg, double lon_target_deg)
+        public void UpdateLatLonPredict(double lat_target_deg, double lon_target_deg)
         {
             LatLong_LineSeries_Predict.Points.Clear();
             LatLong_LineSeries_Predict.Points.Add(new DataPoint(lon_target_deg, lat_target_deg));

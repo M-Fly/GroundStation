@@ -56,13 +56,18 @@ namespace GroundStation.Debugging
             double dy = semiCourseHeightFt * Math.Cos(2 * Math.PI / COURSE_PERIOD_S * seconds) + variance * (randDebug.NextDouble() * 2.0 - 1.0);
             double dx = semiCourseLengthFt * Math.Sin(2 * Math.PI / COURSE_PERIOD_S * seconds) + variance * (randDebug.NextDouble() * 2.0 - 1.0);
 
+            double course = Math.Atan2(dx, dy) * ConversionFactors.RAD_TO_DEG + 90.0;
+
+            while (course < 0) course += 360;
+            while (course >= 360) course -= 360;
+
             double lat = startingLat + dy / PhysicsConstants.EARTH_RADIUS_FT * ConversionFactors.RAD_TO_DEG;
 
             double lonRadius = PhysicsConstants.EARTH_RADIUS_FT * Math.Cos(lat * ConversionFactors.DEG_TO_RAD);
 
             double lon = startingLon + dx / lonRadius * ConversionFactors.RAD_TO_DEG;
 
-            return new double[] { lat, lon };
+            return new double[] { lat, lon, course };
         }
 
         private double getAltMeters(int millis)
@@ -97,7 +102,7 @@ namespace GroundStation.Debugging
             int lat_deg = (int)(latlng[0] * 1000000.0);
             int long_deg = (int)(latlng[1] * 1000000.0);
 
-            int course = randDebug.Next(0, 360);
+            int course = (int) (latlng[2] * 1000.0);
             
             // Determine a random drop time to test the drop mechanisms
             if (!droppedDebug && randDebug.Next(0, 10) == 0 && (millis / 1000.0) > 0.25 * COURSE_PERIOD_S)

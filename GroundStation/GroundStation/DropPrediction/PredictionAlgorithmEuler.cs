@@ -3,18 +3,18 @@
     class PredictionAlgorithmEuler
     {
         // Time Constant of Integration
-        private double dt = 0.0001;       // [ s ]
+        private const double dt = 0.0001;       // [ s ]
 
         // Gravitational Constant
-        private double g = 9.807;       // [ m/s^2 ]
+        private const double g = 9.807;       // [ m/s^2 ]
 
         // Air Density
-        private double rho = 1.225;     // [ kg/m^2 ]
+        private const double rho = 1.225;     // [ kg/m^2 ]
 
         // Payload Constants
-        private double payload_mass = 1;    // [ kg ]
-        private double payload_area = 0.2;  // [ m^2 ]
-        private double payload_cdrg = 0.5;  // Drag Coefficient
+        private const double payload_mass = 1;    // [ kg ]
+        private const double payload_area = 0.1;  // [ m^2 ]
+        private const double payload_cdrg = 0.00005;  // Drag Coefficient
 
         // PredictionIntegrationFunction
         //
@@ -27,7 +27,7 @@
         //      Vector3 vel: Initial velocity vector of the payload in m/s
         // MODIFIES: Nothing
         // EFFECTS:  Nothing
-        public Vector3 PredictionIntegrationFunction(Vector3 pos, Vector3 vel)
+        public static Vector3 PredictionIntegrationFunction(Vector3 pos, Vector3 vel)
         {
             // Creates a clone of pos to ultimately return the new position at z=0 without modifying the original
             Vector3 posOut = new Vector3(pos);

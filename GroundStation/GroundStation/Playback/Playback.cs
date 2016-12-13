@@ -57,10 +57,14 @@ namespace GroundStation.Playback
             int currentDefaultIndex = lastDefaultIndex;
             int currentGpsIndex = lastGpsIndex;
 
+            bool bothCompleted = true;
+
             for (; defaultDataList[currentDefaultIndex].time_seconds <= elapse_time; currentDefaultIndex++)
             {
                 //AltitudePlot.UpdateAltitude(default_mg[i].time_seconds, default_mg[i].alt_bar_ft);
-                DefaultDelegate(defaultDataList[currentDefaultIndex]);   
+                DefaultDelegate(defaultDataList[currentDefaultIndex]);
+
+                bothCompleted &= false;
             }
           
                 
@@ -68,11 +72,19 @@ namespace GroundStation.Playback
             {
                 //GraphGPS.UpdateLatLon(gps_mg[j].gps_lat, gps_mg[j].gps_lon);
                 GPSDelegate(gpsDataList[currentGpsIndex]);
+
+                bothCompleted &= false;
             }
 
             lastDefaultIndex = currentDefaultIndex;
             lastGpsIndex = currentGpsIndex;
             
+            if (bothCompleted)
+            {
+                playbackTimer.Stop();
+                playbackTimer.Dispose();
+            }
+
             num_ticks++;
         }
     }
