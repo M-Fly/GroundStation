@@ -16,10 +16,12 @@ namespace GroundStation.Playback
         //Const for timer frequency
         int PLAYBACK_HZ = 5;
 
-        double num_ticks = 0;
+        double elapse_time = 0;
 
         int lastDefaultIndex = 0;
         int lastGpsIndex = 0;
+
+        int playbackspeed = 1;
 
         //Timer for facilitating playback
         Timer playbackTimer = new Timer();
@@ -50,21 +52,36 @@ namespace GroundStation.Playback
             DefaultDelegate = inDefaultDelegate;
         }
 
+        public void SetPlaybackSpeed(int inspeed)
+        {
+            playbackspeed = inspeed;
+        }
+
+        //Receives:
+        //Modifies:
+        //Effects: Goes through our lists of default and GPS objects. One loop for each reads through the information
+        //          Each for loop begins from the last "tick", then reads data up to an index equal to the current time
         // Use Delegate Method to Call functions
         private void tmrPlaybackTick(object sender, EventArgs e)
         {
-            double elapse_time = num_ticks * playbackTimer.Interval * 1000;
+            elapse_time += playbackspeed * playbackTimer.Interval / 1000.0;
             int currentDefaultIndex = lastDefaultIndex;
             int currentGpsIndex = lastGpsIndex;
 
-            for (; defaultDataList[currentDefaultIndex].time_seconds <= elapse_time; currentDefaultIndex++)
+            for (; (currentDefaultIndex < defaultDataList.Count) && 
+                    (defaultDataList[currentDefaultIndex].time_seconds <= elapse_time);
+                    currentDefaultIndex++)
             {
                 //AltitudePlot.UpdateAltitude(default_mg[i].time_seconds, default_mg[i].alt_bar_ft);
-                DefaultDelegate(defaultDataList[currentDefaultIndex]);   
+                DefaultDelegate(defaultDataList[currentDefaultIndex]);
+
+                Console.WriteLine(defaultDataList[currentDefaultIndex].time_seconds);   
             }
           
                 
-            for (; gpsDataList[currentGpsIndex].time_seconds <= elapse_time; currentGpsIndex++)
+            for (; (currentGpsIndex < gpsDataList.Count) && 
+                    (gpsDataList[currentGpsIndex].time_seconds <= elapse_time);
+                    currentGpsIndex++)
             {
                 //GraphGPS.UpdateLatLon(gps_mg[j].gps_lat, gps_mg[j].gps_lon);
                 GPSDelegate(gpsDataList[currentGpsIndex]);
@@ -72,8 +89,6 @@ namespace GroundStation.Playback
 
             lastDefaultIndex = currentDefaultIndex;
             lastGpsIndex = currentGpsIndex;
-            
-            num_ticks++;
         }
     }
 }

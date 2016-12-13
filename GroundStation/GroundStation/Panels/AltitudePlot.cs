@@ -72,5 +72,14 @@ namespace GroundStation.Panels
             Altitude_Series_Drop.Points.Add(new DataPoint(time_drop_seconds, altitude_drop_feet));
             Altitude_Plot_Model.InvalidatePlot(true);
         }
+
+        //Receives:
+        //Modifies: All LineSeries
+        //Effects: WIPES ALL LINESERIES
+        public void ClearAlt()
+        {
+            Altitude_Series.Points.Clear();
+            Altitude_Series_Drop.Points.Clear();
+        }
     }
 }
