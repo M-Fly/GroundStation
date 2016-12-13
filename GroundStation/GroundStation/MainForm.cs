@@ -12,6 +12,7 @@ using System.IO;
 
 using GroundStation.Constants;
 using GroundStation.DataRecording;
+using GroundStation.Playback;
 
 namespace GroundStation
 {
@@ -27,12 +28,13 @@ namespace GroundStation
 
         bool PayloadDropped = false;
 
+        Playback.Playback playback = new Playback.Playback();
+
         public MainForm()
         {
             InitializeComponent();
-            
-            /*
-            DropPrediction.Vector3 pos = new DropPrediction.Vector3(0, 0, 100);
+
+            /*DropPrediction.Vector3 pos = new DropPrediction.Vector3(0, 0, 100);
             DropPrediction.Vector3 vel = new DropPrediction.Vector3(20, 20, 0);
 
             DropPrediction.PredictionAlgorithmEuler tf2 = new DropPrediction.PredictionAlgorithmEuler();
@@ -260,6 +262,40 @@ namespace GroundStation
             {
                 receivedData.Remove(0, lastIndex + 1);
             }
+        }
+
+        //Playback button. Wipe data, and put data into playback
+        private void playToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panelAltitudePlot.ClearAlt();
+            panelGPSPlot.ClearGPS();
+
+            debugFunction.Stop();
+
+            playback = new Playback.Playback();
+
+            playback.GraphPlayback(MainDataMaster.DefaultDataList,
+                MainDataMaster.GpsDataList, UpdateDefaultPlayback, UpdateGPSPlayback);
+        }
+
+        private void xToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            playback.SetPlaybackSpeed(1);
+        }
+
+        private void xToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            playback.SetPlaybackSpeed(2);
+        }
+
+        private void xToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            playback.SetPlaybackSpeed(4);
+        }
+
+        private void xToolStripMenuItem3_Click(object sender, EventArgs e)
+        {
+            playback.SetPlaybackSpeed(8);
         }
     }
 }

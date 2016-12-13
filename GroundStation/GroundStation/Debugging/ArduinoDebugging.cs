@@ -41,6 +41,11 @@ namespace GroundStation.Debugging
             parseHandler = parseFunction;
         }
 
+        public void Stop()
+        {
+            debugTimer.Enabled = false;
+        }
+
         private double[] getLatLon(int millis)
         {
             double seconds = millis / 1000.0;

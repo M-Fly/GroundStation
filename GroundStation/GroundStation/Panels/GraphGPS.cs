@@ -132,5 +132,16 @@ namespace GroundStation.Panels
             LatLong_LineSeries_Predict.Points.Add(new DataPoint(lon_target_deg, lat_target_deg));
             LatLong_PlotModel.InvalidatePlot(true);
         }
+
+        //Receives:
+        //Modifies: All LineSeries
+        //Effects: WIPES ALL LINESERIES
+        public void ClearGPS()
+        {
+            LatLong_LineSeries.Points.Clear();
+            LatLong_LineSeries_Drop.Points.Clear();
+            LatLong_LineSeries_Predict.Points.Clear();
+            LatLong_LineSeries_Target.Points.Clear();
+        }
     }
 }
