@@ -19,13 +19,11 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         private const bool DEBUG_ENABLED = true;
+        private Debugging.ArduinoDebugging debugFunction;
 
         private StringBuilder ReceivedData = new StringBuilder();
 
-        private Debugging.ArduinoDebugging debugFunction;
-
         private DataMaster MainDataMaster = new DataMaster();
-
         private StreamWriter DataFile = new StreamWriter("M - Fly Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
 
         private bool PayloadDropped = false;
@@ -62,6 +60,28 @@ namespace GroundStation
             {
                 cmbSerialPort.Items.Add(portname);
             }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (xbeeSerial.IsOpen)
+            {
+                xbeeSerial.Close();
+            }
+
+            parseTimer.Enabled = false;
+
+            panelCamera.CloseVideoSource();
+        }
+
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panelCamera.PromptVideoSource();
+        }
+
+        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            panelCamera.CloseVideoSource();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
