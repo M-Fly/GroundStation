@@ -69,6 +69,11 @@ namespace GroundStation
                 xbeeSerial.Close();
             }
 
+            DataFile.Flush();
+            DataFile.Close();
+
+            DataFile = null;
+
             parseTimer.Enabled = false;
 
             panelCamera.CloseVideoSource();

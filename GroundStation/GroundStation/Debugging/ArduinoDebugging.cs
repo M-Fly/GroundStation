@@ -46,6 +46,9 @@ namespace GroundStation.Debugging
             debugTimer.Enabled = false;
         }
 
+        private double old_dx = 0.0, old_dy = 0.0;
+        private double dx = 0.0, dy = 0.0;
+
         private double[] getLatLon(int millis)
         {
             double seconds = millis / 1000.0;
@@ -58,10 +61,13 @@ namespace GroundStation.Debugging
 
             double variance = 25;
 
-            double dy = semiCourseHeightFt * Math.Cos(2 * Math.PI / COURSE_PERIOD_S * seconds) + variance * (randDebug.NextDouble() * 2.0 - 1.0);
-            double dx = semiCourseLengthFt * Math.Sin(2 * Math.PI / COURSE_PERIOD_S * seconds) + variance * (randDebug.NextDouble() * 2.0 - 1.0);
+            old_dx = dx;
+            old_dy = dy;
 
-            double course = Math.Atan2(dx, dy) * ConversionFactors.RAD_TO_DEG + 90.0;
+            dy = semiCourseHeightFt * Math.Cos(2 * Math.PI / COURSE_PERIOD_S * seconds) + variance * (randDebug.NextDouble() * 2.0 - 1.0);
+            dx = semiCourseLengthFt * Math.Sin(2 * Math.PI / COURSE_PERIOD_S * seconds) + variance * (randDebug.NextDouble() * 2.0 - 1.0);
+
+            double course = Math.Atan2(dx - old_dx, dy - old_dy) * ConversionFactors.RAD_TO_DEG;
 
             while (course < 0) course += 360;
             while (course >= 360) course -= 360;

@@ -21,8 +21,10 @@ namespace GroundStation.Panels
         PlotModel Altitude_Plot_Model;
 
         LineSeries Altitude_Series;
-        
         LineSeries Altitude_Series_Drop;
+        LineSeries Altitude_Limit_Series;
+
+        private double ALTITUDE_LIMIT_FT = 100;
 
         public AltitudePlot()
         {
@@ -41,29 +43,49 @@ namespace GroundStation.Panels
                 Color = OxyColors.Blue,
             };
 
+            Altitude_Limit_Series = new LineSeries
+            {
+                LineStyle = LineStyle.Dash,
+                Color = OxyColors.Red,
+            };
+
             // Initializing LineSeries for Altitude Drop Point
             Altitude_Series_Drop = new LineSeries
             {
                 LineStyle = LineStyle.Solid,
-                Background = OxyColors.PowderBlue,
+                //Background = OxyColors.PowderBlue,
                 Color = OxyColors.Transparent,
                 MarkerType = MarkerType.Circle,
                 MarkerFill = OxyColors.Yellow,
                 MarkerSize = 5,
 
             };
+
             Altitude_Plot_Model.Series.Add(Altitude_Series);
             Altitude_Plot_Model.Series.Add(Altitude_Series_Drop);
+            Altitude_Plot_Model.Series.Add(Altitude_Limit_Series);
+
             Altitude_Plot = new PlotView();
             Altitude_Plot.Model = Altitude_Plot_Model;
             Altitude_Plot.Dock = DockStyle.Fill;
             Altitude_Plot.Location = new Point(0, 0);
+
             this.Controls.Add(Altitude_Plot);
         }
 
         public void UpdateAltitude(double time_seconds, double altitude_feet)
         {
             Altitude_Series.Points.Add(new DataPoint(time_seconds, altitude_feet));
+
+            if (Altitude_Limit_Series.Points.Count == 0)
+            {
+                Altitude_Limit_Series.Points.Add(new DataPoint(time_seconds, ALTITUDE_LIMIT_FT));
+                Altitude_Limit_Series.Points.Add(new DataPoint(time_seconds, ALTITUDE_LIMIT_FT));
+            }
+
+            DataPoint lastPoint = Altitude_Limit_Series.Points[1];
+            Altitude_Limit_Series.Points[1] = new DataPoint(time_seconds, lastPoint.Y);
+
             Altitude_Plot_Model.InvalidatePlot(true);
         }
 
