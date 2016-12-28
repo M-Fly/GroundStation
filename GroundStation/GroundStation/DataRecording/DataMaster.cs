@@ -9,7 +9,7 @@ namespace GroundStation.DataRecording
 {
     class DataMaster
     {
-        // Saving data to files happens here
+        // Lists to store data objects
 
         public List<DataDefault> DefaultDataList = new List<DataDefault>();
         public List<DataGPS> GpsDataList = new List<DataGPS>();
