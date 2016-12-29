@@ -15,12 +15,19 @@ namespace GroundStation.Panels
         public DropStatus()
         {
             InitializeComponent();
-
         }
-        
-        //Requires: altitude in feet and time in seconds
-        //Modifies: Nothing
-        //Effects: drop status display
+
+        // UpdateDrop
+        //
+        // Updates the text fields in the drop status diplay when the payload is dropped
+        //
+        // REQUIRES:
+        //      double time_s - drop time in seconds
+        //      double alt_ft - drop altitude in feet
+        //
+        // EFFECTS:
+        //      Updates the drop status display labels
+        //
         public void UpdateDrop(double time_s, double alt_ft)
         {
             Payload_Time_Status.Text = String.Format("Drop Time: {0:0.0} s", time_s);       //States time that payload was dropped.

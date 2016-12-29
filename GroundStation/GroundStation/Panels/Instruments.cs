@@ -15,16 +15,23 @@ namespace GroundStation.Panels
         public Instruments()
         {
             InitializeComponent();
-
         }
 
-        //Requires: Airspeed in feet per second, Altitude in feet
-        //Modifies: Instruments_Alt and Instruments_Airspeed labels
-        //Effects: Instruments display
+        // UpdateInstruments
+        //
+        // Updates the instrument display with the current airspeed and altitude readouts
+        //
+        // REQUIRES:
+        //      double airspeed_fts - Airspeed in feet per second
+        //      double alt_ft - Altitude in feet
+        // MODIFIES:
+        //      Instruments_Alt and Instruments_Airspeed labels
+        //
         public void UpdateInstruments(double airspeed_fts, double alt_ft)
         {
-            Instruments_Alt.Text = String.Format("Altitude: {0:0.0} ft", alt_ft); //States Altitude
-            Instruments_Airspeed.Text = String.Format("Ground Speed: {0:0.00} ft/s", airspeed_fts); //States Airspeed
+            // Update the altitude and airspeed labels
+            Instruments_Alt.Text = String.Format("Altitude: {0:0.0} ft", alt_ft);
+            Instruments_Airspeed.Text = String.Format("Ground Speed: {0:0.00} ft/s", airspeed_fts);
          }
     }
 }

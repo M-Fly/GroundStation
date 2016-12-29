@@ -18,17 +18,27 @@ namespace GroundStation
 {
     public partial class MainForm : Form
     {
+        // TODO: Replace millis from telemetry data with DateTime object locally to keep track of
+        //          local time, just in case there decides to be a reset on the flight computer
+
+        // Debugging controls
         private const bool DEBUG_ENABLED = true;
         private Debugging.ArduinoDebugging debugFunction;
 
+        // Playback controls
+        private Playback.Playback PlaybackController;
+
+        // StringBuilder to hold incoming data before it is parsed
         private StringBuilder ReceivedData = new StringBuilder();
 
+        // DataMaster to keep track of telemetry data
         private DataMaster MainDataMaster = new DataMaster();
+
+        // StreamWriter file to write data to a file
         private StreamWriter DataFile = new StreamWriter("M - Fly Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
 
+        // Variable to keep track of when a payload is dropped
         private bool PayloadDropped = false;
-
-        private Playback.Playback PlaybackController;
 
         #region Form Controls
 
@@ -69,6 +79,11 @@ namespace GroundStation
                 xbeeSerial.Close();
             }
 
+            DataFile.Flush();
+            DataFile.Close();
+
+            DataFile = null;
+
             parseTimer.Enabled = false;
 
             panelCamera.CloseVideoSource();
@@ -98,18 +113,18 @@ namespace GroundStation
         // Parses data into a List
         public void ParseData(string InputString)
         {
-            //Divide data by each comma
+            // Divide data by each comma
             string[] DataString = InputString.Split(',');
 
-            //Checks for the "MX2" tag. If no tag, we are not receiving data from MX2 vehicle
+            // Checks for the "MX2" tag. If no tag, we are not receiving data from MX2 vehicle
             if (!DataString[1].Equals("MX2"))
             {
                 Console.WriteLine("Not Reading MX2");
             }
 
-            //Checks for 'A', 'B', or 'C' messages. If none, sends an error message
+            // Checks for 'A', 'B', or 'C' messages. If none, sends an error message
 
-            //'A' message delivers time in milliseconds, barometric altitude (meters),
+            // 'A' message delivers time in milliseconds, barometric altitude (meters),
             //      airspeed, payload drop time, and payload drop altitude (meters)
             if (DataString[0].Equals("A"))
             {
@@ -160,7 +175,7 @@ namespace GroundStation
                 }
             }
 
-            //'B' message delivers time in milliseconds, the gps system, the gps latitude,
+            // 'B' message delivers time in milliseconds, the gps system, the gps latitude,
             //      the gps longitude, the gps measurement for groundspeed in knots, 
             //        gps course (degrees), gps altitude (meters), 
             //        gps hdop, and gps fixtime (milliseconds)
@@ -224,7 +239,7 @@ namespace GroundStation
                 //
             }
 
-            //'C' message delivers gyro data. Gives time in milliseconds; x, y, and z gyro values;
+            // 'C' message delivers gyro data. Gives time in milliseconds; x, y, and z gyro values;
             //      and x, y, and z acceleration values.
             //      Gyro in radians/s
             //      Acceleration in m/s^2
@@ -253,6 +268,8 @@ namespace GroundStation
             }
         }
 
+        // Reads through ReceivedData, extracts telemetry messages, and sends them
+        // to the parsing function
         private void parseTimer_Tick(object sender, EventArgs e)
         {
             // String to hold all incoming data
@@ -283,7 +300,7 @@ namespace GroundStation
 
         private void openPort_Click(object sender, EventArgs e)
         {
-
+            // Opens the serial port if it is not already open
             if (!xbeeSerial.IsOpen && !String.IsNullOrWhiteSpace(cmbSerialPort.Text))
             {
                 xbeeSerial.PortName = cmbSerialPort.Text;
@@ -293,11 +310,13 @@ namespace GroundStation
 
         private void closePort_Click(object sender, EventArgs e)
         {
+            // Closes the serial port if it is open
             if (xbeeSerial.IsOpen) xbeeSerial.Close();
         }
 
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
+            // Read data coming in from the serial port and add it to the ReceivedData StringBuilder
             ReceivedData.Append(xbeeSerial.ReadExisting());
         }
 
@@ -305,7 +324,7 @@ namespace GroundStation
 
         #region Playback Functionality
 
-        //Playback button. Wipe data, and put data into playback
+        // Playback button. Wipe data, and put data into playback
         private void playToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Clear the altitude and GPS plots to prepare for playback
@@ -342,6 +361,8 @@ namespace GroundStation
             panelInstruments.UpdateInstruments(indata.airspeed_ft_s, indata.alt_bar_ft);
         }
 
+        #region Toolstrip Menu Buttons for Playback Speed
+
         private void xToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (PlaybackController != null) PlaybackController.SetPlaybackSpeed(1);
@@ -361,6 +382,8 @@ namespace GroundStation
         {
             if (PlaybackController != null) PlaybackController.SetPlaybackSpeed(8);
         }
+
+        #endregion
 
         #endregion
     }

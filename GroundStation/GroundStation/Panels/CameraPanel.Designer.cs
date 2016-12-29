@@ -36,19 +36,24 @@
             this.lblWaiting.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblWaiting.Location = new System.Drawing.Point(3, 0);
+            this.lblWaiting.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
+            this.lblWaiting.Location = new System.Drawing.Point(10, 0);
+            this.lblWaiting.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.lblWaiting.Name = "lblWaiting";
-            this.lblWaiting.Size = new System.Drawing.Size(144, 150);
+            this.lblWaiting.Size = new System.Drawing.Size(216, 193);
             this.lblWaiting.TabIndex = 0;
             this.lblWaiting.Text = "Waiting for Camera Connection\r\nEnable Camera in Menubar";
             this.lblWaiting.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // CameraPanel
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(19F, 38F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.lblWaiting);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F);
+            this.Margin = new System.Windows.Forms.Padding(10, 9, 10, 9);
             this.Name = "CameraPanel";
+            this.Size = new System.Drawing.Size(235, 193);
             this.ResumeLayout(false);
 
         }
