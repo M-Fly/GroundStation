@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
@@ -40,6 +41,9 @@ namespace GroundStation
         // Variable to keep track of when a payload is dropped
         private bool PayloadDropped = false;
 
+        // DateTime to keep track of when items come into the ground station
+        private DateTime startTime = DateTime.MaxValue;
+
         #region Form Controls
 
         public MainForm()
@@ -66,26 +70,39 @@ namespace GroundStation
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            foreach (string portname in SerialPort.GetPortNames())
+            // Get all serial ports
+            String[] ports = SerialPort.GetPortNames();
+
+            foreach (string portname in ports)
             {
-                cmbSerialPort.Items.Add(portname);
+                // Extract the number and add to "COM" (to get rid of any extraneous characters)
+                String portReplaced = "COM" + Regex.Replace(portname, @"\D*(\d+)\D*", "$1");
+
+                // Only adds the serial port if it hasn't already been added
+                if (!cmbSerialPort.Items.Contains(portReplaced))
+                {
+                    cmbSerialPort.Items.Add(portReplaced.Trim());
+                }
             }
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // Close serial port if it is open
             if (xbeeSerial.IsOpen)
             {
                 xbeeSerial.Close();
             }
 
+            // Close the data file
             DataFile.Flush();
             DataFile.Close();
-
             DataFile = null;
 
+            // Disable the parsing timer
             parseTimer.Enabled = false;
 
+            // Close the video source (if it is open)
             panelCamera.CloseVideoSource();
         }
 
@@ -108,6 +125,12 @@ namespace GroundStation
 
         #region Data Parsing
 
+        private class LatLng
+        {
+            public double lat;
+            public double lon;
+        }
+
         // TODO: CONVERT VARIABLES INTO PROPER UNITS: ALTITUDE in FT. VELOCITY IN FT/S.
         // TODO: Verify that length of data (number of terms) is correct -> validate message
         // Parses data into a List
@@ -115,6 +138,10 @@ namespace GroundStation
         {
             // Divide data by each comma
             string[] DataString = InputString.Split(',');
+
+            // Initialize the start time (if necessary) and get the total seconds from the start time
+            if (startTime > DateTime.Now) startTime = DateTime.Now;
+            double dataSeconds = DateTime.Now.Subtract(startTime).TotalSeconds;
 
             // Checks for the "MX2" tag. If no tag, we are not receiving data from MX2 vehicle
             if (!DataString[1].Equals("MX2"))
@@ -131,35 +158,35 @@ namespace GroundStation
                 // A,MX2,MILLIS,ALT_BARO,ANALOG_PITOT,PRESS,TEMP,DROP_TIME,DROP_ALT
 
                 // Parse Data from String
-                DataDefault InDefault = new DataDefault();
-                InDefault.time_seconds = Convert.ToDouble(DataString[2]) * ConversionFactors.MILLIS_TO_SECONDS;
-                InDefault.alt_bar_ft = Convert.ToDouble(DataString[3]) * ConversionFactors.METERS_TO_FEET;
+                DataDefault inDefault = new DataDefault();
+                inDefault.time_seconds = dataSeconds;
+                inDefault.alt_bar_ft = Convert.ToDouble(DataString[3]) * ConversionFactors.METERS_TO_FEET;
 
                 int AnalogPitotValue = (int) Convert.ToDouble(DataString[4]);
-                InDefault.pressure_pa = Convert.ToDouble(DataString[5]);
-                InDefault.temperature_c = Convert.ToDouble(DataString[6]);
+                inDefault.pressure_pa = Convert.ToDouble(DataString[5]);
+                inDefault.temperature_c = Convert.ToDouble(DataString[6]);
 
-                InDefault.dropTime_seconds = Convert.ToDouble(DataString[7]) * ConversionFactors.MILLIS_TO_SECONDS;
-                InDefault.dropAlt_ft = Convert.ToDouble(DataString[8]) * ConversionFactors.METERS_TO_FEET;
+                inDefault.dropTime_seconds = Convert.ToDouble(DataString[7]) * ConversionFactors.MILLIS_TO_SECONDS;
+                inDefault.dropAlt_ft = Convert.ToDouble(DataString[8]) * ConversionFactors.METERS_TO_FEET;
 
                 // Calculate Airspeed from Analog Value
-                InDefault.airspeed_ft_s = PitotLibrary.GetAirspeedFeetSeconds(AnalogPitotValue, InDefault.temperature_c, InDefault.pressure_pa);
+                inDefault.airspeed_ft_s = PitotLibrary.GetAirspeedFeetSeconds(AnalogPitotValue, inDefault.temperature_c, inDefault.pressure_pa);
 
                 // Write Data to File
-                DataFile.WriteLine(InDefault.ToString());
+                DataFile.WriteLine(inDefault.ToString());
 
                 // Add data object to data master list
-                MainDataMaster.DefaultDataList.Add(InDefault);
+                MainDataMaster.DefaultDataList.Add(inDefault);
 
                 // Update teh standart altitude plot and instruments
-                panelAltitudePlot.UpdateAltitude(InDefault.time_seconds, InDefault.alt_bar_ft);
-                panelInstruments.UpdateInstruments(InDefault.airspeed_ft_s, InDefault.alt_bar_ft);
+                panelAltitudePlot.UpdateAltitude(inDefault.time_seconds, inDefault.alt_bar_ft);
+                panelInstruments.UpdateInstruments(inDefault.airspeed_ft_s, inDefault.alt_bar_ft);
 
                 // Check if a payload has been dropped
-                if (!PayloadDropped && InDefault.dropTime_seconds > 0)
+                if (!PayloadDropped && inDefault.dropTime_seconds > 0)
                 {
-                    panelDropStatus.UpdateDrop(InDefault.dropTime_seconds, InDefault.alt_bar_ft);
-                    panelAltitudePlot.UpdateAltitudeDrop(InDefault.dropTime_seconds, InDefault.dropAlt_ft);
+                    panelDropStatus.UpdateDrop(inDefault.dropTime_seconds, inDefault.alt_bar_ft);
+                    panelAltitudePlot.UpdateAltitudeDrop(inDefault.dropTime_seconds, inDefault.dropAlt_ft);
 
                     // Get the last GPS coordinate to plot drop on the GPS panel
                     //      -> Will not show if GPS list is empty, no GPS position information
@@ -184,59 +211,28 @@ namespace GroundStation
             else if (DataString[0].Equals("B"))
             {
                 // Parse GPS Data
-                DataGPS GpsData = new DataGPS();
-                GpsData.time_seconds = Convert.ToDouble(DataString[2]) * ConversionFactors.MILLIS_TO_SECONDS;
-                GpsData.gps_system = DataString[3];
-                GpsData.gps_lat = (Convert.ToDouble(DataString[4])) / 1000000; //degrees
-                GpsData.gps_lon = (Convert.ToDouble(DataString[5])) / 1000000; //degrees
-                GpsData.gps_speed_ft_s = ((Convert.ToDouble(DataString[6])) / 1000) * ConversionFactors.KNOTS_TO_FPS; //Converts Speed from Knots to ft/s
-                GpsData.gps_course = (Convert.ToDouble(DataString[7])) / 1000; //degrees
-                GpsData.gps_alt_ft = ((Convert.ToDouble(DataString[8])) / 1000) * ConversionFactors.METERS_TO_FEET;
-                GpsData.gps_hdop = (Convert.ToDouble(DataString[9])) / 10;
+                DataGPS gpsData = new DataGPS();
+                gpsData.time_seconds = dataSeconds;
+                gpsData.gps_system = DataString[3];
+                gpsData.gps_lat = (Convert.ToDouble(DataString[4])) / 1000000; //degrees
+                gpsData.gps_lon = (Convert.ToDouble(DataString[5])) / 1000000; //degrees
+                gpsData.gps_speed_ft_s = ((Convert.ToDouble(DataString[6])) / 1000) * ConversionFactors.KNOTS_TO_FPS; //Converts Speed from Knots to ft/s
+                gpsData.gps_course = (Convert.ToDouble(DataString[7])) / 1000; //degrees
+                gpsData.gps_alt_ft = ((Convert.ToDouble(DataString[8])) / 1000) * ConversionFactors.METERS_TO_FEET;
+                gpsData.gps_hdop = (Convert.ToDouble(DataString[9])) / 10;
 
                 // Write data to file
-                DataFile.WriteLine(GpsData.ToString());
+                DataFile.WriteLine(gpsData.ToString());
 
                 // Add data object to DataMaster
-                MainDataMaster.GpsDataList.Add(GpsData);
+                MainDataMaster.GpsDataList.Add(gpsData);
 
                 // Update GPS Panel with new location
-                panelGPSPlot.UpdateLatLon(GpsData.gps_lat, GpsData.gps_lon);
+                panelGPSPlot.UpdateLatLon(gpsData.gps_lat, gpsData.gps_lon);
 
-                // ####
-                //
-                // STILL NEEDS WORK
-                //
-                //
-                // Input data into prediction function #####
-                DropPrediction.Vector3 pos = new DropPrediction.Vector3(0, 0, GpsData.gps_alt_ft / ConversionFactors.METERS_TO_FEET);
-
-                GpsData.gps_speed_ft_s = 45;
-
-                double velX = GpsData.gps_speed_ft_s * Math.Sin(GpsData.gps_course * ConversionFactors.DEG_TO_RAD) / ConversionFactors.METERS_SECONDS_TO_FEET_SECONDS;
-                double velY = GpsData.gps_speed_ft_s * Math.Cos(GpsData.gps_course * ConversionFactors.DEG_TO_RAD) / ConversionFactors.METERS_SECONDS_TO_FEET_SECONDS;
-                DropPrediction.Vector3 vel = new DropPrediction.Vector3(velX, velY, 0);
-
-                DropPrediction.Vector3 result = DropPrediction.PredictionAlgorithmEuler.PredictionIntegrationFunction(pos, vel);
-
-                double dx = result.x * ConversionFactors.METERS_TO_FEET;
-                double dy = result.y * ConversionFactors.METERS_TO_FEET;
-
-                Console.WriteLine(Math.Sqrt(dx * dx + dy * dy));
-
-                double lat = GpsData.gps_lat + dy / PhysicsConstants.EARTH_RADIUS_FT * ConversionFactors.RAD_TO_DEG;
-
-                double lonRadius = PhysicsConstants.EARTH_RADIUS_FT * Math.Cos(lat * ConversionFactors.DEG_TO_RAD);
-
-                double lon = GpsData.gps_lon + dx / lonRadius * ConversionFactors.RAD_TO_DEG;
-
-                panelGPSPlot.UpdateLatLonPredict(lat, lon);
-                //
-                //
-                //
-                //
-                //
-                //
+                // Predict payload drop location and display location on screen
+                LatLng predictedLatLng = PredictPayloadDropLoc(gpsData);
+                panelGPSPlot.UpdateLatLonPredict(predictedLatLng.lat, predictedLatLng.lon);
             }
 
             // 'C' message delivers gyro data. Gives time in milliseconds; x, y, and z gyro values;
@@ -246,26 +242,55 @@ namespace GroundStation
             else if (DataString[0].Equals("C"))
             {
                 // Parse incoming data
-                DataAccelGyro GyroData = new DataAccelGyro();
-                GyroData.time_seconds = Convert.ToDouble(DataString[2]) * ConversionFactors.MILLIS_TO_SECONDS;
-                GyroData.gyro_x = Convert.ToDouble(DataString[3]);
-                GyroData.gyro_y = Convert.ToDouble(DataString[4]);
-                GyroData.gyro_z = Convert.ToDouble(DataString[5]);
-                GyroData.accel_x = Convert.ToDouble(DataString[6]);
-                GyroData.accel_y = Convert.ToDouble(DataString[7]);
-                GyroData.accel_z = Convert.ToDouble(DataString[8]);
+                DataAccelGyro gyroData = new DataAccelGyro();
+                gyroData.time_seconds = dataSeconds;
+                gyroData.gyro_x = Convert.ToDouble(DataString[3]);
+                gyroData.gyro_y = Convert.ToDouble(DataString[4]);
+                gyroData.gyro_z = Convert.ToDouble(DataString[5]);
+                gyroData.accel_x = Convert.ToDouble(DataString[6]);
+                gyroData.accel_y = Convert.ToDouble(DataString[7]);
+                gyroData.accel_z = Convert.ToDouble(DataString[8]);
 
                 // Write data to file
-                DataFile.WriteLine(GyroData.ToString());
+                DataFile.WriteLine(gyroData.ToString());
 
                 // Add data object to DataMaster
-                MainDataMaster.GryoAccelDataList.Add(GyroData);
+                MainDataMaster.GryoAccelDataList.Add(gyroData);
             }
             else
             {
                 // If unknown message, write information to console
                 DataFile.WriteLine("Unknown Message: " + InputString);
             }
+        }
+
+        private LatLng PredictPayloadDropLoc(DataGPS gpsData)
+        {
+            // Get the initial position based on altitude
+            DropPrediction.Vector3 landingPos = new DropPrediction.Vector3(0, 0, gpsData.gps_alt_ft / ConversionFactors.METERS_TO_FEET);
+
+            // Calculate the x and y velocities from heading
+            double velX = gpsData.gps_speed_ft_s * Math.Sin(gpsData.gps_course * ConversionFactors.DEG_TO_RAD) / ConversionFactors.METERS_SECONDS_TO_FEET_SECONDS;
+            double velY = gpsData.gps_speed_ft_s * Math.Cos(gpsData.gps_course * ConversionFactors.DEG_TO_RAD) / ConversionFactors.METERS_SECONDS_TO_FEET_SECONDS;
+            DropPrediction.Vector3 vel = new DropPrediction.Vector3(velX, velY, 0);
+
+            // Get the resulting delta-location from the aircraft
+            DropPrediction.Vector3 result = DropPrediction.PredictionAlgorithmEuler.PredictionIntegrationFunction(landingPos, vel);
+
+            // Find dx and dy in feet from the aircraft.
+            double dx = result.x * ConversionFactors.METERS_TO_FEET;
+            double dy = result.y * ConversionFactors.METERS_TO_FEET;
+
+            // Find the latitude and longitude of the paylaod
+            LatLng res = new LatLng();
+
+            res.lat = gpsData.gps_lat + dy / PhysicsConstants.EARTH_RADIUS_FT * ConversionFactors.RAD_TO_DEG;
+
+            double lonRadius = PhysicsConstants.EARTH_RADIUS_FT * Math.Cos(res.lat * ConversionFactors.DEG_TO_RAD);
+            res.lon = gpsData.gps_lon + dx / lonRadius * ConversionFactors.RAD_TO_DEG;
+
+            // Return the latitude and longitude
+            return res;
         }
 
         // Reads through ReceivedData, extracts telemetry messages, and sends them
@@ -296,7 +321,7 @@ namespace GroundStation
 
         #endregion
 
-        #region Serial Port Region
+        #region Serial Port
 
         private void openPort_Click(object sender, EventArgs e)
         {
@@ -304,7 +329,26 @@ namespace GroundStation
             if (!xbeeSerial.IsOpen && !String.IsNullOrWhiteSpace(cmbSerialPort.Text))
             {
                 xbeeSerial.PortName = cmbSerialPort.Text;
-                if (!xbeeSerial.IsOpen) xbeeSerial.Open();
+
+                // Attempt to open the serial port. Display an error message on failure
+                try
+                {
+                    xbeeSerial.Open();
+                }
+                catch (IOException ex)
+                {
+                    MessageBox.Show(ex.Message, "Connect Error");
+                }
+
+                // Check if the serial port is open and set status to appropriate message
+                if (xbeeSerial.IsOpen)
+                {
+                    lblConnectionStatus.Text = "Connected!";
+                }
+                else
+                {
+                    lblConnectionStatus.Text = "Connection Failed";
+                }
             }
         }
 
@@ -312,6 +356,9 @@ namespace GroundStation
         {
             // Closes the serial port if it is open
             if (xbeeSerial.IsOpen) xbeeSerial.Close();
+
+            // Set status to not connected
+            lblConnectionStatus.Text = "Not Connected";
         }
 
         private void serialPort1_DataReceived(object sender, SerialDataReceivedEventArgs e)
