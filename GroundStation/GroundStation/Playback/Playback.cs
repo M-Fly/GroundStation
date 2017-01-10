@@ -26,7 +26,7 @@ namespace GroundStation.Playback
         // Playback speed (x1)
         int playbackSpeed = 1;
 
-        //Timer for facilitating playback
+        // Timer for facilitating playback
         Timer playbackTimer = new Timer();
 
         // DataMaster object, where data is held
@@ -164,6 +164,55 @@ namespace GroundStation.Playback
             // Set the new last indices
             lastDefaultIndex = currentDefaultIndex;
             lastGpsIndex = currentGpsIndex;
+        }
+
+        public void JumpTenSecondsBeforeDrop()
+        {
+            double timeOfDrop = -1;        
+
+            foreach (DataDefault data in dataMaster.DefaultDataList)
+            {
+                if (data.dropTime_seconds >= 0)
+                {
+                    timeOfDrop = data.dropTime_seconds;
+                    break;
+                }
+            }
+
+            playbackSpeed = 0;
+
+            elapsed_time = timeOfDrop - 10.0;
+
+            tmrPlaybackTick(null, null);
+
+            playbackSpeed = 1;
+        }
+
+        // Returns the last gps data object before a specified time
+        public DataGPS GetGPSBeforeTime(double time_s)
+        {
+            if (dataMaster.GpsDataList.Count > 0)
+            {
+                // Check whether the starting time is too high... If so, return null
+                if (dataMaster.GpsDataList[0].time_seconds > time_s) return null;
+
+                // Loop through. If at any point the next object is higher, return the last object
+                for (int i = 0; i < dataMaster.GpsDataList.Count - 1; ++i)
+                {
+                    if (dataMaster.GpsDataList[i + 1].time_seconds > time_s)
+                    {
+                        return dataMaster.GpsDataList[i];
+                    }
+                }
+
+                // Return last object if nothing else is higher
+                return dataMaster.GpsDataList[dataMaster.GpsDataList.Count - 1];
+            }
+            else
+            {
+                // Return null if there are no GPS data objects
+                return null;
+            }
         }
     }
 }

@@ -387,6 +387,8 @@ namespace GroundStation
             // Reset and start the playback of data
             PlaybackController.ResetPlayback();
             PlaybackController.Play();
+
+            hasDroppedPlayback = false;
         }
 
         // Delegate Function to Facilitate Playback of GPS Data
@@ -402,13 +404,27 @@ namespace GroundStation
         // REQUIRES: Not-Null DataDefault object
         // EFFECTS:  Adds point to panelAltitudePlot and panelInstruments
         // MODIFIES: Nothing
+        bool hasDroppedPlayback = false;
+
         public void UpdateDefaultPlayback(DataDefault indata)
         {
             panelAltitudePlot.UpdateAltitude(indata.time_seconds, indata.alt_bar_ft);
             panelInstruments.UpdateInstruments(indata.airspeed_ft_s, indata.alt_bar_ft);
-        }
 
-        #region Toolstrip Menu Buttons for Playback Speed
+            // Check for a drop in the playback (hasDroppedPlayback should be reset in playToolback function)
+            if (!hasDroppedPlayback && indata.dropTime_seconds > 0)
+            {
+                // Update altitude with drop
+                panelAltitudePlot.UpdateAltitudeDrop(indata.time_seconds, indata.alt_bar_ft);
+
+                // Check for a GPS drop, if it exists update the panel
+                DataGPS lastGps = PlaybackController.GetGPSBeforeTime(indata.time_seconds);
+                if (lastGps != null) panelGPSPlot.UpdateLatLonDrop(lastGps.gps_lat, lastGps.gps_lon);
+
+                // Set hasDroppedPlayback to true
+                hasDroppedPlayback = true;
+            }
+        }
 
         private void xToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -430,7 +446,10 @@ namespace GroundStation
             if (PlaybackController != null) PlaybackController.SetPlaybackSpeed(8);
         }
 
-        #endregion
+        private void jump10sBeforeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PlaybackController.JumpTenSecondsBeforeDrop();
+        }
 
         #endregion
     }

@@ -31,16 +31,11 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.grpAltitudePlot = new System.Windows.Forms.GroupBox();
-            this.panelAltitudePlot = new GroundStation.Panels.AltitudePlot();
             this.grpCamera = new System.Windows.Forms.GroupBox();
-            this.panelCamera = new GroundStation.Panels.CameraPanel();
             this.grpDropPredictionStatus = new System.Windows.Forms.GroupBox();
             this.grpPayloadDropStatus = new System.Windows.Forms.GroupBox();
-            this.panelDropStatus = new GroundStation.Panels.DropStatus();
             this.grpInstrumentPanel = new System.Windows.Forms.GroupBox();
-            this.panelInstruments = new GroundStation.Panels.Instruments();
             this.grpGPS = new System.Windows.Forms.GroupBox();
-            this.panelGPSPlot = new GroundStation.Panels.GraphGPS();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -63,6 +58,12 @@
             this.lblSerial = new System.Windows.Forms.Label();
             this.xbeeSerial = new System.IO.Ports.SerialPort(this.components);
             this.parseTimer = new System.Windows.Forms.Timer(this.components);
+            this.panelGPSPlot = new GroundStation.Panels.GraphGPS();
+            this.panelInstruments = new GroundStation.Panels.Instruments();
+            this.panelDropStatus = new GroundStation.Panels.DropStatus();
+            this.panelCamera = new GroundStation.Panels.CameraPanel();
+            this.panelAltitudePlot = new GroundStation.Panels.AltitudePlot();
+            this.jump10sBeforeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grpAltitudePlot.SuspendLayout();
             this.grpCamera.SuspendLayout();
             this.grpPayloadDropStatus.SuspendLayout();
@@ -86,17 +87,6 @@
             this.grpAltitudePlot.TabStop = false;
             this.grpAltitudePlot.Text = "Altitude Graph";
             // 
-            // panelAltitudePlot
-            // 
-            this.panelAltitudePlot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelAltitudePlot.Location = new System.Drawing.Point(4, 17);
-            this.panelAltitudePlot.Margin = new System.Windows.Forms.Padding(2);
-            this.panelAltitudePlot.Name = "panelAltitudePlot";
-            this.panelAltitudePlot.Size = new System.Drawing.Size(1078, 253);
-            this.panelAltitudePlot.TabIndex = 0;
-            // 
             // grpCamera
             // 
             this.grpCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -111,16 +101,6 @@
             this.grpCamera.TabIndex = 1;
             this.grpCamera.TabStop = false;
             this.grpCamera.Text = "Camera";
-            // 
-            // panelCamera
-            // 
-            this.panelCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelCamera.Location = new System.Drawing.Point(6, 19);
-            this.panelCamera.Name = "panelCamera";
-            this.panelCamera.Size = new System.Drawing.Size(428, 280);
-            this.panelCamera.TabIndex = 0;
             // 
             // grpDropPredictionStatus
             // 
@@ -146,16 +126,6 @@
             this.grpPayloadDropStatus.TabStop = false;
             this.grpPayloadDropStatus.Text = "Payload Drop Status";
             // 
-            // panelDropStatus
-            // 
-            this.panelDropStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelDropStatus.Location = new System.Drawing.Point(6, 19);
-            this.panelDropStatus.Name = "panelDropStatus";
-            this.panelDropStatus.Size = new System.Drawing.Size(243, 57);
-            this.panelDropStatus.TabIndex = 3;
-            // 
             // grpInstrumentPanel
             // 
             this.grpInstrumentPanel.Controls.Add(this.panelInstruments);
@@ -165,17 +135,6 @@
             this.grpInstrumentPanel.TabIndex = 4;
             this.grpInstrumentPanel.TabStop = false;
             this.grpInstrumentPanel.Text = "Instrument Panel";
-            // 
-            // panelInstruments
-            // 
-            this.panelInstruments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelInstruments.Location = new System.Drawing.Point(5, 22);
-            this.panelInstruments.Margin = new System.Windows.Forms.Padding(2);
-            this.panelInstruments.Name = "panelInstruments";
-            this.panelInstruments.Size = new System.Drawing.Size(191, 58);
-            this.panelInstruments.TabIndex = 0;
             // 
             // grpGPS
             // 
@@ -188,16 +147,6 @@
             this.grpGPS.TabIndex = 5;
             this.grpGPS.TabStop = false;
             this.grpGPS.Text = "GraphGPSDisplay";
-            // 
-            // panelGPSPlot
-            // 
-            this.panelGPSPlot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelGPSPlot.Location = new System.Drawing.Point(6, 19);
-            this.panelGPSPlot.Name = "panelGPSPlot";
-            this.panelGPSPlot.Size = new System.Drawing.Size(625, 280);
-            this.panelGPSPlot.TabIndex = 0;
             // 
             // fileToolStripMenuItem
             // 
@@ -230,7 +179,8 @@
             // 
             this.playbackToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.playToolStripMenuItem,
-            this.speedsToolStripMenuItem});
+            this.speedsToolStripMenuItem,
+            this.jump10sBeforeToolStripMenuItem});
             this.playbackToolStripMenuItem.Name = "playbackToolStripMenuItem";
             this.playbackToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
             this.playbackToolStripMenuItem.Text = "Playback";
@@ -238,7 +188,7 @@
             // playToolStripMenuItem
             // 
             this.playToolStripMenuItem.Name = "playToolStripMenuItem";
-            this.playToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.playToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.playToolStripMenuItem.Text = "Play";
             this.playToolStripMenuItem.Click += new System.EventHandler(this.playToolStripMenuItem_Click);
             // 
@@ -250,7 +200,7 @@
             this.xToolStripMenuItem2,
             this.xToolStripMenuItem3});
             this.speedsToolStripMenuItem.Name = "speedsToolStripMenuItem";
-            this.speedsToolStripMenuItem.Size = new System.Drawing.Size(111, 22);
+            this.speedsToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
             this.speedsToolStripMenuItem.Text = "Speeds";
             // 
             // xToolStripMenuItem
@@ -385,6 +335,67 @@
             this.parseTimer.Enabled = true;
             this.parseTimer.Tick += new System.EventHandler(this.parseTimer_Tick);
             // 
+            // panelGPSPlot
+            // 
+            this.panelGPSPlot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelGPSPlot.Location = new System.Drawing.Point(6, 19);
+            this.panelGPSPlot.Name = "panelGPSPlot";
+            this.panelGPSPlot.Size = new System.Drawing.Size(625, 280);
+            this.panelGPSPlot.TabIndex = 0;
+            // 
+            // panelInstruments
+            // 
+            this.panelInstruments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelInstruments.Location = new System.Drawing.Point(5, 22);
+            this.panelInstruments.Margin = new System.Windows.Forms.Padding(2);
+            this.panelInstruments.Name = "panelInstruments";
+            this.panelInstruments.Size = new System.Drawing.Size(191, 58);
+            this.panelInstruments.TabIndex = 0;
+            // 
+            // panelDropStatus
+            // 
+            this.panelDropStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelDropStatus.Location = new System.Drawing.Point(6, 19);
+            this.panelDropStatus.Name = "panelDropStatus";
+            this.panelDropStatus.Size = new System.Drawing.Size(243, 57);
+            this.panelDropStatus.TabIndex = 3;
+            // 
+            // panelCamera
+            // 
+            this.panelCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelCamera.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F);
+            this.panelCamera.Location = new System.Drawing.Point(6, 19);
+            this.panelCamera.Margin = new System.Windows.Forms.Padding(10, 9, 10, 9);
+            this.panelCamera.Name = "panelCamera";
+            this.panelCamera.Size = new System.Drawing.Size(428, 280);
+            this.panelCamera.TabIndex = 0;
+            // 
+            // panelAltitudePlot
+            // 
+            this.panelAltitudePlot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelAltitudePlot.Location = new System.Drawing.Point(4, 17);
+            this.panelAltitudePlot.Margin = new System.Windows.Forms.Padding(2);
+            this.panelAltitudePlot.Name = "panelAltitudePlot";
+            this.panelAltitudePlot.Size = new System.Drawing.Size(1078, 253);
+            this.panelAltitudePlot.TabIndex = 0;
+            // 
+            // jump10sBeforeToolStripMenuItem
+            // 
+            this.jump10sBeforeToolStripMenuItem.Name = "jump10sBeforeToolStripMenuItem";
+            this.jump10sBeforeToolStripMenuItem.Size = new System.Drawing.Size(189, 22);
+            this.jump10sBeforeToolStripMenuItem.Text = "Jump 10s Before Drop";
+            this.jump10sBeforeToolStripMenuItem.Click += new System.EventHandler(this.jump10sBeforeToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -454,6 +465,7 @@
         private System.Windows.Forms.ToolStripMenuItem cameraToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem connectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem disconnectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem jump10sBeforeToolStripMenuItem;
     }
 }
 
