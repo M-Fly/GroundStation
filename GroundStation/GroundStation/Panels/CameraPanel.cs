@@ -10,12 +10,15 @@ using System.Windows.Forms;
 
 using Accord.Controls;
 using Accord.Video.DirectShow;
+using Accord.Video.FFMPEG;
 
 namespace GroundStation.Panels
 {
     public partial class CameraPanel : UserControl
     {
         VideoSourcePlayer videoSourcePlayer = new VideoSourcePlayer();
+
+        VideoFileWriter vwriter = new VideoFileWriter();
 
         public CameraPanel()
         {
@@ -56,11 +59,20 @@ namespace GroundStation.Panels
             // Open New Video Source
             videoSourcePlayer.VideoSource = device;
             videoSourcePlayer.Start();
+
+            //Create new video file
+            vwriter.Open("M - Fly Flight Video " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".avi", device.VideoResolution.FrameSize.Width, device.VideoResolution.FrameSize.Height, device.VideoResolution.AverageFrameRate);
         }
 
         public void CloseVideoSource()
         {
             videoSourcePlayer.Stop();
+
+            if (vwriter.IsOpen)
+            {
+                vwriter.Flush();
+                vwriter.Close();
+            }
 
             if (videoSourcePlayer.VideoSource != null)
             {
@@ -85,6 +97,8 @@ namespace GroundStation.Panels
             brush.Dispose();
 
             g.Dispose();
+
+            vwriter.WriteVideoFrame(image);
         }
     }
 }
