@@ -61,7 +61,7 @@ namespace GroundStation.Panels
             videoSourcePlayer.Start();
 
             //Create new video file
-            vwriter.Open("M - Fly Flight Video " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".avi", device.VideoResolution.FrameSize.Width, device.VideoResolution.FrameSize.Height, device.VideoResolution.AverageFrameRate);
+            vwriter.Open("M-Fly Flight Video " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".avi", device.VideoResolution.FrameSize.Width, device.VideoResolution.FrameSize.Height, device.VideoResolution.AverageFrameRate);
         }
 
         public void CloseVideoSource()
