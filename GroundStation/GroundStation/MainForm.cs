@@ -19,11 +19,8 @@ namespace GroundStation
 {
     public partial class MainForm : Form
     {
-        // TODO: Replace millis from telemetry data with DateTime object locally to keep track of
-        //          local time, just in case there decides to be a reset on the flight computer
-
         // Debugging controls
-        private const bool DEBUG_ENABLED = true;
+        private const bool DEBUG_ENABLED = false;
         private Debugging.ArduinoDebugging debugFunction;
 
         // Playback controls
@@ -31,6 +28,9 @@ namespace GroundStation
 
         // StringBuilder to hold incoming data before it is parsed
         private StringBuilder ReceivedData = new StringBuilder();
+        private const int A_MSG_LEN = 9;
+        private const int B_MSG_LEN = 10;
+        private const int C_MSG_LEN = 9;
 
         // DataMaster to keep track of telemetry data
         private DataMaster MainDataMaster = new DataMaster();
@@ -41,6 +41,12 @@ namespace GroundStation
         // Variable to keep track of when a payload is dropped
         private bool PayloadDropped = false;
 
+        private LatLng targetLocation = new LatLng()
+        {
+            lat = 42.26,
+            lon = -83.7
+        };
+
         // DateTime to keep track of when items come into the ground station
         private DateTime startTime = DateTime.MaxValue;
 
@@ -50,22 +56,14 @@ namespace GroundStation
         {
             InitializeComponent();
 
-            /*DropPrediction.Vector3 pos = new DropPrediction.Vector3(0, 0, 100);
-            DropPrediction.Vector3 vel = new DropPrediction.Vector3(20, 20, 0);
-
-            DropPrediction.PredictionAlgorithmEuler tf2 = new DropPrediction.PredictionAlgorithmEuler();
-            DropPrediction.Vector3 result = tf2.PredictionIntegrationFunction(pos, vel);
-            
-            DropPrediction.PredictionAlgorithmLagrange tf = new DropPrediction.PredictionAlgorithmLagrange();
-            tf.EulerLagrange(0, 0, 100, 20, 20);
-            */
-
             PlaybackController = new Playback.Playback(MainDataMaster, UpdateDefaultPlayback, UpdateGPSPlayback);
 
             if (DEBUG_ENABLED)
             {
                 debugFunction = new Debugging.ArduinoDebugging(ParseData);
             }
+
+            panelGPSPlot.UpdateLatLonTarget(targetLocation.lat, targetLocation.lon);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -131,13 +129,15 @@ namespace GroundStation
             public double lon;
         }
 
-        // TODO: CONVERT VARIABLES INTO PROPER UNITS: ALTITUDE in FT. VELOCITY IN FT/S.
         // TODO: Verify that length of data (number of terms) is correct -> validate message
         // Parses data into a List
         public void ParseData(string InputString)
         {
             // Divide data by each comma
             string[] DataString = InputString.Split(',');
+
+            // Ensure that there are at least 2 data objects in the string
+            if (DataString.Length < 2) return;
 
             // Initialize the start time (if necessary) and get the total seconds from the start time
             if (startTime > DateTime.Now) startTime = DateTime.Now;
@@ -156,6 +156,9 @@ namespace GroundStation
             if (DataString[0].Equals("A"))
             {
                 // A,MX2,MILLIS,ALT_BARO,ANALOG_PITOT,PRESS,TEMP,DROP_TIME,DROP_ALT
+
+                // Ignore data string if the lengths are not equal
+                if (DataString.Length != A_MSG_LEN) return;
 
                 // Parse Data from String
                 DataDefault inDefault = new DataDefault();
@@ -210,6 +213,11 @@ namespace GroundStation
             //      Divide some variables to restore proper values 
             else if (DataString[0].Equals("B"))
             {
+                // B,MX2,MILLIS,GPS_SYSTEM,LAT,LON,GPS_SPEED,GPS_COURSE,GPS_ALT,GPS_HDOP
+
+                // Ignore data string if the lengths are not equal
+                if (DataString.Length != B_MSG_LEN) return;
+
                 // Parse GPS Data
                 DataGPS gpsData = new DataGPS();
                 gpsData.time_seconds = dataSeconds;
@@ -230,9 +238,12 @@ namespace GroundStation
                 // Update GPS Panel with new location
                 panelGPSPlot.UpdateLatLon(gpsData.gps_lat, gpsData.gps_lon);
 
-                // Predict payload drop location and display location on screen
+                // Predict payload drop location and display location on screen if it exists
                 LatLng predictedLatLng = PredictPayloadDropLoc(gpsData);
-                panelGPSPlot.UpdateLatLonPredict(predictedLatLng.lat, predictedLatLng.lon);
+                if (predictedLatLng != null)
+                {
+                    panelGPSPlot.UpdateLatLonPredict(predictedLatLng.lat, predictedLatLng.lon);
+                }
             }
 
             // 'C' message delivers gyro data. Gives time in milliseconds; x, y, and z gyro values;
@@ -241,6 +252,11 @@ namespace GroundStation
             //      Acceleration in m/s^2
             else if (DataString[0].Equals("C"))
             {
+                // C,MX2,MILLIS,GYROX,GYROY,GYROZ,ACCELX,ACCELY,ACCELZ
+
+                // Ignore data string if the lengths are not equal
+                if (DataString.Length != C_MSG_LEN) return;
+
                 // Parse incoming data
                 DataAccelGyro gyroData = new DataAccelGyro();
                 gyroData.time_seconds = dataSeconds;
@@ -266,8 +282,15 @@ namespace GroundStation
 
         private LatLng PredictPayloadDropLoc(DataGPS gpsData)
         {
+            // Return if there are no items in the default data list
+            if (MainDataMaster.DefaultDataList.Count == 0) return null;
+
+            // Get the aircraft altitude in MEters from the latest default data object
+            double aircraftAlt = MainDataMaster.DefaultDataList[MainDataMaster.DefaultDataList.Count - 1].alt_bar_ft;
+            aircraftAlt /= ConversionFactors.METERS_TO_FEET;
+
             // Get the initial position based on altitude
-            DropPrediction.Vector3 landingPos = new DropPrediction.Vector3(0, 0, gpsData.gps_alt_ft / ConversionFactors.METERS_TO_FEET);
+            DropPrediction.Vector3 landingPos = new DropPrediction.Vector3(0, 0, aircraftAlt);
 
             // Calculate the x and y velocities from heading
             double velX = gpsData.gps_speed_ft_s * Math.Sin(gpsData.gps_course * ConversionFactors.DEG_TO_RAD) / ConversionFactors.METERS_SECONDS_TO_FEET_SECONDS;
@@ -300,6 +323,10 @@ namespace GroundStation
             // String to hold all incoming data
             string incomingData = ReceivedData.ToString();
 
+            if (String.IsNullOrWhiteSpace(incomingData)) return;
+
+            Console.Write(incomingData);
+
             // Last index of the incoming data
             int lastIndex = incomingData.LastIndexOf(';');
 
@@ -313,10 +340,7 @@ namespace GroundStation
             }
 
             // Remove all parsed data from receivedData
-            if (lastIndex >= 0)
-            {
-                ReceivedData.Remove(0, lastIndex + 1);
-            }
+            if (lastIndex >= 0) ReceivedData.Remove(0, lastIndex + 1);
         }
 
         #endregion

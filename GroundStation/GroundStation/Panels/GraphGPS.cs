@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using OxyPlot;
+using OxyPlot.Axes;
 using OxyPlot.Series;
 using OxyPlot.WindowsForms;
 
@@ -86,6 +87,9 @@ namespace GroundStation.Panels
             LatLon_PlotModel.Series.Add(LatLon_LineSeries_Drop);
             LatLon_PlotModel.Series.Add(LatLon_LineSeries_Target);
             LatLon_PlotModel.Series.Add(LatLon_LineSeries_Predict);
+
+            // Axes
+            LinearAxis xAxis = new LinearAxis();
 
             // Create the plot and set the below viewing properties
             LatLonPlot = new PlotView();
@@ -180,14 +184,14 @@ namespace GroundStation.Panels
         // MODIFEIS:
         //      All LineSeries
         // EFFECTS:
-        //      WIPES ALL LINESERIES
+        //      WIPES ALL LINESERIES (except target location)
         //
         public void ClearGPS()
         {
             LatLon_LineSeries.Points.Clear();
             LatLon_LineSeries_Drop.Points.Clear();
             LatLon_LineSeries_Predict.Points.Clear();
-            LatLon_LineSeries_Target.Points.Clear();
+            //LatLon_LineSeries_Target.Points.Clear();
 
             LatLon_PlotModel.InvalidatePlot(true);
         }
