@@ -20,6 +20,7 @@ namespace GroundStation.Panels
 
         VideoFileWriter vwriter = new VideoFileWriter();
 
+        // Constructor
         public CameraPanel()
         {
             InitializeComponent();
