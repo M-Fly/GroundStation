@@ -20,7 +20,7 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         // Debugging controls
-        private const bool DEBUG_ENABLED = false;
+        private const bool DEBUG_ENABLED = true;
         private Debugging.ArduinoDebugging debugFunction;
 
         // Playback controls
@@ -36,7 +36,8 @@ namespace GroundStation
         private DataMaster MainDataMaster = new DataMaster();
 
         // StreamWriter file to write data to a file
-        private StreamWriter DataFile = new StreamWriter("M-Fly Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
+        private StreamWriter dataFile = new StreamWriter("M-Fly Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
+        private StreamWriter rawDataFile = new StreamWriter("M-Fly Raw Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
 
         // Variable to keep track of when a payload is dropped
         private bool PayloadDropped = false;
@@ -93,9 +94,13 @@ namespace GroundStation
             }
 
             // Close the data file
-            DataFile.Flush();
-            DataFile.Close();
-            DataFile = null;
+            dataFile.Flush();
+            dataFile.Close();
+            dataFile = null;
+
+            rawDataFile.Flush();
+            rawDataFile.Close();
+            rawDataFile = null;
 
             // Disable the parsing timer
             parseTimer.Enabled = false;
@@ -133,6 +138,8 @@ namespace GroundStation
         // Parses data into a List
         public void ParseData(string InputString)
         {
+            rawDataFile.WriteLine(InputString);
+
             // Divide data by each comma
             string[] DataString = InputString.Split(',');
 
@@ -158,7 +165,7 @@ namespace GroundStation
                 // A,MX2,MILLIS,ALT_BARO,ANALOG_PITOT,PRESS,TEMP,DROP_TIME,DROP_ALT
 
                 // Ignore data string if the lengths are not equal
-                if (DataString.Length != A_MSG_LEN) return;
+                if (DataString.Length < A_MSG_LEN) return;
 
                 // Parse Data from String
                 DataDefault inDefault = new DataDefault();
@@ -176,7 +183,7 @@ namespace GroundStation
                 inDefault.airspeed_ft_s = PitotLibrary.GetAirspeedFeetSeconds(AnalogPitotValue, inDefault.temperature_c, inDefault.pressure_pa);
 
                 // Write Data to File
-                DataFile.WriteLine(inDefault.ToString());
+                dataFile.WriteLine(inDefault.ToString());
 
                 // Add data object to data master list
                 MainDataMaster.DefaultDataList.Add(inDefault);
@@ -216,7 +223,7 @@ namespace GroundStation
                 // B,MX2,MILLIS,GPS_SYSTEM,LAT,LON,GPS_SPEED,GPS_COURSE,GPS_ALT,GPS_HDOP
 
                 // Ignore data string if the lengths are not equal
-                if (DataString.Length != B_MSG_LEN) return;
+                if (DataString.Length < B_MSG_LEN) return;
 
                 // Parse GPS Data
                 DataGPS gpsData = new DataGPS();
@@ -230,7 +237,7 @@ namespace GroundStation
                 gpsData.gps_hdop = (Convert.ToDouble(DataString[9])) / 10;
 
                 // Write data to file
-                DataFile.WriteLine(gpsData.ToString());
+                dataFile.WriteLine(gpsData.ToString());
 
                 // Add data object to DataMaster
                 MainDataMaster.GpsDataList.Add(gpsData);
@@ -255,7 +262,7 @@ namespace GroundStation
                 // C,MX2,MILLIS,GYROX,GYROY,GYROZ,ACCELX,ACCELY,ACCELZ
 
                 // Ignore data string if the lengths are not equal
-                if (DataString.Length != C_MSG_LEN) return;
+                if (DataString.Length < C_MSG_LEN) return;
 
                 // Parse incoming data
                 DataAccelGyro gyroData = new DataAccelGyro();
@@ -268,7 +275,7 @@ namespace GroundStation
                 gyroData.accel_z = Convert.ToDouble(DataString[8]);
 
                 // Write data to file
-                DataFile.WriteLine(gyroData.ToString());
+                dataFile.WriteLine(gyroData.ToString());
 
                 // Add data object to DataMaster
                 MainDataMaster.GryoAccelDataList.Add(gyroData);
@@ -276,7 +283,7 @@ namespace GroundStation
             else
             {
                 // If unknown message, write information to console
-                DataFile.WriteLine("Unknown Message: " + InputString);
+                dataFile.WriteLine("Unknown Message: " + InputString);
             }
         }
 

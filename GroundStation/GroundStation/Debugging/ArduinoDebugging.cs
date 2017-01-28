@@ -192,7 +192,7 @@ namespace GroundStation.Debugging
 
             // Re-create the Arduino messages present in the DataAcquisitionSystem.ino files in GitHub
             string aMessageTest = String.Format("A,MX2,{0},{1},{2},{3},{4},{5},{6}", millis, altitude_meters, arduino_setting, press, temp, dropTime, dropAlt);
-            string bMessageTest = String.Format("B,MX2,{0},N,{1},{2},{3},{4},{5},10,100", millis, lat_deg, long_deg, gps_speed, course, gps_alt);
+            string bMessageTest = String.Format("B,MX2,{0},N,{1},{2},{3},{4},{5},10", millis, lat_deg, long_deg, gps_speed, course, gps_alt);
             string cMessageTest = String.Format("C,MX2,{0},1,2,3,4,5,6", millis);
 
             // Pass the testing data into the ParseData function for use.
