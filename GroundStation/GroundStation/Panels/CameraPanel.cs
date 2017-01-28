@@ -20,6 +20,7 @@ namespace GroundStation.Panels
 
         VideoFileWriter vwriter = new VideoFileWriter();
 
+        // Constructor
         public CameraPanel()
         {
             InitializeComponent();
@@ -60,7 +61,8 @@ namespace GroundStation.Panels
             videoSourcePlayer.VideoSource = device;
             videoSourcePlayer.Start();
 
-            //Create new video file
+            // Create new video file
+            // Video file is .avi file. Title has "M-Fly Flight Video" followed by date and time
             vwriter.Open("M-Fly Flight Video " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".avi", device.VideoResolution.FrameSize.Width, device.VideoResolution.FrameSize.Height, device.VideoResolution.AverageFrameRate);
         }
 
@@ -86,6 +88,7 @@ namespace GroundStation.Panels
             }
         }
 
+        // Runs for every new frame
         private void videoSourcePlayer_NewFrame(object sender, ref Bitmap image)
         {
             DateTime now = DateTime.Now;

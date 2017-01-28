@@ -36,8 +36,8 @@ namespace GroundStation
         private DataMaster MainDataMaster = new DataMaster();
 
         // StreamWriter file to write data to a file
-        private StreamWriter dataFile = new StreamWriter("M-Fly Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
-        private StreamWriter rawDataFile = new StreamWriter("M-Fly Raw Telemtry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
+        private StreamWriter dataFile = new StreamWriter("M-Fly Telemetry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
+        private StreamWriter rawDataFile = new StreamWriter("M-Fly Raw Telemetry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
 
         // Variable to keep track of when a payload is dropped
         private bool PayloadDropped = false;
