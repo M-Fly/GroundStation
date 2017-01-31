@@ -23,6 +23,9 @@ namespace GroundStation
         private const bool DEBUG_ENABLED = true;
         private Debugging.ArduinoDebugging debugFunction;
 
+        // Flight Barrier controls
+        private const bool FLYING_PILGRIM = true;
+
         // Playback controls
         private Playback.Playback PlaybackController;
 
@@ -62,6 +65,11 @@ namespace GroundStation
             if (DEBUG_ENABLED)
             {
                 debugFunction = new Debugging.ArduinoDebugging(ParseData);
+            }
+
+            if (FLYING_PILGRIM)
+            {
+                panelGPSPlot.PilgrimBarrier();
             }
 
             panelGPSPlot.UpdateLatLonTarget(targetLocation.lat, targetLocation.lon);
