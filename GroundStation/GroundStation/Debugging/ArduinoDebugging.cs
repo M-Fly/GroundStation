@@ -35,10 +35,10 @@ namespace GroundStation.Debugging
         double STARTING_LON = -83.7119997;
         double STARTING_LAT = 42.2936028;
 
-        double SEMI_COURSE_HEIGHT_FT = 1000;
-        double SEMI_COURSE_LENGTH_FT = 3000;
+        double SEMI_COURSE_HEIGHT_FT = 500;
+        double SEMI_COURSE_LENGTH_FT = 800;
 
-        double COURSE_VARIANCE_FT = 25;
+        double COURSE_VARIANCE_FT = 0;
 
         #endregion
 

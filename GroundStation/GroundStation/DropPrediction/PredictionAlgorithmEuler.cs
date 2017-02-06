@@ -23,24 +23,28 @@
         // Does not modify the original inputted Vector3 position and velocity
         //
         // REQUIRES:
-        //      Vector3 pos: Initial position Vector of the payload in m/s. Integration stops when pos.z <= 0
-        //      Vector3 vel: Initial velocity vector of the payload in m/s
+        //      Vector3 pos:        Initial position Vector of the payload in m/s. Integration stops when pos.z <= 0
+        //      Vector3 vel:        Initial velocity vector of the payload in m/s
+        //      Vector3 windVel:    Wind velocity vector (in terms of where the wind is blowing to) in m/s
         // MODIFIES: Nothing
         // EFFECTS:  Nothing
-        public static Vector3 PredictionIntegrationFunction(Vector3 pos, Vector3 vel)
+        public static Vector3 PredictionIntegrationFunction(Vector3 pos, Vector3 vel, Vector3 windVel)
         {
             // Creates a clone of pos to ultimately return the new position at z=0 without modifying the original
             Vector3 posOut = new Vector3(pos);
             Vector3 velOut = new Vector3(vel);
 
             // Variable to hold the normal velocity during integration
-            double velMag;
+            double velRelMag;
 
             // Loop the integration until pos.z < 0 (payload hits ground), using an Euler function
             while (posOut.z > 0)
             {
+                // Find the relative velocity between the payload and the air
+                Vector3 velRel = velOut - windVel;
+
                 // Find the magnitude of the velocity vector
-                velMag = velOut.Norm();
+                velRelMag = velRel.Norm();
 
                 // Find the new position based on the current velocity and given integration timestep
                 posOut.x = posOut.x + velOut.x * dt;
@@ -48,9 +52,9 @@
                 posOut.z = posOut.z + velOut.z * dt;
 
                 // Find the new velocity based on the acceleration on particle and the given integration timestep
-                velOut.x = velOut.x - 0.5 * rho * velMag * payload_area * payload_cdrg * velOut.x * dt / payload_mass;
-                velOut.y = velOut.y - 0.5 * rho * velMag * payload_area * payload_cdrg * velOut.y * dt / payload_mass;
-                velOut.z = velOut.z - 0.5 * rho * velMag * payload_area * payload_cdrg * velOut.z * dt / payload_mass - g * dt;
+                velOut.x = velOut.x - 0.5 * rho * velRelMag * payload_area * payload_cdrg * velRel.x * dt / payload_mass;
+                velOut.y = velOut.y - 0.5 * rho * velRelMag * payload_area * payload_cdrg * velRel.y * dt / payload_mass;
+                velOut.z = velOut.z - 0.5 * rho * velRelMag * payload_area * payload_cdrg * velRel.z * dt / payload_mass - g * dt;
             }
 
             // Return the final position vector of the payload
