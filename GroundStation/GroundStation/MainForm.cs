@@ -62,17 +62,21 @@ namespace GroundStation
 
             PlaybackController = new Playback.Playback(MainDataMaster, UpdateDefaultPlayback, UpdateGPSPlayback);
 
+            // Enable debug-specific functionality
             if (DEBUG_ENABLED)
             {
                 debugFunction = new Debugging.ArduinoDebugging(ParseData);
+            }
+            // Otherwise, run non-debug-specific functionality
+            else
+            {
+                panelGPSPlot.UpdateLatLonTarget(targetLocation.lat, targetLocation.lon);
             }
 
             if (FLYING_PILGRIM)
             {
                 panelGPSPlot.PilgrimBarrier();
             }
-
-            panelGPSPlot.UpdateLatLonTarget(targetLocation.lat, targetLocation.lon);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
