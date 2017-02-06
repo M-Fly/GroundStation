@@ -25,6 +25,7 @@ namespace GroundStation.Panels
         LineSeries LatLon_LineSeries_Drop;
         LineSeries LatLon_LineSeries_Target;
         LineSeries LatLon_LineSeries_Predict;
+        LineSeries LatLon_LineSeries_Pilgrim;
 
         // GraphGPS
         //
@@ -82,11 +83,19 @@ namespace GroundStation.Panels
                 MarkerSize = 3,
             };
 
+            //Line Series for Flying Pilgrim boundary
+            LatLon_LineSeries_Pilgrim = new LineSeries
+            {
+                LineStyle = LineStyle.Dash,
+                Color = OxyColors.Red,
+            };
+
             // Add the series to the plot model
             LatLon_PlotModel.Series.Add(LatLon_LineSeries);
             LatLon_PlotModel.Series.Add(LatLon_LineSeries_Drop);
             LatLon_PlotModel.Series.Add(LatLon_LineSeries_Target);
             LatLon_PlotModel.Series.Add(LatLon_LineSeries_Predict);
+            LatLon_PlotModel.Series.Add(LatLon_LineSeries_Pilgrim);
 
             // Axes
             LinearAxis xAxis = new LinearAxis();
@@ -176,6 +185,19 @@ namespace GroundStation.Panels
         }
 
         #endregion
+
+        //Create Pilgrim Barrier
+        //
+        //Creates a dotted barrier based on Flying Pilgrim boundary conditions
+        //
+        public void PilgrimBarrier()
+        {
+            LatLon_LineSeries_Pilgrim.Points.Add(new DataPoint(-83.554693, 42.279866));
+            LatLon_LineSeries_Pilgrim.Points.Add(new DataPoint(-83.561805, 42.279569));
+            LatLon_LineSeries_Pilgrim.Points.Add(new DataPoint(-83.561976, 42.281242));
+            LatLon_LineSeries_Pilgrim.Points.Add(new DataPoint(-83.554455, 42.282033));
+            LatLon_LineSeries_Pilgrim.Points.Add(new DataPoint(-83.554693, 42.279866));
+        }
 
         // ClearGPS
         //

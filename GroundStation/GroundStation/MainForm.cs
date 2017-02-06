@@ -23,6 +23,9 @@ namespace GroundStation
         private const bool DEBUG_ENABLED = true;
         private Debugging.ArduinoDebugging debugFunction;
 
+        // Flight Barrier controls
+        private const bool FLYING_PILGRIM = true;
+
         // Playback controls
         private Playback.Playback PlaybackController;
 
@@ -64,10 +67,12 @@ namespace GroundStation
                 debugFunction = new Debugging.ArduinoDebugging(ParseData);
             }
 
-            if (!DEBUG_ENABLED)
+            if (FLYING_PILGRIM)
             {
-                panelGPSPlot.UpdateLatLonTarget(targetLocation.lat, targetLocation.lon);
+                panelGPSPlot.PilgrimBarrier();
             }
+
+            panelGPSPlot.UpdateLatLonTarget(targetLocation.lat, targetLocation.lon);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -308,7 +313,7 @@ namespace GroundStation
             DropPrediction.Vector3 vel = new DropPrediction.Vector3(velX, velY, 0);
 
             // Get the resulting delta-location from the aircraft
-            DropPrediction.Vector3 result = DropPrediction.PredictionAlgorithmEuler.PredictionIntegrationFunction(landingPos, vel, new DropPrediction.Vector3());
+            DropPrediction.Vector3 result = DropPrediction.PredictionAlgorithmEuler.PredictionIntegrationFunction(landingPos, vel);
 
             // Find dx and dy in feet from the aircraft.
             double dx = result.x * ConversionFactors.METERS_TO_FEET;
@@ -330,8 +335,6 @@ namespace GroundStation
         // to the parsing function
         private void parseTimer_Tick(object sender, EventArgs e)
         {
-            if (ReceivedData == null) return;
-
             // String to hold all incoming data
             string incomingData = ReceivedData.ToString();
 
