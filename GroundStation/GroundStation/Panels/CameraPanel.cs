@@ -16,29 +16,33 @@ namespace GroundStation.Panels
 {
     public partial class CameraPanel : UserControl
     {
-        VideoSourcePlayer videoSourcePlayer = new VideoSourcePlayer();
-
-        VideoFileWriter vwriter = new VideoFileWriter();
+        VideoSourcePlayer videoSourcePlayer = null;
+        VideoFileWriter vwriter = null;
 
         // Constructor
         public CameraPanel()
         {
             InitializeComponent();
-
-            this.Controls.Add(videoSourcePlayer);
-
-            videoSourcePlayer.Dock = DockStyle.Fill;
-            videoSourcePlayer.Location = new Point(0, 0);
-            videoSourcePlayer.BorderColor = Color.Transparent;
-            videoSourcePlayer.BringToFront();
-
-            videoSourcePlayer.NewFrame += videoSourcePlayer_NewFrame;
-
-            videoSourcePlayer.KeepAspectRatio = true;
         }
 
         public void PromptVideoSource()
         {
+            if (videoSourcePlayer == null)
+            {
+                videoSourcePlayer = new VideoSourcePlayer();
+
+                this.Controls.Add(videoSourcePlayer);
+
+                videoSourcePlayer.Dock = DockStyle.Fill;
+                videoSourcePlayer.Location = new Point(0, 0);
+                videoSourcePlayer.BorderColor = Color.Transparent;
+                videoSourcePlayer.BringToFront();
+
+                videoSourcePlayer.NewFrame += videoSourcePlayer_NewFrame;
+
+                videoSourcePlayer.KeepAspectRatio = true;
+            }
+
             VideoCaptureDeviceForm videoDialogForm = new VideoCaptureDeviceForm();
 
             if (videoDialogForm.ShowDialog(this) == DialogResult.OK)
@@ -53,9 +57,14 @@ namespace GroundStation.Panels
 
         private void OpenVideoSource(VideoCaptureDevice device)
         {
-            // Close Old Video Source
-            videoSourcePlayer.Stop();
+            // Close Old Video Source and writer
+            if (videoSourcePlayer.IsRunning) videoSourcePlayer.Stop();
             CloseVideoSource();
+
+            if (vwriter != null && vwriter.IsOpen)
+            {
+                vwriter.Close();
+            }
 
             // Open New Video Source
             videoSourcePlayer.VideoSource = device;
@@ -63,6 +72,7 @@ namespace GroundStation.Panels
 
             // Create new video file
             // Video file is .avi file. Title has "M-Fly Flight Video" followed by date and time
+            vwriter = new VideoFileWriter();
             vwriter.Open("M-Fly Flight Video " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".avi", device.VideoResolution.FrameSize.Width, device.VideoResolution.FrameSize.Height, device.VideoResolution.AverageFrameRate);
         }
 
@@ -70,7 +80,7 @@ namespace GroundStation.Panels
         {
             videoSourcePlayer.Stop();
 
-            if (vwriter.IsOpen)
+            if (vwriter != null && vwriter.IsOpen)
             {
                 vwriter.Flush();
                 vwriter.Close();
@@ -101,7 +111,7 @@ namespace GroundStation.Panels
 
             g.Dispose();
 
-            vwriter.WriteVideoFrame(image);
+            if (vwriter != null) vwriter.WriteVideoFrame(image);
         }
     }
 }

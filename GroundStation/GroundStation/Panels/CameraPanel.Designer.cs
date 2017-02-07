@@ -37,10 +37,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblWaiting.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F);
-            this.lblWaiting.Location = new System.Drawing.Point(10, 0);
+            this.lblWaiting.Location = new System.Drawing.Point(0, 0);
             this.lblWaiting.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.lblWaiting.Name = "lblWaiting";
-            this.lblWaiting.Size = new System.Drawing.Size(216, 193);
+            this.lblWaiting.Size = new System.Drawing.Size(235, 193);
             this.lblWaiting.TabIndex = 0;
             this.lblWaiting.Text = "Waiting for Camera Connection\r\nEnable Camera in Menubar";
             this.lblWaiting.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
