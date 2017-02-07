@@ -317,7 +317,7 @@ namespace GroundStation
             DropPrediction.Vector3 vel = new DropPrediction.Vector3(velX, velY, 0);
 
             // Get the resulting delta-location from the aircraft
-            DropPrediction.Vector3 result = DropPrediction.PredictionAlgorithmEuler.PredictionIntegrationFunction(landingPos, vel);
+            DropPrediction.Vector3 result = DropPrediction.PredictionAlgorithmEuler.PredictionIntegrationFunction(landingPos, vel, new DropPrediction.Vector3());
 
             // Find dx and dy in feet from the aircraft.
             double dx = result.x * ConversionFactors.METERS_TO_FEET;
