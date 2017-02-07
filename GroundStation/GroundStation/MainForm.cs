@@ -217,6 +217,7 @@ namespace GroundStation
                     {
                         DataGPS lastGpsData = MainDataMaster.GpsDataList[gpsCount - 1];
                         panelGPSPlot.UpdateLatLonDrop(lastGpsData.gps_lat, lastGpsData.gps_lon);
+
                     }
 
                     // Set PayloadDropped to true
@@ -304,7 +305,7 @@ namespace GroundStation
             // Return if there are no items in the default data list
             if (MainDataMaster.DefaultDataList.Count == 0) return null;
 
-            // Get the aircraft altitude in MEters from the latest default data object
+            // Get the aircraft altitude in Meters from the latest default data object
             double aircraftAlt = MainDataMaster.DefaultDataList[MainDataMaster.DefaultDataList.Count - 1].alt_bar_ft;
             aircraftAlt /= ConversionFactors.METERS_TO_FEET;
 

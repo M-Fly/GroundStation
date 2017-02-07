@@ -121,6 +121,12 @@
     <Compile Include="Panels\CameraPanel.Designer.cs">
       <DependentUpon>CameraPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Panels\DropPredictionStatus.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Panels\DropPredictionStatus.Designer.cs">
+      <DependentUpon>DropPredictionStatus.cs</DependentUpon>
+    </Compile>
     <Compile Include="Panels\DropStatus.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -156,6 +162,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\CameraPanel.resx">
       <DependentUpon>CameraPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Panels\DropPredictionStatus.resx">
+      <DependentUpon>DropPredictionStatus.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Panels\DropStatus.resx">
       <DependentUpon>DropStatus.cs</DependentUpon>

@@ -32,6 +32,7 @@ namespace GroundStation.Panels
         {
             Payload_Time_Status.Text = String.Format("Drop Time: {0:0.0} s", time_s);       //States time that payload was dropped.
             Payload_Alt_Status.Text = String.Format("Drop Altitude: {0:0.0} ft", alt_ft);   //States altitude that payload was dropped.
+
         }
     }
 }
