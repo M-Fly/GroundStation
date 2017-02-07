@@ -217,7 +217,7 @@ namespace GroundStation
                     {
                         DataGPS lastGpsData = MainDataMaster.GpsDataList[gpsCount - 1];
                         panelGPSPlot.UpdateLatLonDrop(lastGpsData.gps_lat, lastGpsData.gps_lon);
-
+                        panelDropPredictionStatus.UpdatePlaneLatLon(lastGpsData.gps_lat, lastGpsData.gps_lon);
                     }
 
                     // Set PayloadDropped to true

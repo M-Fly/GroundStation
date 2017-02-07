@@ -34,6 +34,7 @@
             this.panelAltitudePlot = new GroundStation.Panels.AltitudePlot();
             this.grpCamera = new System.Windows.Forms.GroupBox();
             this.grpDropPredictionStatus = new System.Windows.Forms.GroupBox();
+            this.panelDropPredictionStatus = new GroundStation.Panels.DropPredictionStatus();
             this.grpPayloadDropStatus = new System.Windows.Forms.GroupBox();
             this.panelDropStatus = new GroundStation.Panels.DropStatus();
             this.grpInstrumentPanel = new System.Windows.Forms.GroupBox();
@@ -63,7 +64,6 @@
             this.lblSerial = new System.Windows.Forms.Label();
             this.xbeeSerial = new System.IO.Ports.SerialPort(this.components);
             this.parseTimer = new System.Windows.Forms.Timer(this.components);
-            this.dropPredictionStatus1 = new GroundStation.Panels.DropPredictionStatus();
             this.grpAltitudePlot.SuspendLayout();
             this.grpDropPredictionStatus.SuspendLayout();
             this.grpPayloadDropStatus.SuspendLayout();
@@ -116,7 +116,7 @@
             // 
             this.grpDropPredictionStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.grpDropPredictionStatus.AutoSize = true;
-            this.grpDropPredictionStatus.Controls.Add(this.dropPredictionStatus1);
+            this.grpDropPredictionStatus.Controls.Add(this.panelDropPredictionStatus);
             this.grpDropPredictionStatus.Location = new System.Drawing.Point(627, 27);
             this.grpDropPredictionStatus.Margin = new System.Windows.Forms.Padding(2);
             this.grpDropPredictionStatus.Name = "grpDropPredictionStatus";
@@ -125,6 +125,13 @@
             this.grpDropPredictionStatus.TabIndex = 2;
             this.grpDropPredictionStatus.TabStop = false;
             this.grpDropPredictionStatus.Text = "Drop Prediction Status";
+            // 
+            // panelDropPredictionStatus
+            // 
+            this.panelDropPredictionStatus.Location = new System.Drawing.Point(6, 16);
+            this.panelDropPredictionStatus.Name = "panelDropPredictionStatus";
+            this.panelDropPredictionStatus.Size = new System.Drawing.Size(178, 50);
+            this.panelDropPredictionStatus.TabIndex = 0;
             // 
             // grpPayloadDropStatus
             // 
@@ -384,13 +391,6 @@
             this.parseTimer.Enabled = true;
             this.parseTimer.Tick += new System.EventHandler(this.parseTimer_Tick);
             // 
-            // dropPredictionStatus1
-            // 
-            this.dropPredictionStatus1.Location = new System.Drawing.Point(6, 16);
-            this.dropPredictionStatus1.Name = "dropPredictionStatus1";
-            this.dropPredictionStatus1.Size = new System.Drawing.Size(178, 50);
-            this.dropPredictionStatus1.TabIndex = 0;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -461,7 +461,7 @@
         private System.Windows.Forms.ToolStripMenuItem connectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem disconnectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem jump10sBeforeToolStripMenuItem;
-        private Panels.DropPredictionStatus dropPredictionStatus1;
+        private Panels.DropPredictionStatus panelDropPredictionStatus;
     }
 }
 

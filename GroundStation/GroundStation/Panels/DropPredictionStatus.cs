@@ -17,25 +17,38 @@ namespace GroundStation.Panels
             InitializeComponent();
         }
 
-        // UpdateDropLatLon
+        // UpdatePredictLatLon
         //
         // Updates the text fields in the drop prediction diplay when the payload is dropped
         //
         // REQUIRES:
         //      double drop_lat - drop latitude in degrees
         //      double drop_lon - drop longitude in degrees
+        //
+        // EFFECTS:
+        //      Updates the drop prediciton display labels. Shows last GPS prediction for payload
+        //      drop
+        //
+
+        public void UpdatePredictLatLon(double drop_lat, double drop_lon)
+        {
+            Drop_Predict_GPS.Text = String.Format("Drop: {0:000000}, {1:000000}", drop_lat, drop_lon);
+        }
+
+        // UpdatePlaneLatLon
+        //
+        // Updates the text fields in the drop prediction diplay when the payload is dropped
+        //
+        // REQUIRES:
         //      double plane_lat - drop latitude in degrees
         //      double plane_lon - drop longitude in degrees
         //
         // EFFECTS:
-        //      Updates the drop prediciton display labels. Shows last GPS predition for payload
-        //      drop and aircraft during drop.
+        //      Updates the drop prediciton display labels. Shows last GPS location of aircraft during drop.
         //
-
-        public void UpdatePredictLatLon(double drop_lat, double drop_lon, double plane_lat, double plane_lon)
+        public void UpdatePlaneLatLon(double plane_lat, double plane_lon)
         {
-            Drop_Predict_GPS.Text = String.Format("Drop Lat Lon: {0:000000}, {1:000000}", drop_lat, drop_lon);
-            Drop_Plane_GPS.Text = String.Format("Plane Lat Lon: {0:000000}, {1:000000}", plane_lat, plane_lon);
+            Drop_Plane_GPS.Text = String.Format("Plane: {0:0.000000}, {1:0.000000}", plane_lat, plane_lon);
         }
     }
 }

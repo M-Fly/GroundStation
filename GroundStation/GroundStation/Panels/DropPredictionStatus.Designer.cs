@@ -35,20 +35,20 @@
             // Drop_Predict_GPS
             // 
             this.Drop_Predict_GPS.AutoSize = true;
-            this.Drop_Predict_GPS.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Drop_Predict_GPS.Location = new System.Drawing.Point(3, 10);
+            this.Drop_Predict_GPS.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Drop_Predict_GPS.Location = new System.Drawing.Point(3, 0);
             this.Drop_Predict_GPS.Name = "Drop_Predict_GPS";
-            this.Drop_Predict_GPS.Size = new System.Drawing.Size(68, 20);
+            this.Drop_Predict_GPS.Size = new System.Drawing.Size(47, 13);
             this.Drop_Predict_GPS.TabIndex = 0;
             this.Drop_Predict_GPS.Text = "No Drop";
             // 
             // Drop_Plane_GPS
             // 
             this.Drop_Plane_GPS.AutoSize = true;
-            this.Drop_Plane_GPS.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Drop_Plane_GPS.Location = new System.Drawing.Point(3, 30);
+            this.Drop_Plane_GPS.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Drop_Plane_GPS.Location = new System.Drawing.Point(3, 20);
             this.Drop_Plane_GPS.Name = "Drop_Plane_GPS";
-            this.Drop_Plane_GPS.Size = new System.Drawing.Size(68, 20);
+            this.Drop_Plane_GPS.Size = new System.Drawing.Size(47, 13);
             this.Drop_Plane_GPS.TabIndex = 1;
             this.Drop_Plane_GPS.Text = "No Drop";
             // 
