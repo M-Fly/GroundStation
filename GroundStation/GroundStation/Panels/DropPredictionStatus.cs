@@ -32,7 +32,7 @@ namespace GroundStation.Panels
 
         public void UpdatePredictLatLon(double drop_lat, double drop_lon)
         {
-            Drop_Predict_GPS.Text = String.Format("Drop: {0:000000}, {1:000000}", drop_lat, drop_lon);
+            Drop_Predict_GPS.Text = String.Format("Drop: {0:0.000000}, {1:0.000000}", drop_lat, drop_lon);
         }
 
         // UpdatePlaneLatLon

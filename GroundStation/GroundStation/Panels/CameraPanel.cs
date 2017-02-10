@@ -78,7 +78,6 @@ namespace GroundStation.Panels
 
         public void CloseVideoSource()
         {
-            videoSourcePlayer.Stop();
 
             if (vwriter != null && vwriter.IsOpen)
             {
@@ -86,15 +85,19 @@ namespace GroundStation.Panels
                 vwriter.Close();
             }
 
-            if (videoSourcePlayer.VideoSource != null)
+            if (videoSourcePlayer != null && videoSourcePlayer.IsRunning)
             {
-                if (videoSourcePlayer.VideoSource.IsRunning)
+                videoSourcePlayer.Stop();
+                if (videoSourcePlayer.VideoSource != null)
                 {
-                    videoSourcePlayer.VideoSource.Stop();
-                    videoSourcePlayer.VideoSource.WaitForStop();
-                }
+                    if (videoSourcePlayer.VideoSource.IsRunning)
+                    {
+                        videoSourcePlayer.VideoSource.Stop();
+                        videoSourcePlayer.VideoSource.WaitForStop();
+                    }
 
-                videoSourcePlayer.VideoSource = null;
+                    videoSourcePlayer.VideoSource = null;
+                }
             }
         }
 

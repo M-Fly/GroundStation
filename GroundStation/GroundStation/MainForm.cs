@@ -211,13 +211,21 @@ namespace GroundStation
                     panelAltitudePlot.UpdateAltitudeDrop(inDefault.dropTime_seconds, inDefault.dropAlt_ft);
 
                     // Get the last GPS coordinate to plot drop on the GPS panel
+                    // Sends aircraft and predicted drop GPS coordinates to DropPredictionStatus panel
                     //      -> Will not show if GPS list is empty, no GPS position information
                     int gpsCount = MainDataMaster.GpsDataList.Count;
                     if (gpsCount > 0)
                     {
                         DataGPS lastGpsData = MainDataMaster.GpsDataList[gpsCount - 1];
                         panelGPSPlot.UpdateLatLonDrop(lastGpsData.gps_lat, lastGpsData.gps_lon);
+
                         panelDropPredictionStatus.UpdatePlaneLatLon(lastGpsData.gps_lat, lastGpsData.gps_lon);
+
+                        LatLng predictedLatLng = PredictPayloadDropLoc(lastGpsData);
+                        if (predictedLatLng != null)
+                        {
+                            panelDropPredictionStatus.UpdatePredictLatLon(predictedLatLng.lat, predictedLatLng.lon);
+                        }
                     }
 
                     // Set PayloadDropped to true
