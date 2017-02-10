@@ -24,7 +24,7 @@ namespace GroundStation
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flight Barrier controls
-        private const bool FLYING_PILGRIM = true;
+        private const bool FLYING_PILGRIM = false;
 
         // Playback controls
         private Playback.Playback PlaybackController;
@@ -467,7 +467,7 @@ namespace GroundStation
             if (!hasDroppedPlayback && indata.dropTime_seconds > 0)
             {
                 // Update altitude with drop
-                panelAltitudePlot.UpdateAltitudeDrop(indata.time_seconds, indata.alt_bar_ft);
+                panelAltitudePlot.UpdateAltitudeDrop(indata.time_seconds, indata.dropAlt_ft);
 
                 // Check for a GPS drop, if it exists update the panel
                 DataGPS lastGps = PlaybackController.GetGPSBeforeTime(indata.time_seconds);

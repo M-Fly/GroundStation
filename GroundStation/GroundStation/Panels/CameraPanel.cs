@@ -78,13 +78,6 @@ namespace GroundStation.Panels
 
         public void CloseVideoSource()
         {
-
-            if (vwriter != null && vwriter.IsOpen)
-            {
-                vwriter.Flush();
-                vwriter.Close();
-            }
-
             if (videoSourcePlayer != null && videoSourcePlayer.IsRunning)
             {
                 videoSourcePlayer.Stop();
@@ -98,6 +91,12 @@ namespace GroundStation.Panels
 
                     videoSourcePlayer.VideoSource = null;
                 }
+            }
+
+            if (vwriter != null && vwriter.IsOpen)
+            {
+                vwriter.Flush();
+                vwriter.Close();
             }
         }
 
