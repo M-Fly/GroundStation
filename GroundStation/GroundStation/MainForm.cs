@@ -24,7 +24,7 @@ namespace GroundStation
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flight Barrier controls
-        private const bool FLYING_PILGRIM = false;
+        private const bool FLYING_PILGRIM = true;
 
         // Playback controls
         private Playback.Playback PlaybackController;
