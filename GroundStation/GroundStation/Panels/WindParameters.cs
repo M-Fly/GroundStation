@@ -20,13 +20,39 @@ namespace GroundStation.Panels
         // Returns the Wind Speed that was entered into the textbox. Units are (m/s)
         public double getWindSpeed()
         {
-            return Convert.ToDouble(WindParameters_SpeedInput.Text);
+            double wind;
+            if (Double.TryParse(WindParameters_SpeedInput.Text, out wind))
+            {
+                return wind;
+            }
+            else
+            {
+                return 0.0;
+            }
         }
         
         // Returns the Wind Direction that was entered into the textbox. Units are (degrees)
         public double getWindDirection()
         {
-            return Convert.ToDouble(WindParameters_DirectionInput.Text);
+            double dir;
+            if (Double.TryParse(WindParameters_DirectionInput.Text, out dir))
+            {
+                return dir;
+            }
+            else
+            {
+                return 0.0;
+            }
+        }
+
+        public double getWindX()
+        {
+            return getWindSpeed() * Math.Sin(getWindDirection() * Math.PI / 180.0);
+        }
+
+        public double getWindY()
+        {
+            return getWindSpeed() * Math.Cos(getWindDirection() * Math.PI / 180.0);
         }
     }
 }

@@ -60,12 +60,13 @@
             this.xbeeSerial = new System.IO.Ports.SerialPort(this.components);
             this.parseTimer = new System.Windows.Forms.Timer(this.components);
             this.grpWindInput = new System.Windows.Forms.GroupBox();
+            this.windParameters1 = new GroundStation.Panels.WindParameters();
             this.panelDropPredictionStatus = new GroundStation.Panels.DropPredictionStatus();
             this.panelGPSPlot = new GroundStation.Panels.GraphGPS();
             this.panelInstruments = new GroundStation.Panels.Instruments();
             this.panelDropStatus = new GroundStation.Panels.DropStatus();
-            this.panelAltitudePlot = new GroundStation.Panels.AltitudePlot();
             this.panelCamera = new GroundStation.Panels.CameraPanel();
+            this.panelAltitudePlot = new GroundStation.Panels.AltitudePlot();
             this.grpAltitudePlot.SuspendLayout();
             this.grpCamera.SuspendLayout();
             this.grpDropPredictionStatus.SuspendLayout();
@@ -74,6 +75,7 @@
             this.grpGPS.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.grpSerialConnection.SuspendLayout();
+            this.grpWindInput.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpAltitudePlot
@@ -348,12 +350,23 @@
             // 
             // grpWindInput
             // 
+            this.grpWindInput.Controls.Add(this.windParameters1);
             this.grpWindInput.Location = new System.Drawing.Point(441, 28);
             this.grpWindInput.Name = "grpWindInput";
             this.grpWindInput.Size = new System.Drawing.Size(181, 84);
             this.grpWindInput.TabIndex = 8;
             this.grpWindInput.TabStop = false;
             this.grpWindInput.Text = "Wind Input";
+            // 
+            // windParameters1
+            // 
+            this.windParameters1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.windParameters1.Location = new System.Drawing.Point(5, 15);
+            this.windParameters1.Margin = new System.Windows.Forms.Padding(2);
+            this.windParameters1.Name = "windParameters1";
+            this.windParameters1.Size = new System.Drawing.Size(171, 64);
+            this.windParameters1.TabIndex = 0;
             // 
             // panelDropPredictionStatus
             // 
@@ -393,17 +406,6 @@
             this.panelDropStatus.Size = new System.Drawing.Size(243, 60);
             this.panelDropStatus.TabIndex = 3;
             // 
-            // panelAltitudePlot
-            // 
-            this.panelAltitudePlot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelAltitudePlot.Location = new System.Drawing.Point(4, 17);
-            this.panelAltitudePlot.Margin = new System.Windows.Forms.Padding(2);
-            this.panelAltitudePlot.Name = "panelAltitudePlot";
-            this.panelAltitudePlot.Size = new System.Drawing.Size(1078, 253);
-            this.panelAltitudePlot.TabIndex = 0;
-            // 
             // panelCamera
             // 
             this.panelCamera.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -415,6 +417,17 @@
             this.panelCamera.Name = "panelCamera";
             this.panelCamera.Size = new System.Drawing.Size(419, 270);
             this.panelCamera.TabIndex = 0;
+            // 
+            // panelAltitudePlot
+            // 
+            this.panelAltitudePlot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelAltitudePlot.Location = new System.Drawing.Point(4, 17);
+            this.panelAltitudePlot.Margin = new System.Windows.Forms.Padding(2);
+            this.panelAltitudePlot.Name = "panelAltitudePlot";
+            this.panelAltitudePlot.Size = new System.Drawing.Size(1078, 253);
+            this.panelAltitudePlot.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -447,6 +460,7 @@
             this.menuStrip1.PerformLayout();
             this.grpSerialConnection.ResumeLayout(false);
             this.grpSerialConnection.PerformLayout();
+            this.grpWindInput.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -490,6 +504,7 @@
         private Panels.DropPredictionStatus panelDropPredictionStatus;
         private System.Windows.Forms.GroupBox grpWindInput;
         private Panels.CameraPanel panelCamera;
+        private Panels.WindParameters windParameters1;
     }
 }
 
