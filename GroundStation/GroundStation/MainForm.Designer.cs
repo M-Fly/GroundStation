@@ -60,7 +60,7 @@
             this.xbeeSerial = new System.IO.Ports.SerialPort(this.components);
             this.parseTimer = new System.Windows.Forms.Timer(this.components);
             this.grpWindInput = new System.Windows.Forms.GroupBox();
-            this.windParameters1 = new GroundStation.Panels.WindParameters();
+            this.panelWindInput = new GroundStation.Panels.WindParameters();
             this.panelDropPredictionStatus = new GroundStation.Panels.DropPredictionStatus();
             this.panelGPSPlot = new GroundStation.Panels.GraphGPS();
             this.panelInstruments = new GroundStation.Panels.Instruments();
@@ -350,7 +350,7 @@
             // 
             // grpWindInput
             // 
-            this.grpWindInput.Controls.Add(this.windParameters1);
+            this.grpWindInput.Controls.Add(this.panelWindInput);
             this.grpWindInput.Location = new System.Drawing.Point(441, 28);
             this.grpWindInput.Name = "grpWindInput";
             this.grpWindInput.Size = new System.Drawing.Size(181, 84);
@@ -358,15 +358,15 @@
             this.grpWindInput.TabStop = false;
             this.grpWindInput.Text = "Wind Input";
             // 
-            // windParameters1
+            // panelWindInput
             // 
-            this.windParameters1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.panelWindInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.windParameters1.Location = new System.Drawing.Point(5, 15);
-            this.windParameters1.Margin = new System.Windows.Forms.Padding(2);
-            this.windParameters1.Name = "windParameters1";
-            this.windParameters1.Size = new System.Drawing.Size(171, 64);
-            this.windParameters1.TabIndex = 0;
+            this.panelWindInput.Location = new System.Drawing.Point(5, 15);
+            this.panelWindInput.Margin = new System.Windows.Forms.Padding(2);
+            this.panelWindInput.Name = "panelWindInput";
+            this.panelWindInput.Size = new System.Drawing.Size(171, 64);
+            this.panelWindInput.TabIndex = 0;
             // 
             // panelDropPredictionStatus
             // 
@@ -504,7 +504,7 @@
         private Panels.DropPredictionStatus panelDropPredictionStatus;
         private System.Windows.Forms.GroupBox grpWindInput;
         private Panels.CameraPanel panelCamera;
-        private Panels.WindParameters windParameters1;
+        private Panels.WindParameters panelWindInput;
     }
 }
 

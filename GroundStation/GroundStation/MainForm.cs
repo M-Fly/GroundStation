@@ -20,11 +20,11 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         // Debugging controls
-        private const bool DEBUG_ENABLED = false;
+        private const bool DEBUG_ENABLED = true;
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flight Barrier controls
-        private const bool FLYING_PILGRIM = true;
+        private const bool FLYING_PILGRIM = false;
 
         // Playback controls
         private Playback.Playback PlaybackController;
@@ -310,6 +310,9 @@ namespace GroundStation
 
         private LatLng PredictPayloadDropLoc(DataGPS gpsData)
         {
+            DropPrediction.Vector3 windSpeed = new DropPrediction.Vector3(panelWindInput.getWindX(), panelWindInput.getWindY());
+            Console.WriteLine("Wind: " + windSpeed.x + ", " + windSpeed.y);
+
             // Return if there are no items in the default data list
             if (MainDataMaster.DefaultDataList.Count == 0) return null;
 
@@ -326,7 +329,7 @@ namespace GroundStation
             DropPrediction.Vector3 vel = new DropPrediction.Vector3(velX, velY, 0);
 
             // Get the resulting delta-location from the aircraft
-            DropPrediction.Vector3 result = DropPrediction.PredictionAlgorithmEuler.PredictionIntegrationFunction(landingPos, vel, new DropPrediction.Vector3());
+            DropPrediction.Vector3 result = DropPrediction.PredictionAlgorithmEuler.PredictionIntegrationFunction(landingPos, vel, windSpeed);
 
             // Find dx and dy in feet from the aircraft.
             double dx = result.x * ConversionFactors.METERS_TO_FEET;
