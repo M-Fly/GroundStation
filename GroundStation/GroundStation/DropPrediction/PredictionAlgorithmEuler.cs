@@ -14,7 +14,7 @@
         // Payload Constants
         private const double payload_mass = 1;    // [ kg ]
         private const double payload_area = 0.1;  // [ m^2 ]
-        private const double payload_cdrg = 0.00005;  // Drag Coefficient
+        private const double payload_cdrg = 0.0;  // Drag Coefficient
 
         // PredictionIntegrationFunction
         //

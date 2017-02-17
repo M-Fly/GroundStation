@@ -61,6 +61,18 @@ namespace GroundStation
             InitializeComponent();
 
             PlaybackController = new Playback.Playback(MainDataMaster, UpdateDefaultPlayback, UpdateGPSPlayback);
+            DataGPS test_data = new DataGPS();
+            test_data.gps_lat = 42.280446;
+            test_data.gps_lon = -83.557677;
+            test_data.gps_speed_ft_s = 51.1710192;
+            test_data.gps_course = 81.140;
+            test_data.gps_alt_ft = 25.57;
+
+            LatLng test_drop_location = new LatLng();
+            test_drop_location = PredictPayloadDropLoc(test_data);
+
+            Console.WriteLine("Latitude " + test_drop_location.lat + " Longitude " + test_drop_location.lon);
+
 
             // Enable debug-specific functionality
             if (DEBUG_ENABLED)
@@ -310,15 +322,14 @@ namespace GroundStation
 
         private LatLng PredictPayloadDropLoc(DataGPS gpsData)
         {
-            DropPrediction.Vector3 windSpeed = new DropPrediction.Vector3(panelWindInput.getWindX(), panelWindInput.getWindY());
-            Console.WriteLine("Wind: " + windSpeed.x + ", " + windSpeed.y);
+            DropPrediction.Vector3 windSpeed = new DropPrediction.Vector3(3.1*Math.Sin(91*Math.PI/180.0), 3.1 * Math.Cos(91 * Math.PI / 180.0));
+           // Console.WriteLine("Wind: " + windSpeed.x + ", " + windSpeed.y);
 
             // Return if there are no items in the default data list
-            if (MainDataMaster.DefaultDataList.Count == 0) return null;
+            //  if (MainDataMaster.DefaultDataList.Count == 0) return null;
 
             // Get the aircraft altitude in Meters from the latest default data object
-            double aircraftAlt = MainDataMaster.DefaultDataList[MainDataMaster.DefaultDataList.Count - 1].alt_bar_ft;
-            aircraftAlt /= ConversionFactors.METERS_TO_FEET;
+            double aircraftAlt = 25.57;
 
             // Get the initial position based on altitude
             DropPrediction.Vector3 landingPos = new DropPrediction.Vector3(0, 0, aircraftAlt);
