@@ -20,11 +20,11 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         // Debugging controls
-        private const bool DEBUG_ENABLED = true;
+        private const bool DEBUG_ENABLED = false;
         private Debugging.ArduinoDebugging debugFunction;
 
-        // Flight Barrier controls
-        private const bool FLYING_PILGRIM = false;
+        // Flight Barrier controls for the Flying Pilgrim field in Ann Arbor, MI
+        private const bool FLYING_PILGRIM = true;
 
         // Playback controls
         private Playback.Playback PlaybackController;
@@ -200,7 +200,7 @@ namespace GroundStation
                 // Add data object to data master list
                 MainDataMaster.DefaultDataList.Add(inDefault);
 
-                // Update teh standart altitude plot and instruments
+                // Update the standard altitude plot and instruments
                 panelAltitudePlot.UpdateAltitude(inDefault.time_seconds, inDefault.alt_bar_ft);
                 panelInstruments.UpdateInstruments(inDefault.airspeed_ft_s, inDefault.alt_bar_ft);
 
