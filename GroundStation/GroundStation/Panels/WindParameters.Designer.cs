@@ -50,16 +50,16 @@
             this.WindParameters_Direction.Location = new System.Drawing.Point(0, 32);
             this.WindParameters_Direction.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.WindParameters_Direction.Name = "WindParameters_Direction";
-            this.WindParameters_Direction.Size = new System.Drawing.Size(126, 13);
+            this.WindParameters_Direction.Size = new System.Drawing.Size(132, 13);
             this.WindParameters_Direction.TabIndex = 1;
-            this.WindParameters_Direction.Text = "Wind Direction (Degrees)";
+            this.WindParameters_Direction.Text = "Wind Direction (From Deg)";
             // 
             // WindParameters_SpeedInput
             // 
             this.WindParameters_SpeedInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.WindParameters_SpeedInput.Location = new System.Drawing.Point(97, 2);
-            this.WindParameters_SpeedInput.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.WindParameters_SpeedInput.Margin = new System.Windows.Forms.Padding(2);
             this.WindParameters_SpeedInput.Name = "WindParameters_SpeedInput";
             this.WindParameters_SpeedInput.Size = new System.Drawing.Size(96, 20);
             this.WindParameters_SpeedInput.TabIndex = 2;
@@ -69,7 +69,7 @@
             this.WindParameters_DirectionInput.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.WindParameters_DirectionInput.Location = new System.Drawing.Point(130, 29);
-            this.WindParameters_DirectionInput.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.WindParameters_DirectionInput.Margin = new System.Windows.Forms.Padding(2);
             this.WindParameters_DirectionInput.Name = "WindParameters_DirectionInput";
             this.WindParameters_DirectionInput.Size = new System.Drawing.Size(63, 20);
             this.WindParameters_DirectionInput.TabIndex = 3;
@@ -82,7 +82,7 @@
             this.Controls.Add(this.WindParameters_SpeedInput);
             this.Controls.Add(this.WindParameters_Direction);
             this.Controls.Add(this.WindParameters_Speed);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "WindParameters";
             this.Size = new System.Drawing.Size(195, 64);
             this.ResumeLayout(false);

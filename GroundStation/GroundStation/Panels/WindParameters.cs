@@ -47,12 +47,12 @@ namespace GroundStation.Panels
 
         public double getWindX()
         {
-            return getWindSpeed() * Math.Sin(getWindDirection() * Math.PI / 180.0);
+            return -getWindSpeed() * Math.Sin(getWindDirection() * Math.PI / 180.0);
         }
 
         public double getWindY()
         {
-            return getWindSpeed() * Math.Cos(getWindDirection() * Math.PI / 180.0);
+            return -getWindSpeed() * Math.Cos(getWindDirection() * Math.PI / 180.0);
         }
     }
 }
