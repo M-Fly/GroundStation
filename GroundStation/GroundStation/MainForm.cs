@@ -207,8 +207,8 @@ namespace GroundStation
                 // Check if a payload has been dropped
                 if (!PayloadDropped && inDefault.dropTime_seconds > 0)
                 {
-                    panelDropStatus.UpdateDrop(inDefault.dropTime_seconds, inDefault.alt_bar_ft);
-                    panelAltitudePlot.UpdateAltitudeDrop(inDefault.dropTime_seconds, inDefault.dropAlt_ft);
+                    panelDropStatus.UpdateDrop(inDefault.time_seconds, inDefault.alt_bar_ft);
+                    panelAltitudePlot.UpdateAltitudeDrop(inDefault.time_seconds, inDefault.dropAlt_ft);
 
                     // Get the last GPS coordinate to plot drop on the GPS panel
                     // Sends aircraft and predicted drop GPS coordinates to DropPredictionStatus panel
