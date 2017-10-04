@@ -24,7 +24,7 @@ namespace GroundStation
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flight Barrier controls for the Flying Pilgrim field in Ann Arbor, MI
-        private const bool FLYING_PILGRIM = true;
+        private const bool FLYING_PILGRIM = false;
 
         // Playback controls
         private Playback.Playback PlaybackController;
@@ -47,8 +47,8 @@ namespace GroundStation
 
         private LatLng targetLocation = new LatLng()
         {
-            lat = 42.26,
-            lon = -83.7
+            lat = 42.17,
+            lon = -83.42
         };
 
         // DateTime to keep track of when items come into the ground station
