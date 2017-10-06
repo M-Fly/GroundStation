@@ -23,6 +23,9 @@ namespace GroundStation
         private const bool DEBUG_ENABLED = false;
         private Debugging.ArduinoDebugging debugFunction;
 
+        // Flying with target?
+        private const bool TARGET_ON = false;
+
         // Flight Barrier controls for the Flying Pilgrim field in Ann Arbor, MI
         private const bool FLYING_PILGRIM = false;
 
@@ -45,10 +48,11 @@ namespace GroundStation
         // Variable to keep track of when a payload is dropped
         private bool PayloadDropped = false;
 
+        // Enter target latitude and longitude. Positive lat for north, negative lon for west
         private LatLng targetLocation = new LatLng()
         {
-            lat = 42.17,
-            lon = -83.42
+            lat = 42.293634,
+            lon = -83.711982
         };
 
         // DateTime to keep track of when items come into the ground station
@@ -67,12 +71,12 @@ namespace GroundStation
             {
                 debugFunction = new Debugging.ArduinoDebugging(ParseData);
             }
-            // Otherwise, run non-debug-specific functionality
-            else
+            // Enable target location
+            if (TARGET_ON)
             {
                 panelGPSPlot.UpdateLatLonTarget(targetLocation.lat, targetLocation.lon);
             }
-
+            // Enable Flying Pilgrim barrier
             if (FLYING_PILGRIM)
             {
                 panelGPSPlot.PilgrimBarrier();
