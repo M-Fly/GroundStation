@@ -26,6 +26,8 @@ namespace GroundStation.Panels
         LineSeries LatLon_LineSeries_Target;
         LineSeries LatLon_LineSeries_Predict;
         LineSeries LatLon_LineSeries_Pilgrim;
+        LineSeries LatLon_LineSeries_Tangent_Target;
+        LineSeries LatLon_LineSeries_Tangent_Predict;
 
         // GraphGPS
         //
@@ -90,12 +92,27 @@ namespace GroundStation.Panels
                 Color = OxyColors.Red,
             };
 
+            //Line Series for aircraft-target tangent line
+            LatLon_LineSeries_Tangent_Target = new LineSeries
+            {
+                LineStyle = LineStyle.Dash,
+                Color = OxyColors.Green,
+            };
+
+            LatLon_LineSeries_Tangent_Predict = new LineSeries
+            {
+                LineStyle = LineStyle.Dash,
+                Color = OxyColors.Black,
+            };
+
             // Add the series to the plot model
             LatLon_PlotModel.Series.Add(LatLon_LineSeries);
             LatLon_PlotModel.Series.Add(LatLon_LineSeries_Drop);
             LatLon_PlotModel.Series.Add(LatLon_LineSeries_Target);
             LatLon_PlotModel.Series.Add(LatLon_LineSeries_Predict);
             LatLon_PlotModel.Series.Add(LatLon_LineSeries_Pilgrim);
+            LatLon_PlotModel.Series.Add(LatLon_LineSeries_Tangent_Target);
+            LatLon_PlotModel.Series.Add(LatLon_LineSeries_Tangent_Predict);
 
             // Axes
             LinearAxis xAxis = new LinearAxis();
@@ -197,6 +214,30 @@ namespace GroundStation.Panels
             LatLon_LineSeries_Pilgrim.Points.Add(new DataPoint(-83.561976, 42.281242));
             LatLon_LineSeries_Pilgrim.Points.Add(new DataPoint(-83.554455, 42.282033));
             LatLon_LineSeries_Pilgrim.Points.Add(new DataPoint(-83.554693, 42.279866));
+        }
+
+        //Creates Tangent Line between aircraft and target
+        public void UpdateLatLonTangent_Target(double lat_deg, double lon_deg, double lat_target_deg, double lon_target_deg)
+        {
+            // Clear the old line and add a new one
+            LatLon_LineSeries_Tangent_Target.Points.Clear();
+            LatLon_LineSeries_Tangent_Target.Points.Add(new DataPoint(lon_deg, lat_deg));
+            LatLon_LineSeries_Tangent_Target.Points.Add(new DataPoint(lon_target_deg, lat_target_deg));
+
+            // Invalidate the plot so that it gets redrawn
+            LatLon_PlotModel.InvalidatePlot(true);
+        }
+
+        //Creates Tangent Line between aircraft and Prediction
+        public void UpdateLatLonTangent_Predict(double lat_deg, double lon_deg, double lat_target_deg, double lon_target_deg)
+        {
+            // Clear the old line and add a new one
+            LatLon_LineSeries_Tangent_Predict.Points.Clear();
+            LatLon_LineSeries_Tangent_Predict.Points.Add(new DataPoint(lon_deg, lat_deg));
+            LatLon_LineSeries_Tangent_Predict.Points.Add(new DataPoint(lon_target_deg, lat_target_deg));
+
+            // Invalidate the plot so that it gets redrawn
+            LatLon_PlotModel.InvalidatePlot(true);
         }
 
         // ClearGPS

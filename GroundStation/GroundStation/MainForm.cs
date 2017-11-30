@@ -20,11 +20,11 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         // Debugging controls
-        private const bool DEBUG_ENABLED = false;
+        private const bool DEBUG_ENABLED = true;
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flying with target?
-        private const bool TARGET_ON = false;
+        private const bool TARGET_ON = true;
 
         // Flight Barrier controls for the Flying Pilgrim field in Ann Arbor, MI
         private const bool FLYING_PILGRIM = false;
@@ -51,8 +51,8 @@ namespace GroundStation
         // Enter target latitude and longitude. Positive lat for north, negative lon for west
         private LatLng targetLocation = new LatLng()
         {
-            lat = 42.293634,
-            lon = -83.711982
+            lat = 42.294,
+            lon = -83.712
         };
 
         // DateTime to keep track of when items come into the ground station
@@ -269,12 +269,17 @@ namespace GroundStation
 
                 // Update GPS Panel with new location
                 panelGPSPlot.UpdateLatLon(gpsData.gps_lat, gpsData.gps_lon);
-
+                if (TARGET_ON)
+                {
+                    panelGPSPlot.UpdateLatLonTangent_Target(gpsData.gps_lat, gpsData.gps_lon, targetLocation.lat, targetLocation.lon);
+                }
                 // Predict payload drop location and display location on screen if it exists
                 LatLng predictedLatLng = PredictPayloadDropLoc(gpsData);
                 if (predictedLatLng != null)
                 {
                     panelGPSPlot.UpdateLatLonPredict(predictedLatLng.lat, predictedLatLng.lon);
+                    panelGPSPlot.UpdateLatLonTangent_Predict(gpsData.gps_lat, gpsData.gps_lon, predictedLatLng.lat, predictedLatLng.lon);
+
                 }
             }
 
