@@ -166,10 +166,10 @@ namespace GroundStation
             if (startTime > DateTime.Now) startTime = DateTime.Now;
             double dataSeconds = DateTime.Now.Subtract(startTime).TotalSeconds;
 
-            // Checks for the "MX2" tag. If no tag, we are not receiving data from MX2 vehicle
-            if (!DataString[1].Equals("MX2"))
+            // Checks for the "MX" tag. If no tag, we are not receiving data from MX vehicle
+            if (!DataString[1].Equals("MX"))
             {
-                Console.WriteLine("Not Reading MX2");
+                Console.WriteLine("Not Reading MX");
             }
 
             // Checks for 'A', 'B', or 'C' messages. If none, sends an error message
@@ -178,7 +178,7 @@ namespace GroundStation
             //      airspeed, payload drop time, and payload drop altitude (meters)
             if (DataString[0].Equals("A"))
             {
-                // A,MX2,MILLIS,ALT_BARO,ANALOG_PITOT,PRESS,TEMP,DROP_TIME,DROP_ALT
+                // A,MX,MILLIS,ALT_BARO,ANALOG_PITOT,PRESS,TEMP,DROP_TIME,DROP_ALT
 
                 // Ignore data string if the lengths are not equal
                 if (DataString.Length < A_MSG_LEN) return;
@@ -245,7 +245,7 @@ namespace GroundStation
             //      Divide some variables to restore proper values 
             else if (DataString[0].Equals("B"))
             {
-                // B,MX2,MILLIS,GPS_SYSTEM,LAT,LON,GPS_SPEED,GPS_COURSE,GPS_ALT,GPS_HDOP
+                // B,MX,MILLIS,GPS_SYSTEM,LAT,LON,GPS_SPEED,GPS_COURSE,GPS_ALT,GPS_HDOP
 
                 // Ignore data string if the lengths are not equal
                 if (DataString.Length < B_MSG_LEN) return;
@@ -289,7 +289,7 @@ namespace GroundStation
             //      Acceleration in m/s^2
             else if (DataString[0].Equals("C"))
             {
-                // C,MX2,MILLIS,GYROX,GYROY,GYROZ,ACCELX,ACCELY,ACCELZ
+                // C,MX,MILLIS,GYROX,GYROY,GYROZ,ACCELX,ACCELY,ACCELZ
 
                 // Ignore data string if the lengths are not equal
                 if (DataString.Length < C_MSG_LEN) return;
