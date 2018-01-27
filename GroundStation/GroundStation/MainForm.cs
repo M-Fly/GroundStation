@@ -20,11 +20,11 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         // Debugging controls
-        private const bool DEBUG_ENABLED = true;
+        private const bool DEBUG_ENABLED = false;
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flying with target?
-        private const bool TARGET_ON = true;
+        private const bool TARGET_ON = false;
 
         // Flight Barrier controls for the Flying Pilgrim field in Ann Arbor, MI
         private const bool FLYING_PILGRIM = false;
