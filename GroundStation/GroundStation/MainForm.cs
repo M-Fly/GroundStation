@@ -20,7 +20,7 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         // Debugging controls
-        private const bool DEBUG_ENABLED = false;
+        private const bool DEBUG_ENABLED = true;
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flying with target?
@@ -51,8 +51,8 @@ namespace GroundStation
         // Enter target latitude and longitude. Positive lat for north, negative lon for west
         private LatLng targetLocation = new LatLng()
         {
-            lat = 42.294,
-            lon = -83.712
+            lat = 42.280457,
+            lon = -83.557636
         };
 
         // DateTime to keep track of when items come into the ground station
@@ -309,6 +309,23 @@ namespace GroundStation
 
                 // Add data object to DataMaster
                 MainDataMaster.GryoAccelDataList.Add(gyroData);
+            }
+            else if (DataString[0].Equals("D"))
+            {
+                // D,MX,MILLIS,GPSALT,BAROMALT
+
+                //Parse incoming data
+                DataD extraData = new DataD();
+                extraData.time_seconds = dataSeconds;
+                extraData.alt_1 = Convert.ToDouble(DataString[3]);
+                extraData.alt_2 = Convert.ToDouble(DataString[4]);
+
+                // Write data to file
+                dataFile.WriteLine(extraData.ToString());
+
+                // Add data object to DataMaster
+                MainDataMaster.DataDList.Add(extraData);
+           
             }
             else
             {

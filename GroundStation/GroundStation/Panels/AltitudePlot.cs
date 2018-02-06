@@ -24,6 +24,8 @@ namespace GroundStation.Panels
         LineSeries Altitude_Series;
         LineSeries Altitude_Series_Drop;
         LineSeries Altitude_Limit_Series;
+        LineSeries Altitude_Series_GPS;
+        LineSeries Altitude_Series_Barometer;
 
         // Altitude limit to display on the chart
         private double ALTITUDE_LIMIT_FT = 100;
@@ -68,10 +70,24 @@ namespace GroundStation.Panels
 
             };
 
+            Altitude_Series_GPS = new LineSeries
+            {
+                LineStyle = LineStyle.Solid,
+                Color = OxyColors.Green,
+            };
+
+            Altitude_Series_Barometer = new LineSeries
+            {
+                LineStyle = LineStyle.Solid,
+                Color = OxyColors.Black,
+            };
+
             // Add the series to the altitude plot
             Altitude_Plot_Model.Series.Add(Altitude_Series);
             Altitude_Plot_Model.Series.Add(Altitude_Series_Drop);
             Altitude_Plot_Model.Series.Add(Altitude_Limit_Series);
+            Altitude_Plot_Model.Series.Add(Altitude_Series_GPS);
+            Altitude_Plot_Model.Series.Add(Altitude_Series_Barometer);
 
             // Create the plot and setup parameters
             Altitude_Plot = new PlotView();
@@ -132,6 +148,24 @@ namespace GroundStation.Panels
             Altitude_Series_Drop.Points.Add(new DataPoint(time_drop_seconds, altitude_drop_feet));
 
             // Invalidate the plot so that data is redrawn
+            Altitude_Plot_Model.InvalidatePlot(true);
+        }
+
+        // REQUIRES: Input of time and altitude as doubles from GPS
+        
+        public void UpdateAltitudeGPS(double time_seconds, double altitude)
+        {
+
+            Altitude_Series_GPS.Points.Add(new DataPoint(time_seconds, altitude));
+
+            Altitude_Plot_Model.InvalidatePlot(true);
+        }
+
+        public void UpdateAltitudeBarometer(double time_seconds, double altitude)
+        {
+
+            Altitude_Series_Barometer.Points.Add(new DataPoint(time_seconds, altitude));
+
             Altitude_Plot_Model.InvalidatePlot(true);
         }
 
