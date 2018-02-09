@@ -273,6 +273,10 @@ namespace GroundStation
                 {
                     panelGPSPlot.UpdateLatLonTangent_Target(gpsData.gps_lat, gpsData.gps_lon, targetLocation.lat, targetLocation.lon);
                 }
+
+                // Update GPS altitude plot
+                panelAltitudePlot.UpdateAltitudeGPS(gpsData.time_seconds, gpsData.gps_alt_ft);
+
                 // Predict payload drop location and display location on screen if it exists
                 LatLng predictedLatLng = PredictPayloadDropLoc(gpsData);
                 if (predictedLatLng != null)
@@ -310,22 +314,25 @@ namespace GroundStation
                 // Add data object to DataMaster
                 MainDataMaster.GryoAccelDataList.Add(gyroData);
             }
+            // 'D' message delivers extra data. As of 2017-2018, delivers additional altitude data
             else if (DataString[0].Equals("D"))
             {
-                // D,MX,MILLIS,GPSALT,BAROMALT
+                // D,MX,MILLIS,BAROALT
 
                 //Parse incoming data
                 DataD extraData = new DataD();
                 extraData.time_seconds = dataSeconds;
-                extraData.alt_1 = Convert.ToDouble(DataString[3]);
-                extraData.alt_2 = Convert.ToDouble(DataString[4]);
+                extraData.alt = Convert.ToDouble(DataString[3]) * ConversionFactors.METERS_TO_FEET;
 
                 // Write data to file
                 dataFile.WriteLine(extraData.ToString());
-
+                 
                 // Add data object to DataMaster
                 MainDataMaster.DataDList.Add(extraData);
-           
+
+                //Update altitude plot with additional altitude
+                panelAltitudePlot.UpdateAltitudeBarometer(extraData.time_seconds, extraData.alt);
+
             }
             else
             {

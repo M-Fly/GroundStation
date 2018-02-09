@@ -9,15 +9,13 @@ namespace GroundStation.DataRecording
     public class DataD
     {
         public double time_seconds;
-        public double alt_1;
-        public double alt_2;
+        public double alt;
 
         public override string ToString()
         {
             String D = "D,"
                 + time_seconds + ","
-                + alt_1 + ","
-                + alt_2 + ",";
+                + alt;
 
             return D;
         }
