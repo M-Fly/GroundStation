@@ -166,6 +166,17 @@ namespace GroundStation.Panels
 
             Altitude_Series_Barometer.Points.Add(new DataPoint(time_seconds, altitude));
 
+            // If there are no points in the altitude limit series, create two new points
+            if (Altitude_Limit_Series.Points.Count == 0)
+            {
+                Altitude_Limit_Series.Points.Add(new DataPoint(time_seconds, ALTITUDE_LIMIT_FT));
+                Altitude_Limit_Series.Points.Add(new DataPoint(time_seconds, ALTITUDE_LIMIT_FT));
+            }
+
+            // Move the last point in the altitude limit series to the last point in the altitude series
+            DataPoint lastPoint = Altitude_Limit_Series.Points[1];
+            Altitude_Limit_Series.Points[1] = new DataPoint(time_seconds, lastPoint.Y);
+
             Altitude_Plot_Model.InvalidatePlot(true);
         }
 

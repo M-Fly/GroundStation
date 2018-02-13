@@ -20,7 +20,7 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         // Debugging controls
-        private const bool DEBUG_ENABLED = true;
+        private const bool DEBUG_ENABLED = false;
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flying with target?
@@ -275,7 +275,7 @@ namespace GroundStation
                 }
 
                 // Update GPS altitude plot
-                panelAltitudePlot.UpdateAltitudeGPS(gpsData.time_seconds, gpsData.gps_alt_ft);
+                //panelAltitudePlot.UpdateAltitudeGPS(gpsData.time_seconds, gpsData.gps_alt_ft);
 
                 // Predict payload drop location and display location on screen if it exists
                 LatLng predictedLatLng = PredictPayloadDropLoc(gpsData);
