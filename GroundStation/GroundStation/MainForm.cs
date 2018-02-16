@@ -37,13 +37,14 @@ namespace GroundStation
         private const int A_MSG_LEN = 9;
         private const int B_MSG_LEN = 10;
         private const int C_MSG_LEN = 9;
+        private const int D_MSG_LEN = 4;
 
         // DataMaster to keep track of telemetry data
         private DataMaster MainDataMaster = new DataMaster();
 
         // StreamWriter file to write data to a file
-        private StreamWriter dataFile = new StreamWriter("M-Fly Telemetry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
-        private StreamWriter rawDataFile = new StreamWriter("M-Fly Raw Telemetry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
+        private StreamWriter dataFile = new StreamWriter("M-Fly Telemetry " + DateTime.Now.ToString("yyyy MMMM dd HH mm") + ".txt", true);
+        //private StreamWriter rawDataFile = new StreamWriter("M-Fly Raw Telemetry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
 
         // Variable to keep track of when a payload is dropped
         private bool PayloadDropped = false;
@@ -114,9 +115,9 @@ namespace GroundStation
             dataFile.Close();
             dataFile = null;
 
-            rawDataFile.Flush();
-            rawDataFile.Close();
-            rawDataFile = null;
+            //rawDataFile.Flush();
+            //rawDataFile.Close();
+            //rawDataFile = null;
 
             // Disable the parsing timer
             parseTimer.Enabled = false;
@@ -154,7 +155,9 @@ namespace GroundStation
         // Parses data into a List
         public void ParseData(string InputString)
         {
-            rawDataFile.WriteLine(InputString);
+            //rawDataFile.WriteLine(InputString);
+
+            if (InputString.Length < 2) return;
 
             // Divide data by each comma
             string[] DataString = InputString.Split(',');
@@ -207,7 +210,7 @@ namespace GroundStation
                 // Update the standard altitude plot and instruments
                 panelAltitudePlot.UpdateAltitude(inDefault.time_seconds, inDefault.alt_bar_ft);
                 panelInstruments.UpdateInstruments(inDefault.airspeed_ft_s, inDefault.alt_bar_ft);
-
+                //panelInstruments.UpdateInstrumentsAlt(inDefault.alt_bar_ft);
                 // Check if a payload has been dropped
                 if (!PayloadDropped && inDefault.dropTime_seconds > 0)
                 {
@@ -319,6 +322,9 @@ namespace GroundStation
             {
                 // D,MX,MILLIS,BAROALT
 
+                // Ignore string if length is not equal
+                if (DataString.Length < D_MSG_LEN) return;
+
                 //Parse incoming data
                 DataD extraData = new DataD();
                 extraData.time_seconds = dataSeconds;
@@ -330,9 +336,11 @@ namespace GroundStation
                 // Add data object to DataMaster
                 MainDataMaster.DataDList.Add(extraData);
 
-                //Update altitude plot with additional altitude
+                // Update altitude plot with additional altitude
                 panelAltitudePlot.UpdateAltitudeBarometer(extraData.time_seconds, extraData.alt);
 
+                // Update altitude in instruments panel
+                panelInstruments.UpdateInstrumentsAlt(extraData.alt);
             }
             else
             {
