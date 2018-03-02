@@ -44,7 +44,7 @@ namespace GroundStation
 
         // StreamWriter file to write data to a file
         private StreamWriter dataFile = new StreamWriter("M-Fly Telemetry " + DateTime.Now.ToString("yyyy MMMM dd HH mm") + ".txt", true);
-        //private StreamWriter rawDataFile = new StreamWriter("M-Fly Raw Telemetry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
+        private StreamWriter rawDataFile = new StreamWriter("M-Fly Raw Telemetry " + DateTime.Now.ToString("yyyy MMMM dd hh mm") + ".txt", true);
 
         // Variable to keep track of when a payload is dropped
         private bool PayloadDropped = false;
@@ -115,9 +115,9 @@ namespace GroundStation
             dataFile.Close();
             dataFile = null;
 
-            //rawDataFile.Flush();
-            //rawDataFile.Close();
-            //rawDataFile = null;
+            rawDataFile.Flush();
+            rawDataFile.Close();
+            rawDataFile = null;
 
             // Disable the parsing timer
             parseTimer.Enabled = false;
@@ -155,7 +155,7 @@ namespace GroundStation
         // Parses data into a List
         public void ParseData(string InputString)
         {
-            //rawDataFile.WriteLine(InputString);
+            rawDataFile.WriteLine(InputString);
 
             if (InputString.Length < 2) return;
 
@@ -209,8 +209,10 @@ namespace GroundStation
 
                 // Update the standard altitude plot and instruments
                 panelAltitudePlot.UpdateAltitude(inDefault.time_seconds, inDefault.alt_bar_ft);
-                panelInstruments.UpdateInstruments(inDefault.airspeed_ft_s, inDefault.alt_bar_ft);
+                //panelInstruments.UpdateInstruments(inDefault.airspeed_ft_s, inDefault.alt_bar_ft);
+                panelInstruments.UpdateInstrumentsAir(inDefault.airspeed_ft_s);
                 //panelInstruments.UpdateInstrumentsAlt(inDefault.alt_bar_ft);
+                
                 // Check if a payload has been dropped
                 if (!PayloadDropped && inDefault.dropTime_seconds > 0)
                 {
@@ -270,23 +272,29 @@ namespace GroundStation
                 // Add data object to DataMaster
                 MainDataMaster.GpsDataList.Add(gpsData);
 
-                // Update GPS Panel with new location
-                panelGPSPlot.UpdateLatLon(gpsData.gps_lat, gpsData.gps_lon);
-                if (TARGET_ON)
+                // Check if if latitude is within USA
+                if(((gpsData.gps_lat >= 20) && (gpsData.gps_lat <= 50)) && ((gpsData.gps_lon <= -65) && (gpsData.gps_lon >= -127)))
                 {
-                    panelGPSPlot.UpdateLatLonTangent_Target(gpsData.gps_lat, gpsData.gps_lon, targetLocation.lat, targetLocation.lon);
-                }
+                    // Update GPS Panel with new location
+                    panelGPSPlot.UpdateLatLon(gpsData.gps_lat, gpsData.gps_lon);
 
-                // Update GPS altitude plot
-                //panelAltitudePlot.UpdateAltitudeGPS(gpsData.time_seconds, gpsData.gps_alt_ft);
+                    // Add tangent line between target and MX vehicle
+                    if (TARGET_ON)
+                    {
+                        panelGPSPlot.UpdateLatLonTangent_Target(gpsData.gps_lat, gpsData.gps_lon, targetLocation.lat, targetLocation.lon);
+                    }
 
-                // Predict payload drop location and display location on screen if it exists
-                LatLng predictedLatLng = PredictPayloadDropLoc(gpsData);
-                if (predictedLatLng != null)
-                {
-                    panelGPSPlot.UpdateLatLonPredict(predictedLatLng.lat, predictedLatLng.lon);
-                    panelGPSPlot.UpdateLatLonTangent_Predict(gpsData.gps_lat, gpsData.gps_lon, predictedLatLng.lat, predictedLatLng.lon);
+                    // Update GPS altitude plot
+                    //panelAltitudePlot.UpdateAltitudeGPS(gpsData.time_seconds, gpsData.gps_alt_ft);
 
+                    // Predict payload drop location and display location on screen if it exists
+                    LatLng predictedLatLng = PredictPayloadDropLoc(gpsData);
+                    if (predictedLatLng != null)
+                    {
+                        panelGPSPlot.UpdateLatLonPredict(predictedLatLng.lat, predictedLatLng.lon);
+                        panelGPSPlot.UpdateLatLonTangent_Predict(gpsData.gps_lat, gpsData.gps_lon, predictedLatLng.lat, predictedLatLng.lon);
+
+                    }
                 }
             }
 
