@@ -52,8 +52,8 @@ namespace GroundStation
         // Enter target latitude and longitude. Positive lat for north, negative lon for west
         private LatLng targetLocation = new LatLng()
         {
-            lat = 42.280457,
-            lon = -83.557636
+            lat = 27.978159,
+            lon = -82.024750
         };
 
         // DateTime to keep track of when items come into the ground station
@@ -190,7 +190,6 @@ namespace GroundStation
                 DataDefault inDefault = new DataDefault();
                 inDefault.time_seconds = dataSeconds;
                 inDefault.alt_bar_ft = Convert.ToDouble(DataString[3]) * ConversionFactors.METERS_TO_FEET;
-
                 int AnalogPitotValue = (int) Convert.ToDouble(DataString[4]);
                 inDefault.pressure_pa = Convert.ToDouble(DataString[5]);
                 inDefault.temperature_c = Convert.ToDouble(DataString[6]);
@@ -210,6 +209,7 @@ namespace GroundStation
                 // Update the standard altitude plot and instruments
                 panelAltitudePlot.UpdateAltitude(inDefault.time_seconds, inDefault.alt_bar_ft);
                 //panelInstruments.UpdateInstruments(inDefault.airspeed_ft_s, inDefault.alt_bar_ft);
+                //panelInstruments.UpdateInstrumentsAir(inDefault.alt_bar_ft);
                 panelInstruments.UpdateInstrumentsAir(inDefault.airspeed_ft_s);
                 //panelInstruments.UpdateInstrumentsAlt(inDefault.alt_bar_ft);
                 
