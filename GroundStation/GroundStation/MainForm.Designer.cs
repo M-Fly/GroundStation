@@ -30,10 +30,15 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            this.grpAltitudePlot = new System.Windows.Forms.GroupBox();
             this.grpPayloadDropStatus = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.panelDropStatus = new GroundStation.Panels.DropStatus();
+            this.dropStatus1 = new GroundStation.Panels.DropStatus();
+            this.dropStatus2 = new GroundStation.Panels.DropStatus();
             this.grpInstrumentPanel = new System.Windows.Forms.GroupBox();
+            this.panelInstruments = new GroundStation.Panels.Instruments();
             this.grpGPS = new System.Windows.Forms.GroupBox();
+            this.panelGPSPlot = new GroundStation.Panels.GraphGPS();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -56,49 +61,91 @@
             this.parseTimer = new System.Windows.Forms.Timer(this.components);
             this.grpWindInput = new System.Windows.Forms.GroupBox();
             this.panelWindInput = new GroundStation.Panels.WindParameters();
-            this.panelGPSPlot = new GroundStation.Panels.GraphGPS();
-            this.panelInstruments = new GroundStation.Panels.Instruments();
-            this.panelDropStatus = new GroundStation.Panels.DropStatus();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.grpAltitudePlot = new System.Windows.Forms.GroupBox();
             this.panelAltitudePlot = new GroundStation.Panels.AltitudePlot();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.dropStatus1 = new GroundStation.Panels.DropStatus();
-            this.dropStatus2 = new GroundStation.Panels.DropStatus();
-            this.grpAltitudePlot.SuspendLayout();
             this.grpPayloadDropStatus.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.grpInstrumentPanel.SuspendLayout();
             this.grpGPS.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.grpSerialConnection.SuspendLayout();
             this.grpWindInput.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
+            this.grpAltitudePlot.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // grpAltitudePlot
-            // 
-            this.grpAltitudePlot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grpAltitudePlot.Controls.Add(this.panelAltitudePlot);
-            this.grpAltitudePlot.Location = new System.Drawing.Point(9, 426);
-            this.grpAltitudePlot.Margin = new System.Windows.Forms.Padding(2);
-            this.grpAltitudePlot.Name = "grpAltitudePlot";
-            this.grpAltitudePlot.Padding = new System.Windows.Forms.Padding(2);
-            this.grpAltitudePlot.Size = new System.Drawing.Size(1086, 275);
-            this.grpAltitudePlot.TabIndex = 0;
-            this.grpAltitudePlot.TabStop = false;
-            this.grpAltitudePlot.Text = "Altitude Graph";
             // 
             // grpPayloadDropStatus
             // 
-            this.grpPayloadDropStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpPayloadDropStatus.Controls.Add(this.tableLayoutPanel1);
-            this.grpPayloadDropStatus.Location = new System.Drawing.Point(9, 117);
+            this.grpPayloadDropStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpPayloadDropStatus.Location = new System.Drawing.Point(0, 0);
             this.grpPayloadDropStatus.Name = "grpPayloadDropStatus";
-            this.grpPayloadDropStatus.Size = new System.Drawing.Size(500, 304);
+            this.grpPayloadDropStatus.Size = new System.Drawing.Size(499, 290);
             this.grpPayloadDropStatus.TabIndex = 3;
             this.grpPayloadDropStatus.TabStop = false;
             this.grpPayloadDropStatus.Text = "Payload Drop Status";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.panelDropStatus, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.dropStatus1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.dropStatus2, 0, 2);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(493, 271);
+            this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // panelDropStatus
+            // 
+            this.panelDropStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelDropStatus.Location = new System.Drawing.Point(3, 3);
+            this.panelDropStatus.Name = "panelDropStatus";
+            this.panelDropStatus.PayloadType = "Glider";
+            this.panelDropStatus.Size = new System.Drawing.Size(497, 84);
+            this.panelDropStatus.TabIndex = 3;
+            this.panelDropStatus.Load += new System.EventHandler(this.panelDropStatus_Load);
+            // 
+            // dropStatus1
+            // 
+            this.dropStatus1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dropStatus1.Location = new System.Drawing.Point(3, 93);
+            this.dropStatus1.Name = "dropStatus1";
+            this.dropStatus1.PayloadType = "Water Bottles";
+            this.dropStatus1.Size = new System.Drawing.Size(497, 84);
+            this.dropStatus1.TabIndex = 3;
+            this.dropStatus1.Load += new System.EventHandler(this.panelDropStatus_Load);
+            // 
+            // dropStatus2
+            // 
+            this.dropStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dropStatus2.Location = new System.Drawing.Point(3, 183);
+            this.dropStatus2.Name = "dropStatus2";
+            this.dropStatus2.PayloadType = "Ballz";
+            this.dropStatus2.Size = new System.Drawing.Size(497, 85);
+            this.dropStatus2.TabIndex = 3;
+            this.dropStatus2.Load += new System.EventHandler(this.panelDropStatus_Load);
             // 
             // grpInstrumentPanel
             // 
@@ -110,17 +157,37 @@
             this.grpInstrumentPanel.TabStop = false;
             this.grpInstrumentPanel.Text = "Instrument Panel";
             // 
+            // panelInstruments
+            // 
+            this.panelInstruments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelInstruments.Location = new System.Drawing.Point(5, 22);
+            this.panelInstruments.Margin = new System.Windows.Forms.Padding(2);
+            this.panelInstruments.Name = "panelInstruments";
+            this.panelInstruments.Size = new System.Drawing.Size(191, 58);
+            this.panelInstruments.TabIndex = 0;
+            // 
             // grpGPS
             // 
-            this.grpGPS.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpGPS.Controls.Add(this.panelGPSPlot);
-            this.grpGPS.Location = new System.Drawing.Point(515, 117);
+            this.grpGPS.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpGPS.Location = new System.Drawing.Point(0, 0);
             this.grpGPS.Name = "grpGPS";
-            this.grpGPS.Size = new System.Drawing.Size(580, 305);
+            this.grpGPS.Size = new System.Drawing.Size(579, 290);
             this.grpGPS.TabIndex = 5;
             this.grpGPS.TabStop = false;
-            this.grpGPS.Text = "GraphGPSDisplay";
+            this.grpGPS.Text = "GPS";
+            // 
+            // panelGPSPlot
+            // 
+            this.panelGPSPlot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelGPSPlot.Location = new System.Drawing.Point(6, 19);
+            this.panelGPSPlot.Name = "panelGPSPlot";
+            this.panelGPSPlot.Size = new System.Drawing.Size(566, 265);
+            this.panelGPSPlot.TabIndex = 0;
             // 
             // fileToolStripMenuItem
             // 
@@ -312,38 +379,55 @@
             this.panelWindInput.Size = new System.Drawing.Size(171, 64);
             this.panelWindInput.TabIndex = 0;
             // 
-            // panelGPSPlot
+            // splitContainer1
             // 
-            this.panelGPSPlot.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.grpPayloadDropStatus);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.grpGPS);
+            this.splitContainer1.Size = new System.Drawing.Size(1082, 290);
+            this.splitContainer1.SplitterDistance = 499;
+            this.splitContainer1.TabIndex = 9;
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelGPSPlot.Location = new System.Drawing.Point(6, 19);
-            this.panelGPSPlot.Name = "panelGPSPlot";
-            this.panelGPSPlot.Size = new System.Drawing.Size(567, 280);
-            this.panelGPSPlot.TabIndex = 0;
+            this.splitContainer2.Location = new System.Drawing.Point(12, 118);
+            this.splitContainer2.Name = "splitContainer2";
+            this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
-            // panelInstruments
+            // splitContainer2.Panel1
             // 
-            this.panelInstruments.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelInstruments.Location = new System.Drawing.Point(5, 22);
-            this.panelInstruments.Margin = new System.Windows.Forms.Padding(2);
-            this.panelInstruments.Name = "panelInstruments";
-            this.panelInstruments.Size = new System.Drawing.Size(191, 58);
-            this.panelInstruments.TabIndex = 0;
+            this.splitContainer2.Panel1.Controls.Add(this.splitContainer1);
             // 
-            // panelDropStatus
+            // splitContainer2.Panel2
             // 
-            this.panelDropStatus.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelDropStatus.Location = new System.Drawing.Point(3, 3);
-            this.panelDropStatus.Name = "panelDropStatus";
-            this.panelDropStatus.PayloadType = "Glider";
-            this.panelDropStatus.Size = new System.Drawing.Size(497, 88);
-            this.panelDropStatus.TabIndex = 3;
-            this.panelDropStatus.Load += new System.EventHandler(this.panelDropStatus_Load);
+            this.splitContainer2.Panel2.Controls.Add(this.grpAltitudePlot);
+            this.splitContainer2.Size = new System.Drawing.Size(1082, 580);
+            this.splitContainer2.SplitterDistance = 290;
+            this.splitContainer2.TabIndex = 10;
+            // 
+            // grpAltitudePlot
+            // 
+            this.grpAltitudePlot.Controls.Add(this.panelAltitudePlot);
+            this.grpAltitudePlot.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpAltitudePlot.Location = new System.Drawing.Point(0, 0);
+            this.grpAltitudePlot.Margin = new System.Windows.Forms.Padding(2);
+            this.grpAltitudePlot.Name = "grpAltitudePlot";
+            this.grpAltitudePlot.Padding = new System.Windows.Forms.Padding(2);
+            this.grpAltitudePlot.Size = new System.Drawing.Size(1082, 286);
+            this.grpAltitudePlot.TabIndex = 1;
+            this.grpAltitudePlot.TabStop = false;
+            this.grpAltitudePlot.Text = "Altitude Graph";
             // 
             // panelAltitudePlot
             // 
@@ -353,61 +437,18 @@
             this.panelAltitudePlot.Location = new System.Drawing.Point(4, 17);
             this.panelAltitudePlot.Margin = new System.Windows.Forms.Padding(2);
             this.panelAltitudePlot.Name = "panelAltitudePlot";
-            this.panelAltitudePlot.Size = new System.Drawing.Size(1078, 253);
+            this.panelAltitudePlot.Size = new System.Drawing.Size(1074, 264);
             this.panelAltitudePlot.TabIndex = 0;
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.panelDropStatus, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.dropStatus1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.dropStatus2, 0, 2);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 16);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(494, 285);
-            this.tableLayoutPanel1.TabIndex = 0;
-            // 
-            // dropStatus1
-            // 
-            this.dropStatus1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dropStatus1.Location = new System.Drawing.Point(3, 97);
-            this.dropStatus1.Name = "dropStatus1";
-            this.dropStatus1.PayloadType = "Water Bottles";
-            this.dropStatus1.Size = new System.Drawing.Size(497, 88);
-            this.dropStatus1.TabIndex = 3;
-            this.dropStatus1.Load += new System.EventHandler(this.panelDropStatus_Load);
-            // 
-            // dropStatus2
-            // 
-            this.dropStatus2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dropStatus2.Location = new System.Drawing.Point(3, 191);
-            this.dropStatus2.Name = "dropStatus2";
-            this.dropStatus2.PayloadType = "Ballz";
-            this.dropStatus2.Size = new System.Drawing.Size(497, 91);
-            this.dropStatus2.TabIndex = 3;
-            this.dropStatus2.Load += new System.EventHandler(this.panelDropStatus_Load);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1106, 710);
+            this.Controls.Add(this.splitContainer2);
             this.Controls.Add(this.grpWindInput);
             this.Controls.Add(this.grpSerialConnection);
-            this.Controls.Add(this.grpGPS);
             this.Controls.Add(this.grpInstrumentPanel);
-            this.Controls.Add(this.grpPayloadDropStatus);
-            this.Controls.Add(this.grpAltitudePlot);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
@@ -417,8 +458,8 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.grpAltitudePlot.ResumeLayout(false);
             this.grpPayloadDropStatus.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.grpInstrumentPanel.ResumeLayout(false);
             this.grpGPS.ResumeLayout(false);
             this.menuStrip1.ResumeLayout(false);
@@ -426,16 +467,21 @@
             this.grpSerialConnection.ResumeLayout(false);
             this.grpSerialConnection.PerformLayout();
             this.grpWindInput.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
+            this.grpAltitudePlot.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox grpAltitudePlot;
-        private Panels.AltitudePlot panelAltitudePlot;
         private Panels.DropStatus panelDropStatus;
         private System.Windows.Forms.GroupBox grpPayloadDropStatus;
         private System.Windows.Forms.GroupBox grpInstrumentPanel;
@@ -467,6 +513,10 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private Panels.DropStatus dropStatus1;
         private Panels.DropStatus dropStatus2;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.GroupBox grpAltitudePlot;
+        private Panels.AltitudePlot panelAltitudePlot;
     }
 }
 
