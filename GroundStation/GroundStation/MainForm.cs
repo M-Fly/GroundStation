@@ -20,7 +20,7 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         // Debugging controls
-        private const bool DEBUG_ENABLED = true;
+        private const bool DEBUG_ENABLED = false;
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flying with target?
@@ -123,17 +123,17 @@ namespace GroundStation
             parseTimer.Enabled = false;
 
             // Close the video source (if it is open)
-            //panelCamera.CloseVideoSource();
+            panelCamera.CloseVideoSource();
         }
 
         private void connectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // panelCamera.PromptVideoSource();
+            panelCamera.PromptVideoSource();
         }
 
         private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //panelCamera.CloseVideoSource();
+            panelCamera.CloseVideoSource();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -556,15 +556,5 @@ namespace GroundStation
         }
 
         #endregion
-
-        private void panelWindInput_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panelGPSPlot_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }
