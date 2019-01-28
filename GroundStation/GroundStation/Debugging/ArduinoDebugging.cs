@@ -17,10 +17,13 @@ namespace GroundStation.Debugging
         // Variables to keep track of persistent aircraft data
         Random randDebug = new Random((int)DateTime.UtcNow.Ticks);
         bool droppedDebug = false;
+        bool droppedDebug_CDA = false;
         static DateTime timeDebugStart = DateTime.Now;
 
         int dropTime = -1;
         double dropAlt = -1;
+        int dropTime_CDA = -1;
+        double dropAlt_CDA = -1;
 
         // Variables to keep track of old and new position values for course calculation.
         private double old_dx = 0.0, old_dy = 0.0;
@@ -180,18 +183,24 @@ namespace GroundStation.Debugging
             int long_deg = (int)(latlng.longitude * 1000000.0);
 
             int course = (int) (latlng.heading * 1000.0);
-            
+
             // Determine a random drop time to test the drop mechanisms
-            if (!droppedDebug && randDebug.Next(0, 10) == 0 && (millis / 1000.0) > 0.25 * COURSE_PERIOD_S)
-            {
+            if (!droppedDebug && randDebug.Next(0, 10) == 0 && (millis / 1000.0) > 0.25 * COURSE_PERIOD_S) {
                 dropTime = millis;
                 dropAlt = altitude_meters;
 
                 droppedDebug = true;
             }
 
+            if (!droppedDebug_CDA && randDebug.Next(0, 10) == 0 && (millis / 1000.0) > 0.25 * COURSE_PERIOD_S) {
+                dropTime_CDA = millis;
+                dropAlt_CDA = altitude_meters;
+
+                droppedDebug_CDA = true;
+            }
+
             // Re-create the Arduino messages present in the DataAcquisitionSystem.ino files in GitHub
-            string aMessageTest = String.Format("A,MX2,{0},{1},{2},{3},{4},{5},{6}", millis, altitude_meters, arduino_setting, press, temp, dropTime, dropAlt);
+            string aMessageTest = String.Format("A,MX2,{0},{1},{2},{3},{4},{5},{6},{7},{8}", millis, altitude_meters, arduino_setting, press, temp, dropTime, dropAlt, dropTime_CDA, dropAlt_CDA);
             string bMessageTest = String.Format("B,MX2,{0},N,{1},{2},{3},{4},{5},10", millis, lat_deg, long_deg, gps_speed, course, gps_alt);
             string cMessageTest = String.Format("C,MX2,{0},1,2,3,4,5,6", millis);
 

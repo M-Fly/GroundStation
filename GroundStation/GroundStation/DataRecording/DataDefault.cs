@@ -16,6 +16,9 @@ namespace GroundStation.DataRecording
         public double dropTime_seconds;
         public double dropAlt_ft;
 
+        public double dropTime_CDA_seconds;
+        public double dropAlt_CDA_ft;
+
         public double pressure_pa;
         public double temperature_c;
 

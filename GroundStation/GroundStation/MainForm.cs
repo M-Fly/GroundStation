@@ -20,7 +20,7 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         // Debugging controls
-        private const bool DEBUG_ENABLED = false;
+        private const bool DEBUG_ENABLED = true;
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flying with target?
@@ -48,6 +48,7 @@ namespace GroundStation
 
         // Variable to keep track of when a payload is dropped
         private bool PayloadDropped = false;
+        private bool PayloadDropped_CDA = false;
 
         // Enter target latitude and longitude. Positive lat for north, negative lon for west
         private LatLng targetLocation = new LatLng()
@@ -123,17 +124,15 @@ namespace GroundStation
             parseTimer.Enabled = false;
 
             // Close the video source (if it is open)
-            panelCamera.CloseVideoSource();
+            //panelCamera.CloseVideoSource();
         }
 
-        private void connectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            panelCamera.PromptVideoSource();
+        private void connectToolStripMenuItem_Click(object sender, EventArgs e) {
+            //panelCamera.PromptVideoSource();
         }
 
-        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            panelCamera.CloseVideoSource();
+        private void disconnectToolStripMenuItem_Click(object sender, EventArgs e) {
+            //panelCamera.CloseVideoSource();
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -181,7 +180,7 @@ namespace GroundStation
             //      airspeed, payload drop time, and payload drop altitude (meters)
             if (DataString[0].Equals("A"))
             {
-                // A,MX,MILLIS,ALT_BARO,ANALOG_PITOT,PRESS,TEMP,DROP_TIME,DROP_ALT
+                // A,MX,MILLIS,ALT_BARO,ANALOG_PITOT,PRESS,TEMP,DROP_TIME,DROP_ALT,DROP_TIME_CDA,DROP_ALT_CDA
 
                 // Ignore data string if the lengths are not equal
                 if (DataString.Length < A_MSG_LEN) return;
@@ -196,6 +195,9 @@ namespace GroundStation
 
                 inDefault.dropTime_seconds = Convert.ToDouble(DataString[7]) * ConversionFactors.MILLIS_TO_SECONDS;
                 inDefault.dropAlt_ft = Convert.ToDouble(DataString[8]) * ConversionFactors.METERS_TO_FEET;
+
+                inDefault.dropTime_CDA_seconds = Convert.ToDouble(DataString[9]) * ConversionFactors.MILLIS_TO_SECONDS;
+                inDefault.dropAlt_CDA_ft = Convert.ToDouble(DataString[10]) * ConversionFactors.METERS_TO_FEET;
 
                 // Calculate Airspeed from Analog Value
                 inDefault.airspeed_ft_s = PitotLibrary.GetAirspeedFeetSeconds(AnalogPitotValue, inDefault.temperature_c, inDefault.pressure_pa);
@@ -216,7 +218,8 @@ namespace GroundStation
                 // Check if a payload has been dropped
                 if (!PayloadDropped && inDefault.dropTime_seconds > 0)
                 {
-                    panelDropStatus.UpdateDrop(inDefault.time_seconds, inDefault.alt_bar_ft);
+                    panelDropStatus_water.UpdateDrop(inDefault.dropAlt_ft);
+                    panelDropStatus_ballz.UpdateDrop(inDefault.dropAlt_ft);
                     panelAltitudePlot.UpdateAltitudeDrop(inDefault.time_seconds, inDefault.dropAlt_ft);
 
                     // Get the last GPS coordinate to plot drop on the GPS panel
@@ -228,17 +231,23 @@ namespace GroundStation
                         DataGPS lastGpsData = MainDataMaster.GpsDataList[gpsCount - 1];
                         panelGPSPlot.UpdateLatLonDrop(lastGpsData.gps_lat, lastGpsData.gps_lon);
 
-                        panelDropPredictionStatus.UpdatePlaneLatLon(lastGpsData.gps_lat, lastGpsData.gps_lon);
+                        //panelDropPredictionStatus.UpdatePlaneLatLon(lastGpsData.gps_lat, lastGpsData.gps_lon);
 
                         LatLng predictedLatLng = PredictPayloadDropLoc(lastGpsData);
-                        if (predictedLatLng != null)
-                        {
-                            panelDropPredictionStatus.UpdatePredictLatLon(predictedLatLng.lat, predictedLatLng.lon);
-                        }
+                        //if (predictedLatLng != null)
+                        //{
+                        //    panelDropPredictionStatus.UpdatePredictLatLon(predictedLatLng.lat, predictedLatLng.lon);
+                        //}
                     }
 
                     // Set PayloadDropped to true
                     PayloadDropped = true;
+                }
+
+                if (!PayloadDropped_CDA && inDefault.dropTime_CDA_seconds > 0) {
+                    panelDropStatus_CDA.UpdateDrop(inDefault.dropAlt_CDA_ft);
+                    // TODO dots, prediction (see above)
+                    PayloadDropped_CDA = true;
                 }
             }
 
@@ -401,26 +410,26 @@ namespace GroundStation
         private void parseTimer_Tick(object sender, EventArgs e)
         {
             // String to hold all incoming data
-            string incomingData = ReceivedData.ToString();
+            string inmingData = ReceivedData.ToString();
 
-            if (String.IsNullOrWhiteSpace(incomingData)) return;
+            //if (String.IsNullOrWhiteSpace(incomingData)) return;
 
-            Console.Write(incomingData);
+            //Console.Write(incomingData);
 
-            // Last index of the incoming data
-            int lastIndex = incomingData.LastIndexOf(';');
+            //// Last index of the incoming data
+            //int lastIndex = incomingData.LastIndexOf(';');
 
-            // Splitting the string into invidual messages
-            string[] message = incomingData.Split(';');
+            //// Splitting the string into invidual messages
+            //string[] message = incomingData.Split(';');
 
             // Pass in complete messages into the parsing function
-            for (int i = 0; i < (message.Length - 1); i++)
-            {
-                ParseData(message[i]);
-            }
+            //for (int i = 0; i < (message.Length - 1); i++)
+            //{
+            //    ParseData(message[i]);
+            //}
 
-            // Remove all parsed data from receivedData
-            if (lastIndex >= 0) ReceivedData.Remove(0, lastIndex + 1);
+            //// Remove all parsed data from receivedData
+            //if (lastIndex >= 0) ReceivedData.Remove(0, lastIndex + 1);
         }
 
         #endregion
@@ -439,7 +448,7 @@ namespace GroundStation
                 {
                     xbeeSerial.Open();
                 }
-                catch (IOException ex)
+                catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, "Connect Error");
                 }
@@ -556,5 +565,9 @@ namespace GroundStation
         }
 
         #endregion
+
+        private void panelDropStatus_Load(object sender, EventArgs e) {
+
+        }
     }
 }

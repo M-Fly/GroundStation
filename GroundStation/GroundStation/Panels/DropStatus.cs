@@ -8,31 +8,31 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GroundStation.Panels
-{
-    public partial class DropStatus : UserControl
-    {
-        public DropStatus()
-        {
+namespace GroundStation.Panels {
+    public partial class DropStatus : UserControl {
+        public DropStatus() {
             InitializeComponent();
         }
 
-        // UpdateDrop
-        //
-        // Updates the text fields in the drop status diplay when the payload is dropped
-        //
-        // REQUIRES:
-        //      double time_s - drop time in seconds
-        //      double alt_ft - drop altitude in feet
-        //
-        // EFFECTS:
-        //      Updates the drop status display labels
-        //
-        public void UpdateDrop(double time_s, double alt_ft)
-        {
-            Payload_Time_Status.Text = String.Format("Drop Time: {0:0.0} s", time_s);       //States time that payload was dropped.
-            Payload_Alt_Status.Text = String.Format("Drop Altitude: {0:0.0} ft", alt_ft);   //States altitude that payload was dropped.
+        /// <summary>
+        /// Updates this <see cref="DropStatus"/> instance with the given altitude.
+        /// Optionally forces the indicator to show a specific value.
+        /// </summary>
+        /// <param name="alt_ft">payload drop altitude</param>
+        /// <param name="isDropped">payload drop flag</param>
+        public void UpdateDrop(double alt_ft, bool isDropped = true) {
+            statusPanel.BackColor = isDropped ? Color.Green : Color.Red;
+            Payload_Alt_Status.Text = $"{alt_ft:0.0} ft";   // States altitude that payload was dropped.
+        }
 
+        public string PayloadType {
+            get {
+                if (string.IsNullOrWhiteSpace(payloadType.Text)) return null;
+                return payloadType.Text;
+            }
+            set {
+                payloadType.Text = value;
+            }
         }
     }
 }
