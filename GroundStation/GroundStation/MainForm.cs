@@ -20,7 +20,7 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         // Debugging controls
-        private const bool DEBUG_ENABLED = true;
+        private const bool DEBUG_ENABLED = false;
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flying with target?
@@ -410,26 +410,25 @@ namespace GroundStation
         private void parseTimer_Tick(object sender, EventArgs e)
         {
             // String to hold all incoming data
-            string inmingData = ReceivedData.ToString();
+            string incomingData = ReceivedData.ToString();
 
-            //if (String.IsNullOrWhiteSpace(incomingData)) return;
+            if (String.IsNullOrWhiteSpace(incomingData)) return;
 
-            //Console.Write(incomingData);
+            Console.Write(incomingData);
 
-            //// Last index of the incoming data
-            //int lastIndex = incomingData.LastIndexOf(';');
+            // Last index of the incoming data
+            int lastIndex = incomingData.LastIndexOf(';');
 
-            //// Splitting the string into invidual messages
-            //string[] message = incomingData.Split(';');
+            // Splitting the string into invidual messages
+            string[] message = incomingData.Split(';');
 
-            // Pass in complete messages into the parsing function
-            //for (int i = 0; i < (message.Length - 1); i++)
-            //{
-            //    ParseData(message[i]);
-            //}
+            //Pass in complete messages into the parsing function
+            for (int i = 0; i < (message.Length - 1); i++) {
+                ParseData(message[i]);
+            }
 
-            //// Remove all parsed data from receivedData
-            //if (lastIndex >= 0) ReceivedData.Remove(0, lastIndex + 1);
+            // Remove all parsed data from receivedData
+            if (lastIndex >= 0) ReceivedData.Remove(0, lastIndex + 1);
         }
 
         #endregion
