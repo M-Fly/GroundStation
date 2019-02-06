@@ -20,7 +20,7 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         // Debugging controls
-        private const bool DEBUG_ENABLED = false;
+        private const bool DEBUG_ENABLED = true;
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flying with target?
@@ -209,10 +209,10 @@ namespace GroundStation
                 MainDataMaster.DefaultDataList.Add(inDefault);
 
                 // Update the standard altitude plot and instruments
-                panelAltitudePlot.UpdateAltitude(inDefault.time_seconds, inDefault.alt_bar_ft);
+                //panelAltitudePlot.UpdateAltitude(inDefault.time_seconds, inDefault.alt_bar_ft);
                 //panelInstruments.UpdateInstruments(inDefault.airspeed_ft_s, inDefault.alt_bar_ft);
                 //panelInstruments.UpdateInstrumentsAir(inDefault.alt_bar_ft);
-                panelInstruments.UpdateInstrumentsAir(inDefault.airspeed_ft_s);
+                //panelInstruments.UpdateInstrumentsAir(inDefault.airspeed_ft_s);
                 //panelInstruments.UpdateInstrumentsAlt(inDefault.alt_bar_ft);
                 
                 // Check if a payload has been dropped
@@ -349,7 +349,7 @@ namespace GroundStation
 
                 // Write data to file
                 dataFile.WriteLine(extraData.ToString());
-                 
+
                 // Add data object to DataMaster
                 MainDataMaster.DataDList.Add(extraData);
 
@@ -564,9 +564,31 @@ namespace GroundStation
         }
 
         #endregion
+    }
 
-        private void panelDropStatus_Load(object sender, EventArgs e) {
+    /// <summary>
+    /// A set of useful extension methods.
+    /// Feel free to add to it.
+    /// </summary>
+    public static class Extensions {
+        /// <summary>
+        /// Checks to see if <paramref name="a"/> fits rectangularly into <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">The smaller size</param>
+        /// <param name="b">The larger size</param>
+        /// <returns></returns>
+        public static bool FitsInto(this Size a, Size b) {
+            return b.Width >= a.Width && b.Height >= a.Height;
+        }
 
+        /// <summary>
+        /// Gets a ratio of the areas of <paramref name="a"/> to <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">The caller size</param>
+        /// <param name="b">The callee size</param>
+        /// <returns></returns>
+        public static double Ratio(this Size a, Size b) {
+            return (a.Width * a.Height) / (b.Width * b.Height);
         }
     }
 }

@@ -40,9 +40,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Payload_Alt_Status.AutoEllipsis = true;
             this.Payload_Alt_Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Payload_Alt_Status.Location = new System.Drawing.Point(129, 29);
+            this.Payload_Alt_Status.Location = new System.Drawing.Point(123, 0);
             this.Payload_Alt_Status.Name = "Payload_Alt_Status";
-            this.Payload_Alt_Status.Size = new System.Drawing.Size(410, 111);
+            this.Payload_Alt_Status.Size = new System.Drawing.Size(416, 140);
             this.Payload_Alt_Status.TabIndex = 1;
             this.Payload_Alt_Status.Text = "--";
             this.Payload_Alt_Status.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -59,13 +59,11 @@
             // 
             // payloadType
             // 
-            this.payloadType.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.payloadType.AutoEllipsis = true;
-            this.payloadType.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.payloadType.Location = new System.Drawing.Point(123, 0);
+            this.payloadType.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.payloadType.Location = new System.Drawing.Point(3, 0);
             this.payloadType.Name = "payloadType";
-            this.payloadType.Size = new System.Drawing.Size(416, 29);
+            this.payloadType.Size = new System.Drawing.Size(114, 29);
             this.payloadType.TabIndex = 3;
             this.payloadType.Text = "TEST test";
             this.payloadType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
