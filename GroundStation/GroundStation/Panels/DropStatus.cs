@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace GroundStation.Panels {
@@ -7,26 +8,21 @@ namespace GroundStation.Panels {
             InitializeComponent();
 
             Resize += (s, e) => {
-                // ensures that the indicator is a square
-                //statusPanel.Width = statusPanel.Height;
-
                 Size altSize;
                 var size = Payload_Alt_Status.Font.Size;
-                var step = 2;
+                var step = 1;
                 Font font;
+                var ratio = 1.0;
                 do {
-                    font = new Font(Payload_Alt_Status.Font.FontFamily, size += step);
+                    font = new Font(Payload_Alt_Status.Font.FontFamily, size += (ratio < 0 ? 1 : -1));
                     altSize = TextRenderer.MeasureText(
                         Payload_Alt_Status.Text,
                         font,
                         Payload_Alt_Status.Size
                     );
-                    step = altSize.Ratio(Payload_Alt_Status.Size) > 1 ? 2 : -2;
-                } while (!altSize.FitsInto(Payload_Alt_Status.Size));
+                    ratio = altSize.Height - Payload_Alt_Status.Size.Height;
+                } while (Math.Abs(ratio) > 4);
                 Payload_Alt_Status.Font = font;
-
-                //Payload_Alt_Status.Location = Payload_Alt_Status.Location + new Size(statusPanel.Width + 9, 0);
-                //payloadType.Location = payloadType.Location + new Size(statusPanel.Width + 9, 0);
             };
         }
 
