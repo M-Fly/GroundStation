@@ -151,6 +151,11 @@ namespace GroundStation.Panels
             Altitude_Plot_Model.InvalidatePlot(true);
         }
 
+        public void UpdateAltitudeDrop_CDA(double time, double alt) {
+            Altitude_Series_Drop.Points.Add(new DataPoint(time, alt));
+            Altitude_Plot_Model.InvalidatePlot(true);
+        }
+
         // REQUIRES: Input of time and altitude as doubles from GPS
         
         public void UpdateAltitudeGPS(double time_seconds, double altitude)

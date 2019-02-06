@@ -155,11 +155,19 @@ namespace GroundStation.Panels
         //      double lat_drop_deg - Drop latitude in degrees
         //      double lon_drop_deg - Drop longitude in degrees
         //
-        public void UpdateLatLonDrop(double lat_drop_deg, double lon_drop_deg)
-        {
+        public void UpdateLatLonDrop(double lat_drop_deg, double lon_drop_deg) {
             // Longitude goes first because it is the x position
             // Latitude goes second because it is the y position
             LatLon_LineSeries_Drop.Points.Add(new DataPoint(lon_drop_deg, lat_drop_deg));
+
+            // Invalidate the plot so that it gets redrawn
+            LatLon_PlotModel.InvalidatePlot(true);
+        }
+
+        public void UpdateLatLonDrop_CDA(double lat, double lon) {
+            // Longitude goes first because it is the x position
+            // Latitude goes second because it is the y position
+            LatLon_LineSeries_Drop.Points.Add(new DataPoint(lon, lat));
 
             // Invalidate the plot so that it gets redrawn
             LatLon_PlotModel.InvalidatePlot(true);

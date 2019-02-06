@@ -246,7 +246,26 @@ namespace GroundStation
 
                 if (!PayloadDropped_CDA && inDefault.dropTime_CDA_seconds > 0) {
                     panelDropStatus_CDA.UpdateDrop(inDefault.dropAlt_CDA_ft);
-                    // TODO dots, prediction (see above)
+
+                    panelAltitudePlot.UpdateAltitudeDrop_CDA(inDefault.dropTime_CDA_seconds, inDefault.dropAlt_CDA_ft);
+
+                    // Get the last GPS coordinate to plot drop on the GPS panel
+                    // Sends aircraft and predicted drop GPS coordinates to DropPredictionStatus panel
+                    //      -> Will not show if GPS list is empty, no GPS position information
+                    int gpsCount = MainDataMaster.GpsDataList.Count;
+                    if (gpsCount > 0) {
+                        DataGPS lastGpsData = MainDataMaster.GpsDataList[gpsCount - 1];
+                        panelGPSPlot.UpdateLatLonDrop_CDA(lastGpsData.gps_lat, lastGpsData.gps_lon);
+
+                        //panelDropPredictionStatus.UpdatePlaneLatLon(lastGpsData.gps_lat, lastGpsData.gps_lon);
+
+                        LatLng predictedLatLng = PredictPayloadDropLoc(lastGpsData);
+                        //if (predictedLatLng != null)
+                        //{
+                        //    panelDropPredictionStatus.UpdatePredictLatLon(predictedLatLng.lat, predictedLatLng.lon);
+                        //}
+                    }
+
                     PayloadDropped_CDA = true;
                 }
             }
