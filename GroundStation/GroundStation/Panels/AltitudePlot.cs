@@ -23,6 +23,7 @@ namespace GroundStation.Panels
 
         LineSeries Altitude_Series;
         LineSeries Altitude_Series_Drop;
+        LineSeries Altitude_Series_Drop_CDA;
         LineSeries Altitude_Limit_Series;
         LineSeries Altitude_Series_GPS;
         LineSeries Altitude_Series_Barometer;
@@ -60,12 +61,20 @@ namespace GroundStation.Panels
                 Color = OxyColors.Red,
             };
 
-            Altitude_Series_Drop = new LineSeries
-            {
+            Altitude_Series_Drop = new LineSeries {
                 LineStyle = LineStyle.Solid,
                 Color = OxyColors.Transparent,
                 MarkerType = MarkerType.Circle,
                 MarkerFill = OxyColors.Yellow,
+                MarkerSize = 5,
+
+            };
+
+            Altitude_Series_Drop_CDA = new LineSeries {
+                LineStyle = LineStyle.Solid,
+                Color = OxyColors.Transparent,
+                MarkerType = MarkerType.Circle,
+                MarkerFill = OxyColors.Blue,
                 MarkerSize = 5,
 
             };
@@ -85,6 +94,7 @@ namespace GroundStation.Panels
             // Add the series to the altitude plot
             Altitude_Plot_Model.Series.Add(Altitude_Series);
             Altitude_Plot_Model.Series.Add(Altitude_Series_Drop);
+            Altitude_Plot_Model.Series.Add(Altitude_Series_Drop_CDA);
             Altitude_Plot_Model.Series.Add(Altitude_Limit_Series);
             Altitude_Plot_Model.Series.Add(Altitude_Series_GPS);
             Altitude_Plot_Model.Series.Add(Altitude_Series_Barometer);
@@ -152,7 +162,7 @@ namespace GroundStation.Panels
         }
 
         public void UpdateAltitudeDrop_CDA(double time, double alt) {
-            Altitude_Series_Drop.Points.Add(new DataPoint(time, alt));
+            Altitude_Series_Drop_CDA.Points.Add(new DataPoint(time, alt));
             Altitude_Plot_Model.InvalidatePlot(true);
         }
 

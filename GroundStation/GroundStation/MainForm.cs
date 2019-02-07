@@ -20,7 +20,7 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         // Debugging controls
-        private const bool DEBUG_ENABLED = true;
+        private const bool DEBUG_ENABLED = false;
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flying with target?
@@ -218,9 +218,9 @@ namespace GroundStation
                 // Check if a payload has been dropped
                 if (!PayloadDropped && inDefault.dropTime_seconds > 0)
                 {
-                    panelDropStatus_water.UpdateDrop(inDefault.dropAlt_ft);
-                    panelDropStatus_ballz.UpdateDrop(inDefault.dropAlt_ft);
-                    panelAltitudePlot.UpdateAltitudeDrop(inDefault.time_seconds, inDefault.dropAlt_ft);
+                    panelDropStatus_water.UpdateDrop(inDefault.alt_bar_ft);
+                    panelDropStatus_ballz.UpdateDrop(inDefault.alt_bar_ft);
+                    panelAltitudePlot.UpdateAltitudeDrop(inDefault.time_seconds, inDefault.alt_bar_ft);
 
                     // Get the last GPS coordinate to plot drop on the GPS panel
                     // Sends aircraft and predicted drop GPS coordinates to DropPredictionStatus panel
@@ -245,9 +245,9 @@ namespace GroundStation
                 }
 
                 if (!PayloadDropped_CDA && inDefault.dropTime_CDA_seconds > 0) {
-                    panelDropStatus_CDA.UpdateDrop(inDefault.dropAlt_CDA_ft);
+                    panelDropStatus_CDA.UpdateDrop(inDefault.alt_bar_ft);
 
-                    panelAltitudePlot.UpdateAltitudeDrop_CDA(inDefault.dropTime_CDA_seconds, inDefault.dropAlt_CDA_ft);
+                    panelAltitudePlot.UpdateAltitudeDrop_CDA(inDefault.time_seconds, inDefault.alt_bar_ft);
 
                     // Get the last GPS coordinate to plot drop on the GPS panel
                     // Sends aircraft and predicted drop GPS coordinates to DropPredictionStatus panel
