@@ -185,14 +185,14 @@ namespace GroundStation.Debugging
             int course = (int) (latlng.heading * 1000.0);
 
             // Determine a random drop time to test the drop mechanisms
-            if (!droppedDebug && randDebug.Next(0, 10) == 0 && (millis / 1000.0) > 0.25 * COURSE_PERIOD_S) {
+            if (!droppedDebug && randDebug.Next(0, 10) == 0 && (millis / 1000.0) > 0.15 * COURSE_PERIOD_S) {
                 dropTime = millis;
                 dropAlt = altitude_meters;
 
                 droppedDebug = true;
             }
 
-            if (!droppedDebug_CDA && randDebug.Next(0, 10) == 0 && (millis / 1000.0) > 0.25 * COURSE_PERIOD_S) {
+            if (!droppedDebug_CDA && randDebug.Next(0, 10) == 0 && (millis / 1000.0) > 0.35 * COURSE_PERIOD_S) {
                 dropTime_CDA = millis;
                 dropAlt_CDA = altitude_meters;
 

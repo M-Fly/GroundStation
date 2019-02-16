@@ -1,17 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GroundStation.Panels {
     public partial class DropStatus : UserControl {
         public DropStatus() {
             InitializeComponent();
+
+            Resize += (s, e) => {
+                Size altSize;
+                var size = Payload_Alt_Status.Font.Size;
+                var step = 1;
+                Font font;
+                var ratio = 1.0;
+                do {
+                    font = new Font(Payload_Alt_Status.Font.FontFamily, size += (ratio < 0 ? 1 : -1));
+                    altSize = TextRenderer.MeasureText(
+                        Payload_Alt_Status.Text,
+                        font,
+                        Payload_Alt_Status.Size
+                    );
+                    ratio = altSize.Height - Payload_Alt_Status.Size.Height;
+                } while (Math.Abs(ratio) > 4);
+                Payload_Alt_Status.Font = font;
+            };
         }
 
         /// <summary>

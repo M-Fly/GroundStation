@@ -20,7 +20,7 @@ namespace GroundStation
     public partial class MainForm : Form
     {
         // Debugging controls
-        private const bool DEBUG_ENABLED = true;
+        private const bool DEBUG_ENABLED = false;
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flying with target?
@@ -209,18 +209,18 @@ namespace GroundStation
                 MainDataMaster.DefaultDataList.Add(inDefault);
 
                 // Update the standard altitude plot and instruments
-                panelAltitudePlot.UpdateAltitude(inDefault.time_seconds, inDefault.alt_bar_ft);
+                //panelAltitudePlot.UpdateAltitude(inDefault.time_seconds, inDefault.alt_bar_ft);
                 //panelInstruments.UpdateInstruments(inDefault.airspeed_ft_s, inDefault.alt_bar_ft);
                 //panelInstruments.UpdateInstrumentsAir(inDefault.alt_bar_ft);
-                panelInstruments.UpdateInstrumentsAir(inDefault.airspeed_ft_s);
+                //panelInstruments.UpdateInstrumentsAir(inDefault.airspeed_ft_s);
                 //panelInstruments.UpdateInstrumentsAlt(inDefault.alt_bar_ft);
                 
                 // Check if a payload has been dropped
                 if (!PayloadDropped && inDefault.dropTime_seconds > 0)
                 {
-                    panelDropStatus_water.UpdateDrop(inDefault.dropAlt_ft);
-                    panelDropStatus_ballz.UpdateDrop(inDefault.dropAlt_ft);
-                    panelAltitudePlot.UpdateAltitudeDrop(inDefault.time_seconds, inDefault.dropAlt_ft);
+                    panelDropStatus_water.UpdateDrop(inDefault.alt_bar_ft);
+                    panelDropStatus_ballz.UpdateDrop(inDefault.alt_bar_ft);
+                    panelAltitudePlot.UpdateAltitudeDrop(inDefault.time_seconds, inDefault.alt_bar_ft);
 
                     // Get the last GPS coordinate to plot drop on the GPS panel
                     // Sends aircraft and predicted drop GPS coordinates to DropPredictionStatus panel
@@ -245,8 +245,27 @@ namespace GroundStation
                 }
 
                 if (!PayloadDropped_CDA && inDefault.dropTime_CDA_seconds > 0) {
-                    panelDropStatus_CDA.UpdateDrop(inDefault.dropAlt_CDA_ft);
-                    // TODO dots, prediction (see above)
+                    panelDropStatus_CDA.UpdateDrop(inDefault.alt_bar_ft);
+
+                    panelAltitudePlot.UpdateAltitudeDrop_CDA(inDefault.time_seconds, inDefault.alt_bar_ft);
+
+                    // Get the last GPS coordinate to plot drop on the GPS panel
+                    // Sends aircraft and predicted drop GPS coordinates to DropPredictionStatus panel
+                    //      -> Will not show if GPS list is empty, no GPS position information
+                    int gpsCount = MainDataMaster.GpsDataList.Count;
+                    if (gpsCount > 0) {
+                        DataGPS lastGpsData = MainDataMaster.GpsDataList[gpsCount - 1];
+                        panelGPSPlot.UpdateLatLonDrop_CDA(lastGpsData.gps_lat, lastGpsData.gps_lon);
+
+                        //panelDropPredictionStatus.UpdatePlaneLatLon(lastGpsData.gps_lat, lastGpsData.gps_lon);
+
+                        LatLng predictedLatLng = PredictPayloadDropLoc(lastGpsData);
+                        //if (predictedLatLng != null)
+                        //{
+                        //    panelDropPredictionStatus.UpdatePredictLatLon(predictedLatLng.lat, predictedLatLng.lon);
+                        //}
+                    }
+
                     PayloadDropped_CDA = true;
                 }
             }
@@ -349,7 +368,7 @@ namespace GroundStation
 
                 // Write data to file
                 dataFile.WriteLine(extraData.ToString());
-                 
+
                 // Add data object to DataMaster
                 MainDataMaster.DataDList.Add(extraData);
 
@@ -410,26 +429,25 @@ namespace GroundStation
         private void parseTimer_Tick(object sender, EventArgs e)
         {
             // String to hold all incoming data
-            string inmingData = ReceivedData.ToString();
+            string incomingData = ReceivedData.ToString();
 
-            //if (String.IsNullOrWhiteSpace(incomingData)) return;
+            if (String.IsNullOrWhiteSpace(incomingData)) return;
 
-            //Console.Write(incomingData);
+            Console.Write(incomingData);
 
-            //// Last index of the incoming data
-            //int lastIndex = incomingData.LastIndexOf(';');
+            // Last index of the incoming data
+            int lastIndex = incomingData.LastIndexOf(';');
 
-            //// Splitting the string into invidual messages
-            //string[] message = incomingData.Split(';');
+            // Splitting the string into invidual messages
+            string[] message = incomingData.Split(';');
 
-            // Pass in complete messages into the parsing function
-            //for (int i = 0; i < (message.Length - 1); i++)
-            //{
-            //    ParseData(message[i]);
-            //}
+            //Pass in complete messages into the parsing function
+            for (int i = 0; i < (message.Length - 1); i++) {
+                ParseData(message[i]);
+            }
 
-            //// Remove all parsed data from receivedData
-            //if (lastIndex >= 0) ReceivedData.Remove(0, lastIndex + 1);
+            // Remove all parsed data from receivedData
+            if (lastIndex >= 0) ReceivedData.Remove(0, lastIndex + 1);
         }
 
         #endregion
@@ -565,9 +583,31 @@ namespace GroundStation
         }
 
         #endregion
+    }
 
-        private void panelDropStatus_Load(object sender, EventArgs e) {
+    /// <summary>
+    /// A set of useful extension methods.
+    /// Feel free to add to it.
+    /// </summary>
+    public static class Extensions {
+        /// <summary>
+        /// Checks to see if <paramref name="a"/> fits rectangularly into <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">The smaller size</param>
+        /// <param name="b">The larger size</param>
+        /// <returns></returns>
+        public static bool FitsInto(this Size a, Size b) {
+            return b.Width >= a.Width && b.Height >= a.Height;
+        }
 
+        /// <summary>
+        /// Gets a ratio of the areas of <paramref name="a"/> to <paramref name="b"/>.
+        /// </summary>
+        /// <param name="a">The caller size</param>
+        /// <param name="b">The callee size</param>
+        /// <returns></returns>
+        public static double Ratio(this Size a, Size b) {
+            return (a.Width * a.Height) / (b.Width * b.Height);
         }
     }
 }
