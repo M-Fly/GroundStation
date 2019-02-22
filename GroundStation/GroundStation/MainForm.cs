@@ -24,7 +24,7 @@ namespace GroundStation
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flying with target?
-        private const bool TARGET_ON = false;
+        private const bool TARGET_ON = true;
 
         // Flight Barrier controls for the Flying Pilgrim field in Ann Arbor, MI
         private const bool FLYING_PILGRIM = false;
@@ -53,8 +53,8 @@ namespace GroundStation
         // Enter target latitude and longitude. Positive lat for north, negative lon for west
         private LatLng targetLocation = new LatLng()
         {
-            lat = 27.978159,
-            lon = -82.024750
+            lat = 42.293354,
+            lon = -83.710419
         };
 
         // DateTime to keep track of when items come into the ground station
