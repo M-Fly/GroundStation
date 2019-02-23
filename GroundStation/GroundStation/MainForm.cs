@@ -365,6 +365,7 @@ namespace GroundStation
                 DataD extraData = new DataD();
                 extraData.time_seconds = dataSeconds;
                 extraData.alt = Convert.ToDouble(DataString[3]) * ConversionFactors.METERS_TO_FEET;
+               // extraData.alt = Convert.ToDouble(DataString[3]);
 
                 // Write data to file
                 dataFile.WriteLine(extraData.ToString());
@@ -583,6 +584,16 @@ namespace GroundStation
         }
 
         #endregion
+
+        private void panelAltitudePlot_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panelInstruments_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 
     /// <summary>
