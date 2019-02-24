@@ -25,11 +25,13 @@ namespace GroundStation.Panels
         LineSeries Altitude_Series_Drop;
         LineSeries Altitude_Series_Drop_CDA;
         LineSeries Altitude_Limit_Series;
+        LineSeries Altitude_Limit_Series_CDA;
         LineSeries Altitude_Series_GPS;
         LineSeries Altitude_Series_Barometer;
 
         // Altitude limit to display on the chart
         private double ALTITUDE_LIMIT_FT = 100;
+        private double ALTITUDE_LIMIT_FT_CDA = 50; 
 
         // AltitudePlot
         //
@@ -46,7 +48,7 @@ namespace GroundStation.Panels
                 PlotType = PlotType.XY         
             };
 
-            // Setup the line series for the altitude, altitude limit, and altitude dropo series
+            // Setup the line series for the altitude, altitude limit, (CDA), and altitude dropo series
 
             Altitude_Series = new LineSeries
             {
@@ -59,6 +61,12 @@ namespace GroundStation.Panels
             {
                 LineStyle = LineStyle.Dash,
                 Color = OxyColors.Red,
+            };
+
+            Altitude_Limit_Series_CDA = new LineSeries
+            {
+                LineStyle = LineStyle.Dash,
+                Color = OxyColors.Blue,
             };
 
             Altitude_Series_Drop = new LineSeries {
@@ -96,6 +104,7 @@ namespace GroundStation.Panels
             Altitude_Plot_Model.Series.Add(Altitude_Series_Drop);
             Altitude_Plot_Model.Series.Add(Altitude_Series_Drop_CDA);
             Altitude_Plot_Model.Series.Add(Altitude_Limit_Series);
+            Altitude_Plot_Model.Series.Add(Altitude_Limit_Series_CDA);
             Altitude_Plot_Model.Series.Add(Altitude_Series_GPS);
             Altitude_Plot_Model.Series.Add(Altitude_Series_Barometer);
 
@@ -131,11 +140,16 @@ namespace GroundStation.Panels
             {
                 Altitude_Limit_Series.Points.Add(new DataPoint(time_seconds, ALTITUDE_LIMIT_FT));
                 Altitude_Limit_Series.Points.Add(new DataPoint(time_seconds, ALTITUDE_LIMIT_FT));
+                Altitude_Limit_Series_CDA.Points.Add(new DataPoint(time_seconds, ALTITUDE_LIMIT_FT_CDA));
+                Altitude_Limit_Series_CDA.Points.Add(new DataPoint(time_seconds, ALTITUDE_LIMIT_FT_CDA));
             }
 
             // Move the last point in the altitude limit series to the last point in the altitude series
             DataPoint lastPoint = Altitude_Limit_Series.Points[1];
             Altitude_Limit_Series.Points[1] = new DataPoint(time_seconds, lastPoint.Y);
+
+            DataPoint lastPoint_CDA = Altitude_Limit_Series_CDA.Points[1];
+            Altitude_Limit_Series_CDA.Points[1] = new DataPoint(time_seconds, lastPoint_CDA.Y);
 
             // Invalidate the plot so that it can be redrawn
             Altitude_Plot_Model.InvalidatePlot(true);
@@ -186,11 +200,16 @@ namespace GroundStation.Panels
             {
                 Altitude_Limit_Series.Points.Add(new DataPoint(time_seconds, ALTITUDE_LIMIT_FT));
                 Altitude_Limit_Series.Points.Add(new DataPoint(time_seconds, ALTITUDE_LIMIT_FT));
+                Altitude_Limit_Series_CDA.Points.Add(new DataPoint(time_seconds, ALTITUDE_LIMIT_FT_CDA));
+                Altitude_Limit_Series_CDA.Points.Add(new DataPoint(time_seconds, ALTITUDE_LIMIT_FT_CDA));
             }
 
             // Move the last point in the altitude limit series to the last point in the altitude series
             DataPoint lastPoint = Altitude_Limit_Series.Points[1];
             Altitude_Limit_Series.Points[1] = new DataPoint(time_seconds, lastPoint.Y);
+
+            DataPoint lastPoint_CDA = Altitude_Limit_Series_CDA.Points[1];
+            Altitude_Limit_Series_CDA.Points[1] = new DataPoint(time_seconds, lastPoint_CDA.Y);
 
             Altitude_Plot_Model.InvalidatePlot(true);
         }

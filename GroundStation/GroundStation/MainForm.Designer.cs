@@ -120,7 +120,7 @@
             this.panelDropStatus_CDA.Location = new System.Drawing.Point(6, 8);
             this.panelDropStatus_CDA.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.panelDropStatus_CDA.Name = "panelDropStatus_CDA";
-            this.panelDropStatus_CDA.PayloadType = "Glider";
+            this.panelDropStatus_CDA.PayloadType = "CDA";
             this.panelDropStatus_CDA.Size = new System.Drawing.Size(746, 123);
             this.panelDropStatus_CDA.TabIndex = 3;
             // 
@@ -130,7 +130,7 @@
             this.panelDropStatus_water.Location = new System.Drawing.Point(6, 147);
             this.panelDropStatus_water.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.panelDropStatus_water.Name = "panelDropStatus_water";
-            this.panelDropStatus_water.PayloadType = "Bottles";
+            this.panelDropStatus_water.PayloadType = "Water Bottles";
             this.panelDropStatus_water.Size = new System.Drawing.Size(746, 123);
             this.panelDropStatus_water.TabIndex = 3;
             // 
@@ -140,7 +140,7 @@
             this.panelDropStatus_ballz.Location = new System.Drawing.Point(6, 286);
             this.panelDropStatus_ballz.Margin = new System.Windows.Forms.Padding(6, 8, 6, 8);
             this.panelDropStatus_ballz.Name = "panelDropStatus_ballz";
-            this.panelDropStatus_ballz.PayloadType = "Ballz";
+            this.panelDropStatus_ballz.PayloadType = "Habitat Modules";
             this.panelDropStatus_ballz.Size = new System.Drawing.Size(746, 123);
             this.panelDropStatus_ballz.TabIndex = 3;
             // 
