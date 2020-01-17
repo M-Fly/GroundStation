@@ -24,7 +24,7 @@ namespace GroundStation
         private Debugging.ArduinoDebugging debugFunction;
 
         // Flying with target?
-        private const bool TARGET_ON = true;
+        private const bool TARGET_ON = false;
 
         // Flight Barrier controls for the Flying Pilgrim field in Ann Arbor, MI
         private const bool FLYING_PILGRIM = false;
@@ -438,7 +438,6 @@ namespace GroundStation
 
             // Last index of the incoming data
             int lastIndex = incomingData.LastIndexOf(';');
-
             // Splitting the string into invidual messages
             string[] message = incomingData.Split(';');
 

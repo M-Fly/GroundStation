@@ -40,43 +40,48 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.Payload_Alt_Status.AutoEllipsis = true;
             this.Payload_Alt_Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Payload_Alt_Status.Location = new System.Drawing.Point(123, 0);
+            this.Payload_Alt_Status.Location = new System.Drawing.Point(395, 47);
+            this.Payload_Alt_Status.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.Payload_Alt_Status.Name = "Payload_Alt_Status";
-            this.Payload_Alt_Status.Size = new System.Drawing.Size(416, 140);
+            this.Payload_Alt_Status.Size = new System.Drawing.Size(769, 199);
             this.Payload_Alt_Status.TabIndex = 1;
             this.Payload_Alt_Status.Text = "--";
             this.Payload_Alt_Status.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Payload_Alt_Status.Click += new System.EventHandler(this.Payload_Alt_Status_Click);
             // 
             // statusPanel
             // 
             this.statusPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.statusPanel.BackColor = System.Drawing.Color.Red;
-            this.statusPanel.Location = new System.Drawing.Point(3, 29);
+            this.statusPanel.Location = new System.Drawing.Point(8, 69);
+            this.statusPanel.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.statusPanel.Name = "statusPanel";
-            this.statusPanel.Size = new System.Drawing.Size(114, 110);
+            this.statusPanel.Size = new System.Drawing.Size(304, 262);
             this.statusPanel.TabIndex = 2;
             // 
             // payloadType
             // 
             this.payloadType.AutoEllipsis = true;
             this.payloadType.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
-            this.payloadType.Location = new System.Drawing.Point(3, 0);
+            this.payloadType.Location = new System.Drawing.Point(8, 0);
+            this.payloadType.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.payloadType.Name = "payloadType";
-            this.payloadType.Size = new System.Drawing.Size(114, 29);
+            this.payloadType.Size = new System.Drawing.Size(722, 69);
             this.payloadType.TabIndex = 3;
             this.payloadType.Text = "TEST test";
             this.payloadType.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // DropStatus
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.Payload_Alt_Status);
             this.Controls.Add(this.payloadType);
             this.Controls.Add(this.statusPanel);
-            this.Controls.Add(this.Payload_Alt_Status);
+            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.Name = "DropStatus";
-            this.Size = new System.Drawing.Size(542, 143);
+            this.Size = new System.Drawing.Size(1445, 341);
             this.ResumeLayout(false);
 
         }

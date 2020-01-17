@@ -46,5 +46,10 @@ namespace GroundStation.Panels {
                 payloadType.Text = value;
             }
         }
+
+        private void Payload_Alt_Status_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
